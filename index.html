@@ -3,201 +3,226 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HỆ THỐNG GIÁM SÁT SỰ CỐ - CƠ SỞ VẬT CHẤT</title>
+    <title>CONG THONG TIN TRUONG HOAN KIEM - HE THONG QUAN LY LUU TRU 2006</title>
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Courier New', Courier, monospace;
-        }
+        /* Phong cach Web Co (Retro / Late 90s - Early 2000s) */
         body {
-            background-color: #0d0d0d;
-            color: #00ff66;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 20px;
+            background-color: #555555;
+            color: #000000;
+            font-family: 'Times New Roman', Times, serif;
+            margin: 20px;
         }
-        .container {
-            width: 100%;
-            max-width: 650px;
-            border: 1px solid #00ff66;
-            padding: 25px;
-            background: #000;
-            box-shadow: 0 0 15px rgba(0, 255, 102, 0.2);
-            position: relative;
-        }
-        .header {
-            border-bottom: 1px dashed #00ff66;
-            padding-bottom: 15px;
-            margin-bottom: 20px;
-        }
-        .timer-box {
-            background: #220000;
-            color: #ff3333;
-            border: 1px solid #ff3333;
+        .main-table {
+            width: 700px;
+            margin: 0 auto;
+            background-color: #C0C0C0;
+            border: 3px ridge #ffffff;
             padding: 10px;
+        }
+        .header-bg {
+            background-color: #000080;
+            color: #ffffff;
+            padding: 8px;
             text-align: center;
-            font-size: 1.2rem;
             font-weight: bold;
-            margin-bottom: 20px;
-            animation: pulse 1s infinite alternate;
+            font-size: 16px;
         }
-        @keyframes pulse {
-            from { box-shadow: 0 0 5px #ff3333; }
-            to { box-shadow: 0 0 15px #ff3333; }
+        .timer-banner {
+            background-color: #800000;
+            color: #ffff00;
+            border: 2px inset #ffffff;
+            padding: 5px;
+            text-align: center;
+            font-family: 'Courier New', Courier, monospace;
+            font-weight: bold;
+            font-size: 14px;
+            margin: 10px 0;
         }
-        .log-entry {
-            background: #111;
+        .content-box {
+            background-color: #ffffff;
+            border: 2px inset #777777;
             padding: 15px;
-            border-left: 3px solid #00ff66;
-            margin-bottom: 20px;
-            font-size: 0.95rem;
-            line-height: 1.5;
-            color: #ccc;
+            font-size: 14px;
+            line-height: 1.4;
         }
-        .log-entry span { color: #ffcc00; }
-        .input-section {
-            margin-top: 25px;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-        input[type="text"] {
-            background: #000;
-            border: 1px solid #00ff66;
-            color: #00ff66;
-            padding: 12px;
-            font-size: 1rem;
-            outline: none;
-            text-transform: uppercase;
-        }
-        button {
-            background: #00ff66;
+        .retro-btn {
+            background-color: #D4D0C8;
+            border: 2px outset #ffffff;
             color: #000;
-            border: none;
-            padding: 12px;
             font-weight: bold;
+            padding: 3px 10px;
             cursor: pointer;
-            font-size: 1rem;
-            transition: 0.2s;
+            font-family: Tahoma, sans-serif;
+            font-size: 12px;
         }
-        button:hover {
-            background: #00cc52;
+        .retro-btn:active {
+            border: 2px inset #ffffff;
+        }
+        .retro-input {
+            border: 2px inset #777777;
+            padding: 3px;
+            font-family: Tahoma, sans-serif;
+            font-size: 12px;
+            background-color: #fff;
         }
         .hidden { display: none; }
-        .alert-failed {
-            color: #ff3333;
-            text-align: center;
-            font-size: 1.1rem;
-            line-height: 1.6;
-        }
-        .success-box {
-            border-color: #ffcc00;
-            color: #fff;
-        }
+        .red-text { color: #cc0000; font-weight: bold; }
+        hr { border: 1px inset #ffffff; }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <div class="header">
-        <h3>[BÁO CÁO KỸ THUẬT RÒ RỈ - CỬA NỐI TẦNG 2.5]</h3>
-        <p style="font-size: 0.8rem; color: #888; margin-top: 5px;">Mã tài liệu: ARCHIVE_LOG_T2.5</p>
-    </div>
+<table class="main-table" cellspacing="0" cellpadding="0">
+    <tr>
+        <td>
+            <!-- HEADER CỔ -->
+            <div class="header-bg">
+                HỆ THỐNG QUẢN LÝ LƯU TRỮ VÀ CƠ SỞ VẬT CHẤT (PHIÊN BẢN 2.0.4 - 2006)
+            </div>
 
-    <!-- ĐỒNG HỒ ĐẾM NGƯỢC GLOBAL TIMER -->
-    <div class="timer-box" id="timerBox">
-        THỜI GIAN PHONG ẤN CÒN LẠI: <span id="timer">15:00</span>
-    </div>
+            <!-- GLOBAL REAL-TIME TIMER (17/09/2026 00:00:00) -->
+            <div class="timer-banner">
+                [CẢNH BÁO PHONG ẤN TẦNG 2.5] THỜI GIAN NHẬP MÃ BẢO TRÌ CÒN LẠI:<br>
+                <span id="countdownDisplay" style="font-size: 18px;">Đang tính toán thời gian...</span>
+            </div>
 
-    <!-- MÀN HÌNH CHÍNH / BÀI ĐỐ -->
-    <div id="mainContent">
-        <div class="log-entry">
-            <b>SỰ CỐ:</b> Lỗ thạch cao trần nhà Tầng 2 bị gỡ.<br><br>
-            <b>GHI CHÚ KỸ THUẬT:</b> Không phải rơi do hư hỏng. Ô trần bị đẩy ra từ bên trong. Khoảng không Tầng 2.5 đã mở ra.<br><br>
-            <span>* CẢNH BÁO:</span> Để ngăn chặn rò rỉ, yêu cầu nhập <b>MÃ ĐỊNH DANH NGUYÊN BẢN</b>.
-        </div>
+            <div class="content-box">
+                <!-- BƯỚC 1: XÁC MINH MÃ NHÂN VIÊN (X89) -->
+                <div id="step1">
+                    <p><b>BÁO CÁO SỰ CỐ KỸ THUẬT NĂM 2006 - MÃ HỒ SƠ: LOG_T2.5</b></p>
+                    <hr>
+                    <p><b>Mô tả:</b> Ô thạch cao trần nhà Tầng 2 bị gỡ bỏ không rõ nguyên nhân. Khoảng trống Tầng 2.5 bị rò rỉ dữ liệu.</p>
+                    <p class="red-text">* Yêu cầu xác minh nhân sự trước khi truy cập tệp tin nén.</p>
+                    <br>
+                    <table border="0" cellpadding="5">
+                        <tr>
+                            <td><b>Nhập Mã Nhân Viên Bảo Trì:</b></td>
+                            <td><input type="text" id="staffCode" class="retro-input" value="X89" placeholder="Mã NV..."></td>
+                        </tr>
+                    </table>
+                    <br>
+                    <button class="retro-btn" onclick="verifyStaff()">[ BƯỚC 1: XÁC MINH NHÂN VIÊN ]</button>
+                    <p id="err1" class="red-text hidden" style="margin-top: 5px;">Mã nhân viên không hợp lệ trên hệ thống năm 2006!</p>
+                </div>
 
-        <p style="font-size: 0.85rem; color: #888; font-style: italic;">
-            * Gợi ý: Mã định danh được lưu trữ bí mật tại phần Mô tả (Bio) Zalo của [Tên_Của_Ông].
-        </p>
+                <!-- BƯỚC 2: KHAI BÁO THÔNG TIN & NHẬP MẬT MÃ TỪ BIO ZALO -->
+                <div id="step2" class="hidden">
+                    <p style="color: #008000; font-weight: bold;">[✓] XÁC MINH MÃ NHÂN VIÊN "X89" THÀNH CÔNG.</p>
+                    <p>Vui lòng khai báo danh tính cán bộ kiểm tra trước khi cấp quyền truy cập Tầng 2.5:</p>
+                    <hr>
+                    <table border="0" cellpadding="4">
+                        <tr>
+                            <td>Họ và tên cán bộ:</td>
+                            <td><input type="text" id="staffName" class="retro-input" placeholder="Nhập tên bạn..."></td>
+                        </tr>
+                        <tr>
+                            <td>Chức vụ / Lớp:</td>
+                            <td><input type="text" class="retro-input" placeholder="Lớp / Nhóm..."></td>
+                        </tr>
+                        <tr>
+                            <td><b>Mật khẩu Phong Ấn (Bio Zalo):</b></td>
+                            <td><input type="text" id="zaloPass" class="retro-input" placeholder="Mật khẩu..."></td>
+                        </tr>
+                    </table>
+                    <br>
+                    <p style="font-size: 12px; color: #555;">
+                        <i>* Gợi ý Mật mã Phong ấn: Giải mã bằng cách lấy <b>Chữ Cái Đầu Tên</b> của 4 câu thơ tại phần Mô tả (Bio) Zalo của [Tên_Của_Ông].</i>
+                    </p>
+                    <br>
+                    <button class="retro-btn" onclick="verifyFinal()">[ BƯỚC 2: XÁC NHẬN GIẢI MÃ & MỞ HỒ SƠ ]</button>
+                    <p id="err2" class="red-text hidden" style="margin-top: 5px;">Mật khẩu phong ấn không chính xác! Hãy kiểm tra lại Bio Zalo.</p>
+                </div>
 
-        <div class="input-section">
-            <input type="text" id="codeInput" placeholder="NHẬP MÃ BẢO MẬT (VD: X89)..." autocomplete="off">
-            <button onclick="checkCode()">XÁC NHẬN MÃ GIẢI MÃ</button>
-        </div>
-        <p id="errorMsg" style="color: #ff3333; font-size: 0.85rem; margin-top: 10px;" class="hidden">MÃ KHÔNG CHÍNH XÁC. HỆ THỐNG ĐANG BỊ XÂM NHẬP!</p>
-    </div>
+                <!-- BƯỚC 3: MỞ HỒ SƠ KẾT THÚC (MỞ ĐƯỜNG CHO SEASON 2) -->
+                <div id="step3" class="hidden">
+                    <h3 style="color: #000080;">HỒ SƠ BẢO TRÌ TẦNG 2.5 - ĐÃ TRÍCH XUẤT</h3>
+                    <hr>
+                    <p><b>Cán bộ kiểm tra:</b> <span id="displayName" style="font-weight: bold; color: #a00;"></span></p>
+                    <p><b>TRẠNG THÁI TẦNG 2.5:</b> Đã tạm thời ngăn chặn sự cố rò rỉ.</p>
+                    <br>
+                    <p><b>DANH SÁCH THỰC THỂ / VẬT PHẨM BỊ THẤT LẠC NĂM 2006:</b></p>
+                    <ul>
+                        <li>12 Bút Thiên Long xanh (Rơi qua khe trần Tầng 2).</li>
+                        <li>01 Cục tẩy cắt 4 mảnh.</li>
+                        <li>Tờ giấy nháp ghi câu: <i>"Kẻ tò mò giải đố sẽ bị kẹt lại Tầng 2.5"</i>.</li>
+                    </ul>
+                    <br>
+                    <div style="background-color: #ffffcc; border: 1px solid #ffcc00; padding: 10px;">
+                        <p class="red-text">CẢNH BÁO TỪ HỆ THỐNG:</p>
+                        <p>Cái lỗ ở trần nhà Tầng 2 không phải nơi vật phẩm rơi VÀO... Nó là nơi thứ bên trong đang bò RA Tầng 1.</p>
+                    </div>
+                    <br>
+                    <p style="text-align: center; font-size: 12px; color: #777;">--- HỆ THỐNG TỰ ĐỘNG KHÓA. HẸN GẶP LẠI TẠI SEASON 2 ---</p>
+                </div>
 
-    <!-- THÀNH CÔNG (GIẢI KỊP GIỜ) -->
-    <div id="successContent" class="hidden">
-        <div class="log-entry success-box">
-            <h4 style="color: #00ff66;">[TRUY CẬP THÀNH CÔNG - HỒ SƠ TẦNG 2.5]</h4><br>
-            <p><b>DANH SÁCH VẬT PHẨM BỊ HÚT VÀO TẦNG 2.5:</b></p>
-            <ul>
-                <li>• 12 chiếc bút Thiên Long xanh (Rơi rải rác từ đầu năm).</li>
-                <li>• 01 Cục tẩy bị cắt làm 4 mảnh.</li>
-                <li>• Sự tập trung của cả nhóm trong tiết 4 thứ 6.</li>
-                <li>• 01 Tờ nháp ghi câu: <i>"Đứa nào tò mò giải cái này làm con chó"</i>.</li>
-            </ul>
-            <br>
-            <p style="color: #ffcc00;"><b>CẢNH BÁO MỚI:</b> Cái lỗ Tầng 2 không phải nơi vật phẩm rơi vào... Nó là nơi THỨ BÊN TRONG đang bò ra Tầng 1.</p>
-            <br>
-            <p style="text-align: center; color: #888;">--- HẾT PHẦN 1: CHỜ THÔNG BÁO TỪ SEASON 2 ---</p>
-        </div>
-    </div>
+                <!-- MÀN HÌNH HẾT GIỜ (THẤT BẠI) -->
+                <div id="stepFailed" class="hidden" style="text-align: center;">
+                    <h2 class="red-text">HỆ THỐNG PHONG ẤN THẤT BẠI!</h2>
+                    <p>Đã qua thời hạn 00:00:00 ngày 17/09/2026.</p>
+                    <p>Cửa kết nối Tầng 2.5 đã mở hoàn toàn. Dữ liệu bị tiêu hủy.</p>
+                    <br>
+                    <p style="color: #777;">[ Hồ sơ đã bị niêm phong. Chờ thông báo tại Season 2 ]</p>
+                </div>
+            </div>
 
-    <!-- THẤT BẠI (HẾT GIỜ) -->
-    <div id="failContent" class="hidden">
-        <div class="alert-failed">
-            <h3>[HỆ THỐNG PHONG ẤN THẤT BẠI]</h3><br>
-            <p>Đã hết thời gian đếm ngược. Cái lỗ ở Tầng 2 đã mở hoàn toàn.</p>
-            <p>Thực thể Tầng 2.5 đã ghi nhận vị trí của cả nhóm.</p><br>
-            <p style="color: #888; font-size: 0.9rem;">Hồ sơ bị khóa. Hãy chờ khắc phục sự cố tại Season 2...</p>
-        </div>
-    </div>
-</div>
+            <!-- FOOTER CỔ -->
+            <div style="text-align: center; font-size: 11px; color: #ffffff; margin-top: 10px;">
+                Bản quyền © 2006 Trường Hoàn Kiếm - Hệ thống Lưu trữ Nội bộ.
+            </div>
+        </td>
+    </tr>
+</table>
 
 <script>
-    // 1. CÀI ĐẶT MỐC GIỜ ĐẾM NGƯỢC (GLOBAL TIMER)
-    // Sửa mốc thời gian ông muốn đếm ngược đến ở đây (Năm, Tháng-1, Ngày, Giờ, Phút, Giây)
-    // Ví dụ: Đếm ngược đến 22:00 tối nay
-    const targetTime = new Date();
-    targetTime.setMinutes(targetTime.getMinutes() + 15); // Đếm ngược 15 phút từ lúc mở web
+    // 1. CÀI ĐẶT ĐẾM NGƯỢC THỜI GIAN THẬT (REAL TIME - 17/09/2026 00:00:00 GMT+7)
+    const targetDate = new Date("2026-09-17T00:00:00+07:00").getTime();
 
-    const timerElement = document.getElementById('timer');
-    
-    const countInterval = setInterval(() => {
+    const timerInterval = setInterval(function() {
         const now = new Date().getTime();
-        const distance = targetTime - now;
-
-        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        const distance = targetDate - now;
 
         if (distance > 0) {
-            timerElement.innerHTML = `${minutes < 10 ? '0' : ''}${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById("countdownDisplay").innerHTML = 
+                days + " Ngày " + hours + " Giờ " + minutes + " Phút " + seconds + " Giây ";
         } else {
-            clearInterval(countInterval);
-            // Hết giờ -> Kích hoạt màn hình Thất Bại
-            document.getElementById('timerBox').innerHTML = "CẢNH BÁO: TẦNG 2.5 ĐÃ VỠ TRẬN!";
-            document.getElementById('mainContent').classList.add('hidden');
-            document.getElementById('failContent').classList.remove('hidden');
+            clearInterval(timerInterval);
+            document.getElementById("step1").classList.add("hidden");
+            document.getElementById("step2").classList.add("hidden");
+            document.getElementById("step3").classList.add("hidden");
+            document.getElementById("stepFailed").classList.remove("hidden");
         }
     }, 1000);
 
-    // 2. KIỂM TRA MÃ ZALO (Mã đúng là: X89)
-    function checkCode() {
-        const input = document.getElementById('codeInput').value.trim().toUpperCase();
-        if (input === 'X89') {
-            clearInterval(countInterval); // Dừng đếm ngược
-            document.getElementById('timerBox').style.display = 'none';
-            document.getElementById('mainContent').classList.add('hidden');
-            document.getElementById('successContent').classList.remove('hidden');
+    // 2. BƯỚC 1: XÁC MINH MÃ NHÂN VIÊN (ĐÁP ÁN: X89)
+    function verifyStaff() {
+        const code = document.getElementById("staffCode").value.trim().toUpperCase();
+        if (code === "X89") {
+            document.getElementById("err1").classList.add("hidden");
+            document.getElementById("step1").classList.add("hidden");
+            document.getElementById("step2").classList.remove("hidden");
         } else {
-            document.getElementById('errorMsg').classList.remove('hidden');
+            document.getElementById("err1").classList.remove("hidden");
+        }
+    }
+
+    // 3. BƯỚC 2: XÁC NHẬN MẬT MÃ TỪ BIO ZALO (ĐÁP ÁN MẪU: TRAN)
+    // Ông có thể đổi chữ 'TRAN' thành từ khóa viết tắt câu thơ trên Bio Zalo của ông
+    function verifyFinal() {
+        const name = document.getElementById("staffName").value.trim();
+        const pass = document.getElementById("zaloPass").value.trim().toUpperCase();
+
+        if (pass === "TRAN") {  // <--- ĐỔI MẬT KHẨU BIO ZALO Ở ĐÂY
+            document.getElementById("err2").classList.add("hidden");
+            document.getElementById("displayName").innerText = name !== "" ? name : "Cán bộ ẩn danh";
+            document.getElementById("step2").classList.add("hidden");
+            document.getElementById("step3").classList.remove("hidden");
+        } else {
+            document.getElementById("err2").classList.remove("hidden");
         }
     }
 </script>
