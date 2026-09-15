@@ -5,9 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>CONG THONG TIN TRUONG THPT X - HE THONG QUAN LY LUU TRU 2006</title>
     <style>
-        * {
-            box-sizing: border-box;
-        }
+        * { box-sizing: border-box; }
         body {
             background-color: #333333;
             color: #000000;
@@ -52,7 +50,6 @@
             font-size: 14px;
             line-height: 1.4;
         }
-        /* Tối ưu Input & Button cho Mobile */
         .retro-btn {
             background-color: #D4D0C8;
             border: 2px outset #ffffff;
@@ -81,9 +78,7 @@
             margin-top: 3px;
             border-radius: 0;
         }
-        .form-group {
-            margin-bottom: 10px;
-        }
+        .form-group { margin-bottom: 10px; }
         .hint-box {
             background-color: #f0f0f0;
             border: 1px dashed #777;
@@ -91,6 +86,14 @@
             font-size: 13px;
             margin-top: 10px;
             font-family: 'Courier New', Courier, monospace;
+        }
+        .easter-egg-box {
+            background-color: #fff8e1;
+            border: 1px solid #ffa000;
+            padding: 8px;
+            font-size: 12px;
+            margin-top: 8px;
+            color: #5d4037;
         }
         .hidden { display: none; }
         .red-text { color: #cc0000; font-weight: bold; }
@@ -156,7 +159,7 @@
             </div>
             <div class="form-group">
                 <label>Lớp / Nhóm:</label>
-                <input type="text" class="retro-input" placeholder="Lớp / Nhóm...">
+                <input type="text" id="staffClass" class="retro-input" placeholder="Lớp / Nhóm...">
             </div>
             <div class="form-group">
                 <label><b>Mật khẩu Phong Ấn:</b></label>
@@ -164,7 +167,7 @@
             </div>
             <br>
             
-            <!-- NÚT ÁO CHOÀNG TRỢ GIÚP GỢI Ý SIÊU CỤ THỂ -->
+            <!-- NÚT ÁO CHOÀNG TRỢ GIÚP -->
             <button class="retro-btn" style="background-color: #f4e8c1;" onclick="toggleCloakHint()">
                 [ 🛟 ÁO CHOÀNG BẢO HỘ: CLICK XEM GỢI Ý ]
             </button>
@@ -182,39 +185,50 @@
             <p id="err2" class="red-text hidden" style="margin-top: 8px;">Mật khẩu không chính xác! Hãy mở Áo Choàng Bảo Hộ để xem hướng dẫn lấy mật khẩu.</p>
         </div>
 
-        <!-- BƯỚC 3: MÀN HÌNH CHỜ THÔNG TIN (KHI CÒN THỜI GIAN) -->
+        <!-- BƯỚC 3: MÀN HÌNH CHỜ THÔNG TIN -->
         <div id="stepWaiting" class="hidden">
             <h3 style="color: #000080; margin-top:0;">XÁC NHẬN GIẢI MÃ THÀNH CÔNG</h3>
             <hr>
             <p><b>Cán bộ kiểm tra:</b> <span id="displayName" style="font-weight: bold; color: #a00;"></span></p>
             <p><b>Trạng thái:</b> Mật khẩu phong ấn đã khớp.</p>
+            
+            <!-- EASTER EGG XUẤT HIỆN TẠI MÀN HÌNH CHỜ -->
+            <div id="customEasterEgg" class="easter-egg-box hidden"></div>
+
             <br>
             <div style="background-color: #ffffcc; border: 1px solid #ffcc00; padding: 12px; text-align: center;">
                 <p style="font-size: 15px; font-weight: bold; color: #000;" class="loading-dots">
-                    Hệ thống đang lấy thêm thông tin
+                    Hệ thống đang trích xuất dữ liệu hồ sơ
                 </p>
                 <p style="font-size: 12px; color: #555; margin-top: 8px;">
-                    Dữ liệu hình ảnh và hồ sơ mở rộng (Season 2) đang được trích xuất.<br>
-                    Toàn bộ thông tin thực địa sẽ tự động mở khi đồng hồ đếm ngược phong ấn kết thúc!
+                    Dữ liệu hình ảnh và nhật ký thực địa Tầng 2.5 đang được xử lý.<br>
+                    Toàn bộ tập tin nén sẽ tự động giải mã khi đồng hồ đếm ngược kết thúc!
                 </p>
             </div>
         </div>
 
-        <!-- BƯỚC 4: MÀN HÌNH SEASON 2 (TỰ ĐỘNG MỞ KHI HẾT GIỜ) -->
-        <div id="stepSeason2" class="hidden">
-            <h2 style="color: #800000; text-align: center; margin-top:0;">[ SEASON 2: HỒ SƠ THỰC ĐỊA TẦNG 2.5 ]</h2>
+        <!-- BƯỚC 4: HỒ SƠ THỰC ĐỊA KHI HẾT GIỜ (ĐÃ BỎ SEASON 2) -->
+        <div id="stepUnlocked" class="hidden">
+            <h3 style="color: #800000; text-align: center; margin-top:0;">[ HỒ SƠ THỰC ĐỊA BỊ PHONG ẤN - TẦNG 2.5 ]</h3>
             <hr>
-            <p><b>THỜI GIAN PHONG ẤN ĐÃ HẾT. DỮ LIỆU ĐÃ ĐƯỢC GIẢI MÃ HOÀN TOÀN!</b></p>
+            <p style="color: #008000; font-weight: bold;">[✓] GIẢI MÃ HOÀN TẤT. DỮ LIỆU ĐÃ ĐƯỢC BẢO MẬT MỞ KHÓA.</p>
             <br>
             <p><b>BẢN GHI HÌNH CẬN CẢNH TRẦN NHÀ TẦNG 2:</b></p>
             
             <div style="background: #000; color: #fff; text-align: center; padding: 30px 10px; border: 2px dashed #ff0000; margin: 10px 0;">
-                [ KHU VỰC CHÈN HÌNH CẢNH CHỤP THỰC TẾ TRẦN NHÀ TẦNG 2 ]
+                [ KHU VỰC CHÈN HÌNH CHỤP THỰC TẾ TRẦN NHÀ TẦNG 2 ]
             </div>
 
-            <p><b>GHI CHÚ MỚI NHẤT:</b> Thứ bên trong Tầng 2.5 đã để lại dấu vết thực tế tại hành lang.</p>
+            <!-- EASTER EGG TRONG HỒ SƠ THỰC ĐỊA -->
+            <div class="hint-box" style="background-color: #f9f9f9;">
+                <b>[TRÍCH XUẤT NHẬT KÝ SỰ CỐ - KHỐI 9]:</b><br>
+                - <i>23:15</i>: Phát hiện dấu vết di chuyển bất thường trên trần thạch cao Tầng 2.<br>
+                - <i>Đối tượng liên quan:</i> Hệ thống ghi nhận nghi vấn từ nhóm học sinh <b>Lê Trường Thịnh</b> & <b>Nguyễn Minh Tiến</b> (Lớp 9A3) xuất hiện gần khu vực rò rỉ.<br>
+                - <i>Cán bộ niêm phong xác nhận:</i> <b>Nguyễn Quốc Nguyên</b>, <b>Lê Hoàng Long</b>, <b>Nguyễn Hoàng Huy</b> (Lớp 9A6).
+            </div>
+
             <br>
-            <p style="text-align: center; font-size: 11px; color: #555;">--- CHÚC MỪNG BẠN ĐÃ KHÁM PHÁ TRỌN VẸN BÍ MẬT ARG TẦNG 2.5 ---</p>
+            <p style="text-align: center; font-size: 11px; color: #555;">--- BÁO CÁO HOÀN TẤT - HỆ THỐNG ĐÃ GHI NHẬN DANH TÍNH CỦA BẠN ---</p>
         </div>
     </div>
 
@@ -224,14 +238,12 @@
 </div>
 
 <script>
-    // --- BỘ TẠO ÂM THANH U ÁM WEB AUDIO API (CHẠY TỐT TRÊN MOBILE) ---
+    // --- BỘ TẠO ÂM THANH U ÁM WEB AUDIO API ---
     const AudioCtx = window.AudioContext || window.webkitAudioContext;
     let audioCtx = null;
 
     function initAudio() {
-        if (!audioCtx) {
-            audioCtx = new AudioCtx();
-        }
+        if (!audioCtx) { audioCtx = new AudioCtx(); }
     }
 
     function playRetroClick() {
@@ -240,17 +252,13 @@
             if (audioCtx.state === 'suspended') { audioCtx.resume(); }
             const osc = audioCtx.createOscillator();
             const gain = audioCtx.createGain();
-
             osc.type = 'sawtooth';
             osc.frequency.setValueAtTime(150, audioCtx.currentTime);
             osc.frequency.exponentialRampToValueAtTime(30, audioCtx.currentTime + 0.15);
-
             gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
             gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.15);
-
             osc.connect(gain);
             gain.connect(audioCtx.destination);
-
             osc.start();
             osc.stop(audioCtx.currentTime + 0.15);
         } catch(e){}
@@ -262,17 +270,13 @@
             if (audioCtx.state === 'suspended') { audioCtx.resume(); }
             const osc = audioCtx.createOscillator();
             const gain = audioCtx.createGain();
-
             osc.type = 'square';
             osc.frequency.setValueAtTime(80, audioCtx.currentTime);
             osc.frequency.setValueAtTime(60, audioCtx.currentTime + 0.1);
-
             gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
             gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
-
             osc.connect(gain);
             gain.connect(audioCtx.destination);
-
             osc.start();
             osc.stop(audioCtx.currentTime + 0.3);
         } catch(e){}
@@ -298,16 +302,16 @@
         } else {
             clearInterval(timerInterval);
             isTimerFinished = true;
-            document.getElementById("countdownDisplay").innerHTML = "ĐÃ HẾT GIỜ - PHONG ẤN ĐÃ MỞ!";
+            document.getElementById("countdownDisplay").innerHTML = "ĐÃ HẾT GIỜ - DỮ LIỆU ĐÃ MỞ KHÓA!";
             
             if (isUserVerified) {
                 document.getElementById("stepWaiting").classList.add("hidden");
-                document.getElementById("stepSeason2").classList.remove("hidden");
+                document.getElementById("stepUnlocked").classList.remove("hidden");
             }
         }
     }, 1000);
 
-    // 2. BƯỚC 1: XÁC MINH CÂU ĐỐ X89
+    // 2. BƯỚC 1: XÁC MINH MÃ X89
     function verifyStaff() {
         const code = document.getElementById("staffCode").value.trim().toUpperCase();
         if (code === "X89") {
@@ -328,22 +332,41 @@
         hintBox.classList.toggle("hidden");
     }
 
-    // 4. BƯỚC 2: XÁC NHẬN MẬT MÃ MẪU 3 (KHOA)
+    // 4. BƯỚC 2: XÁC NHẬN MẬT MÃ KHOA & KÍCH HOẠT EASTER EGG
     function verifyFinal() {
         const name = document.getElementById("staffName").value.trim();
+        const className = document.getElementById("staffClass").value.trim();
         const pass = document.getElementById("zaloPass").value.trim().toUpperCase();
 
         if (pass === "KHOA") {
             playRetroClick();
             document.getElementById("err2").classList.add("hidden");
-            document.getElementById("displayName").innerText = name !== "" ? name : "Cán bộ ẩn danh";
+            
+            let fullInfo = (name !== "" ? name : "Cán bộ ẩn danh") + (className !== "" ? " (" + className + ")" : "");
+            document.getElementById("displayName").innerText = fullInfo;
+
+            // KIỂM TRA EASTER EGG THEO TÊN NHẬP VÀO
+            const lowerName = name.toLowerCase();
+            const eggBox = document.getElementById("customEasterEgg");
+            
+            if (lowerName.includes("tiến") || lowerName.includes("tien")) {
+                eggBox.innerHTML = "<b>[CẢNH BÁO HỆ THỐNG]:</b> Phát hiện vân tay trùng khớp của <b>Nguyễn Minh Tiến (9A3)</b> trên tấm thạch cao Tầng 2!";
+                eggBox.classList.remove("hidden");
+            } else if (lowerName.includes("thịnh") || lowerName.includes("thinh")) {
+                eggBox.innerHTML = "<b>[GHI CHÚ HỆ THỐNG]:</b> <b>Lê Trường Thịnh (9A3)</b> đã được ghi nhận trong danh sách nghi vấn sự cố rò rỉ.";
+                eggBox.classList.remove("hidden");
+            } else if (lowerName.includes("nguyên") || lowerName.includes("long") || lowerName.includes("huy")) {
+                eggBox.innerHTML = "<b>[NHẬN DẠNG CÁN BỘ]:</b> XÁC NHẬN CÁN BỘ GIÁM SÁT THUỘC TỔ ĐỘI 9A6.";
+                eggBox.classList.remove("hidden");
+            }
+
             document.getElementById("step2").classList.add("hidden");
             isUserVerified = true;
 
             if (!isTimerFinished) {
                 document.getElementById("stepWaiting").classList.remove("hidden");
             } else {
-                document.getElementById("stepSeason2").classList.remove("hidden");
+                document.getElementById("stepUnlocked").classList.remove("hidden");
             }
         } else {
             playErrorSound();
