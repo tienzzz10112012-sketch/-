@@ -14,6 +14,7 @@
             padding: 10px;
             display: flex;
             justify-content: center;
+            transition: background-color 0.1s ease;
         }
         .main-container {
             width: 100%;
@@ -97,10 +98,24 @@
             margin-top: 8px;
             color: #5d4037;
         }
+        .creepy-box {
+            background-color: #2b0000;
+            color: #ff3333;
+            border: 2px solid #ff0000;
+            padding: 10px;
+            font-size: 12px;
+            margin-top: 8px;
+            font-family: 'Courier New', Courier, monospace;
+        }
         .hidden { display: none; }
         .red-text { color: #cc0000; font-weight: bold; }
         hr { border: 0; border-top: 1px inset #ffffff; margin: 10px 0; }
         
+        /* Hiệu ứng chớp giật màn hình khi dính horror easter egg */
+        .glitch-bg {
+            background-color: #800000 !important;
+        }
+
         .loading-dots:after {
             content: ' .';
             animation: dots 1.5s steps(5, end) infinite;
@@ -115,7 +130,7 @@
 </head>
 <body>
 
-<div class="main-container">
+<div class="main-container" id="mainContainer">
     <div class="header-bg" id="headerTitle" onclick="clickHeaderEgg()">
         HỆ THỐNG QUẢN LÝ LƯU TRỮ VÀ CƠ SỞ VẬT CHẤT<br>(PHIÊN BẢN 2.0.4 - 2006)
     </div>
@@ -190,6 +205,7 @@
 
             <button class="retro-btn" onclick="verifyFinal()">[ BƯỚC 2: XÁC NHẬN GIẢI MÃ ]</button>
             <p id="err2" class="red-text hidden" style="margin-top: 8px;"></p>
+            <div id="horrorEggBox" class="creepy-box hidden"></div>
         </div>
 
         <!-- BƯỚC 3: MÀN HÌNH CHỜ THÔNG TIN -->
@@ -288,6 +304,52 @@
         } catch(e){}
     }
 
+    function playCreepySound() {
+        try {
+            initAudio();
+            if (audioCtx.state === 'suspended') { audioCtx.resume(); }
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.type = 'sawtooth';
+            osc.frequency.setValueAtTime(50, audioCtx.currentTime);
+            osc.frequency.linearRampToValueAtTime(300, audioCtx.currentTime + 0.8);
+            osc.frequency.linearRampToValueAtTime(40, audioCtx.currentTime + 1.2);
+
+            gain.gain.setValueAtTime(0.5, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 1.2);
+
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.start();
+            osc.stop(audioCtx.currentTime + 1.2);
+        } catch(e){}
+    }
+
+    // --- BỘ THEO DÕI TƯƠNG TÁC (IDLE 15 GIÂY) ---
+    let isIdle = false;
+    let idleTimer = null;
+
+    function resetIdleTimer() {
+        isIdle = false;
+        clearTimeout(idleTimer);
+        // Thiết lập lại bộ đếm 15 giây (15000ms)
+        idleTimer = setTimeout(function() {
+            isIdle = true;
+            playCreepySound();
+            document.body.classList.add("glitch-bg");
+            setTimeout(function() { document.body.classList.remove("glitch-bg"); }, 300);
+        }, 15000);
+    }
+
+    // Bắt toàn bộ hành vi người dùng (Di chuột, click, gõ phím, cuộn trang, chạm màn hình)
+    window.onload = resetIdleTimer;
+    document.onmousemove = resetIdleTimer;
+    document.onmousedown = resetIdleTimer;
+    document.ontouchstart = resetIdleTimer;
+    document.onclick = resetIdleTimer;
+    document.onkeypress = resetIdleTimer;
+    document.onscroll = resetIdleTimer;
+
     // EASTER EGG CLICK HEADER 5 LAN
     let headerClickCount = 0;
     function clickHeaderEgg() {
@@ -298,7 +360,7 @@
         }
     }
 
-    // 1. ĐẾM NGƯỢC REAL-TIME (17/09/2026 00:00:00 GMT+7)
+    // 1. ĐẾM NGƯỢC REAL-TIME & HIỆU ỨNG NHÁY ĐÈN KHI BỊ IDLE > 15S
     const targetDate = new Date("2026-09-17T00:00:00+07:00").getTime();
     let isTimerFinished = false;
     let isUserVerified = false;
@@ -313,8 +375,13 @@
             const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
             const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-            document.getElementById("countdownDisplay").innerHTML = 
-                days + "N " + hours + "G " + minutes + "P " + seconds + "S";
+            // NẾU KHÔNG TƯƠNG TÁC QuÁ 15S THÌ ĐỔI DÒNG DỮ LIỆU
+            if (isIdle) {
+                document.getElementById("countdownDisplay").innerHTML = "<span style='color:#ff0000;'>NÓ ĐANG Ở TRÊN TRẦN NHÀ BẠN...</span>";
+            } else {
+                document.getElementById("countdownDisplay").innerHTML = 
+                    days + "N " + hours + "G " + minutes + "P " + seconds + "S";
+            }
         } else {
             clearInterval(timerInterval);
             isTimerFinished = true;
@@ -348,12 +415,26 @@
         hintBox.classList.toggle("hidden");
     }
 
-    // 4. BƯỚC 2: XÁC NHẬN MẬT MÃ & EASTER EGGS
+    // 4. BƯỚC 2: XÁC NHẬN MẬT MÃ & BỘ KÍCH HOẠT KINH DỊ
+    let failAttempts = 0;
     function verifyFinal() {
         const name = document.getElementById("staffName").value.trim();
         const className = document.getElementById("staffClass").value.trim();
         const pass = document.getElementById("zaloPass").value.trim().toUpperCase();
         const err2 = document.getElementById("err2");
+        const horrorBox = document.getElementById("horrorEggBox");
+
+        // KINHDỊ 1: MẬT MÃ MA QUÁI
+        if (pass === "6666" || pass === "CHET" || pass === "MA") {
+            playCreepySound();
+            document.body.classList.add("glitch-bg");
+            setTimeout(function() { document.body.classList.remove("glitch-bg"); }, 500);
+            horrorBox.innerHTML = "<b>[CẢNH BÁO TỪ NĂM 2006]:</b> ĐỪNG TÌM KIẾM TẦNG 2.5 NỮA... CÁC CÁN BỘ BẢO TRÌ ĐÃ KHÔNG THỂ RỜI KHỎI ĐÓ!";
+            horrorBox.classList.remove("hidden");
+            return;
+        } else {
+            horrorBox.classList.add("hidden");
+        }
 
         if (pass === "KHOA") {
             playRetroClick();
@@ -377,6 +458,9 @@
             if (lowerName.includes("nguyên") || lowerName.includes("long") || lowerName.includes("huy")) {
                 eggMsg += "<b>[NHẬN DẠNG]:</b> Xác nhận Cán bộ giám sát Tầng 2 thuộc tổ đội Khối 9 (9A6).<br>";
             }
+            if (lowerName.includes("ma") || lowerName.includes("quỷ") || lowerName.includes("phan")) {
+                eggMsg += "<b>[ẢO GIÁC]:</b> Hệ thống ghi nhận có bóng người đứng đằng sau lưng bạn khi đang thao tác máy tính...<br>";
+            }
             if (lowerClass.includes("9a3")) {
                 eggMsg += "<b>[LỚP 9A3]:</b> Phòng học có vị trí tiếp giáp gần nhất với khu vực rò rỉ âm thanh Tầng 2.5.";
             } else if (lowerClass.includes("9a6")) {
@@ -397,10 +481,16 @@
                 document.getElementById("stepUnlocked").classList.remove("hidden");
             }
         } else {
+            failAttempts++;
             playErrorSound();
-            // EASTER EGG KHI NHẬP SAI MẬT KHẨU TROLL
-            if (pass === "THITHINH" || pass === "THINHTIEN" || pass === "1234" || pass === "X89") {
-                err2.innerText = "[HỆ THỐNG] CẢNH BÁO: Phát hiện học sinh đang cố tình dò mật khẩu hệ thống!";
+
+            if (failAttempts >= 3) {
+                playCreepySound();
+                document.body.classList.add("glitch-bg");
+                setTimeout(function() { document.body.classList.remove("glitch-bg"); }, 300);
+                err2.innerText = "CẢNH BÁO: BẠN ĐÃ NHẬP SAI QUÁ 3 LẦN. CÓ TIẾNG CÀO TỪ TRẦN NHÀ TẦNG 2...";
+            } else if (pass === "THITHINH" || pass === "THINHTIEN" || pass === "1234" || pass === "X89") {
+                err2.innerText = "CẢNH BÁO: Phát hiện học sinh 9A3 đang cố tình dò mật khẩu hệ thống!";
             } else {
                 err2.innerText = "Mật khẩu không chính xác! Hãy mở Áo Choàng Bảo Hộ để xem hướng dẫn lấy mật khẩu.";
             }
