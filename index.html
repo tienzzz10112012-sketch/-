@@ -64,6 +64,14 @@
             font-size: 12px;
             background-color: #fff;
         }
+        .hint-box {
+            background-color: #f0f0f0;
+            border: 1px dashed #777;
+            padding: 8px;
+            font-size: 12px;
+            margin-top: 10px;
+            font-family: 'Courier New', Courier, monospace;
+        }
         .hidden { display: none; }
         .red-text { color: #cc0000; font-weight: bold; }
         hr { border: 1px inset #ffffff; }
@@ -95,29 +103,34 @@
             </div>
 
             <div class="content-box">
-                <!-- BƯỚC 1: XÁC MINH MÃ NHÂN VIÊN (ĐÃ BỎ ĐÁP ÁN TỰ ĐỘNG) -->
+                <!-- BƯỚC 1: CÂU ĐỐ GIẢI MÃ MÃ NHÂN VIÊN X89 -->
                 <div id="step1">
                     <p><b>BÁO CÁO SỰ CỐ KỸ THUẬT NĂM 2006 - MÃ HỒ SƠ: LOG_T2.5</b></p>
                     <hr>
                     <p><b>Mô tả:</b> Ô thạch cao trần nhà Tầng 2 bị gỡ bỏ không rõ nguyên nhân. Khoảng trống Tầng 2.5 bị rò rỉ dữ liệu.</p>
-                    <p class="red-text">* Yêu cầu nhập Mã Nhân Viên Bảo Trì để bắt đầu giải mã.</p>
+                    
+                    <div class="hint-box">
+                        <b>[MẢNH NĂNG LƯỢNG MÃ HÓA CỦA BẢO TRÌ]:</b><br>
+                        - Ký tự 1: Chữ cái thứ 24 trong bảng English (A-Z).<br>
+                        - Ký tự 2 & 3: Số liền trước của 90.<br>
+                        <i>👉 Nhập mã tìm được vào ô bên dưới.</i>
+                    </div>
                     <br>
                     <table border="0" cellpadding="5">
                         <tr>
-                            <td><b>Nhập Mã Nhân Viên Bảo Trì:</b></td>
-                            <!-- Fix bug: Ô input để trống hoàn toàn -->
-                            <td><input type="text" id="staffCode" class="retro-input" value="" placeholder="Mã NV (VD: X...)..." autocomplete="off"></td>
+                            <td><b>Mã Nhân Viên Bảo Trì:</b></td>
+                            <td><input type="text" id="staffCode" class="retro-input" value="" placeholder="Nhập mã giải được..." autocomplete="off"></td>
                         </tr>
                     </table>
                     <br>
-                    <button class="retro-btn" onclick="verifyStaff()">[ BƯỚC 1: XÁC MINH NHÂN VIÊN ]</button>
-                    <p id="err1" class="red-text hidden" style="margin-top: 5px;">Mã nhân viên không hợp lệ trên hệ thống!</p>
+                    <button class="retro-btn" onclick="verifyStaff()">[ BƯỚC 1: XÁC MINH MÃ ]</button>
+                    <p id="err1" class="red-text hidden" style="margin-top: 5px;">Mã giải mã không chính xác! Hãy kiểm tra lại câu đố.</p>
                 </div>
 
-                <!-- BƯỚC 2: KHAI BÁO THÔNG TIN & NHẬP MẬT MÃ TỪ BIO ZALO -->
+                <!-- BƯỚC 2: KHAI BÁO & NHẬP MẬT MÃ TỪ CÂU THƠ -->
                 <div id="step2" class="hidden">
-                    <p style="color: #008000; font-weight: bold;">[✓] XÁC MINH MÃ NHÂN VIÊN THÀNH CÔNG.</p>
-                    <p>Vui lòng khai báo danh tính trước khi giải mã mật khẩu phong ấn Tầng 2.5:</p>
+                    <p style="color: #008000; font-weight: bold;">[✓] GIẢI MÃ MÃ BẢO TRÌ THÀNH CÔNG.</p>
+                    <p>Vui lòng khai báo danh tính trước khi mở khóa phong ấn Tầng 2.5:</p>
                     <hr>
                     <table border="0" cellpadding="4">
                         <tr>
@@ -129,17 +142,25 @@
                             <td><input type="text" class="retro-input" placeholder="Lớp / Nhóm..."></td>
                         </tr>
                         <tr>
-                            <td><b>Mật khẩu Phong Ấn (Bio Zalo):</b></td>
-                            <td><input type="text" id="zaloPass" class="retro-input" placeholder="Mật khẩu..." autocomplete="off"></td>
+                            <td><b>Mật khẩu Phong Ấn:</b></td>
+                            <td><input type="text" id="zaloPass" class="retro-input" placeholder="Mật khẩu 4 chữ cái..." autocomplete="off"></td>
                         </tr>
                     </table>
                     <br>
-                    <p style="font-size: 12px; color: #555;">
-                        <i>* Gợi ý Mật mã Phong ấn: Lấy <b>Chữ Cái Đầu Tên</b> của 4 câu thơ tại phần Mô tả (Bio) Zalo của [Tên_Của_Ông].</i>
-                    </p>
-                    <br>
+                    
+                    <!-- NÚT ÁO CHOÀNG TRỢ GIÚP GỢI Ý -->
+                    <button class="retro-btn" style="background-color: #f4e8c1;" onclick="toggleCloakHint()">
+                        [ 🛟 KÍCH HOẠT ÁO CHOÀNG BẢO HỘ / NÚT TRỢ GIÚP ]
+                    </button>
+                    
+                    <div id="cloakHintBox" class="hint-box hidden" style="border-color: #800000; background-color: #fff0f0;">
+                        <b>[LỜI THÌ THẦM TỪ ÁO CHOÀNG BẢO HỘ]:</b><br>
+                        "Mật mã gồm 4 chữ cái đầu tiên được ẩn giấu trong bài thơ 4 câu trên dòng trạng thái (Bio) của kẻ đang giữ chìa khóa hồ sơ này..."
+                    </div>
+                    <br><br>
+
                     <button class="retro-btn" onclick="verifyFinal()">[ BƯỚC 2: XÁC NHẬN GIẢI MÃ ]</button>
-                    <p id="err2" class="red-text hidden" style="margin-top: 5px;">Mật khẩu phong ấn không chính xác! Kiểm tra lại Bio Zalo.</p>
+                    <p id="err2" class="red-text hidden" style="margin-top: 5px;">Mật khẩu phong ấn không chính xác! Hãy dùng Áo Choàng Bảo Hộ để tìm gợi ý.</p>
                 </div>
 
                 <!-- BƯỚC 3: MÀN HÌNH CHỜ THÔNG TIN (KHI CÒN THỜI GIAN) -->
@@ -160,7 +181,7 @@
                     </div>
                 </div>
 
-                <!-- BƯỚC 4: MÀN HÌNH SEASON 2 (TỰ ĐỘNG MỞ KHI HẾT GIỜ ĐẾM NGƯỢC) -->
+                <!-- BƯỚC 4: MÀN HÌNH SEASON 2 (TỰ ĐỘNG MỞ KHI HẾT GIỜ) -->
                 <div id="stepSeason2" class="hidden">
                     <h2 style="color: #800000; text-align: center;">[ SEASON 2: HỒ SƠ THỰC ĐỊA TẦNG 2.5 ]</h2>
                     <hr>
@@ -168,10 +189,8 @@
                     <br>
                     <p><b>BẢN GHI HÌNH CẬN CẢNH TRẦN NHÀ TẦNG 2:</b></p>
                     
-                    <!-- Chỗ để ông chèn hình ảnh thực tế chụp ở trường sau này -->
                     <div style="background: #000; color: #fff; text-align: center; padding: 30px; border: 2px dashed #ff0000; margin: 10px 0;">
-                        [ KHU VỰC CHÈN HÌNH CẢNH CHỤP THỰC TẾ TRẦN NHÀ TẦNG 2 ]<br>
-                        <small style="color: #aaa;">(Ông chỉ cần chèn thẻ &lt;img src="link_anh.jpg"&gt; vào đây ở Season 2)</small>
+                        [ KHU VỰC CHÈN HÌNH CẢNH CHỤP THỰC TẾ TRẦN NHÀ TẦNG 2 ]
                     </div>
 
                     <p><b>GHI CHÚ MỚI NHẤT:</b> Thứ bên trong Tầng 2.5 đã để lại dấu vết thực tế tại hành lang.</p>
@@ -188,7 +207,57 @@
 </table>
 
 <script>
-    // 1. CÀI ĐẶT MỐC ĐẾM NGƯỢC REAL-TIME (17/09/2026 00:00:00)
+    // --- BỘ TẠO ÂM THANH U ÁM WEB AUDIO API ---
+    const AudioCtx = window.AudioContext || window.webkitAudioContext;
+    let audioCtx = null;
+
+    function initAudio() {
+        if (!audioCtx) {
+            audioCtx = new AudioCtx();
+        }
+    }
+
+    function playRetroClick() {
+        initAudio();
+        if (audioCtx.state === 'suspended') { audioCtx.resume(); }
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(150, audioCtx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(30, audioCtx.currentTime + 0.15);
+
+        gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.15);
+
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.15);
+    }
+
+    function playErrorSound() {
+        initAudio();
+        if (audioCtx.state === 'suspended') { audioCtx.resume(); }
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+
+        osc.type = 'square';
+        osc.frequency.setValueAtTime(80, audioCtx.currentTime);
+        osc.frequency.setValueAtTime(60, audioCtx.currentTime + 0.1);
+
+        gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.3);
+    }
+
+    // 1. ĐẾM NGƯỢC REAL-TIME (17/09/2026 00:00:00 GMT+7)
     const targetDate = new Date("2026-09-17T00:00:00+07:00").getTime();
     let isTimerFinished = false;
     let isUserVerified = false;
@@ -206,12 +275,10 @@
             document.getElementById("countdownDisplay").innerHTML = 
                 days + " Ngày " + hours + " Giờ " + minutes + " Phút " + seconds + " Giây ";
         } else {
-            // HẾT GIỜ -> CHUYỂN SANG SEASON 2
             clearInterval(timerInterval);
             isTimerFinished = true;
             document.getElementById("countdownDisplay").innerHTML = "ĐÃ HẾT GIỜ - KHÓA PHONG ẤN ĐÃ MỞ!";
             
-            // Nếu người dùng đã nhập đúng mã trước đó -> Hiện màn hình Season 2 ngay
             if (isUserVerified) {
                 document.getElementById("stepWaiting").classList.add("hidden");
                 document.getElementById("stepSeason2").classList.remove("hidden");
@@ -219,38 +286,46 @@
         }
     }, 1000);
 
-    // 2. BƯỚC 1: XÁC MINH MÃ NHÂN VIÊN (ĐÁP ÁN: X89)
+    // 2. BƯỚC 1: XÁC MINH CÂU ĐỐ X89
     function verifyStaff() {
         const code = document.getElementById("staffCode").value.trim().toUpperCase();
         if (code === "X89") {
+            playRetroClick();
             document.getElementById("err1").classList.add("hidden");
             document.getElementById("step1").classList.add("hidden");
             document.getElementById("step2").classList.remove("hidden");
         } else {
+            playErrorSound();
             document.getElementById("err1").classList.remove("hidden");
         }
     }
 
-    // 3. BƯỚC 2: XÁC NHẬN MẬT MÃ BIO ZALO (ĐÁP ÁN: TRAN)
+    // 3. ẨN/HIỆN GỢI Ý ÁO CHOÀNG BẢO HỘ
+    function toggleCloakHint() {
+        playRetroClick();
+        const hintBox = document.getElementById("cloakHintBox");
+        hintBox.classList.toggle("hidden");
+    }
+
+    // 4. BƯỚC 2: XÁC NHẬN MẬT MÃ MẪU 3 (KHOA)
     function verifyFinal() {
         const name = document.getElementById("staffName").value.trim();
         const pass = document.getElementById("zaloPass").value.trim().toUpperCase();
 
-        if (pass === "TRAN") { // <--- SỬA MẬT KHẨU BIO ZALO Ở ĐÂY NẾU MUỐN
+        if (pass === "KHOA") { // <-- MẬT KHẨU ĐÃ ĐƯỢC CHUYỂN SANG 'KHOA'
+            playRetroClick();
             document.getElementById("err2").classList.add("hidden");
             document.getElementById("displayName").innerText = name !== "" ? name : "Cán bộ ẩn danh";
             document.getElementById("step2").classList.add("hidden");
             isUserVerified = true;
 
-            // Kiểm tra xem thời gian đã hết chưa
             if (!isTimerFinished) {
-                // Còn thời gian -> Hiện màn hình "Hệ thống đang lấy thêm thông tin..."
                 document.getElementById("stepWaiting").classList.remove("hidden");
             } else {
-                // Đã hết thời gian -> Mở luôn Season 2
                 document.getElementById("stepSeason2").classList.remove("hidden");
             }
         } else {
+            playErrorSound();
             document.getElementById("err2").classList.remove("hidden");
         }
     }
