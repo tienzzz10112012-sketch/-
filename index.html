@@ -31,6 +31,8 @@
             font-weight: bold;
             font-size: 14px;
             line-height: 1.3;
+            cursor: pointer;
+            user-select: none;
         }
         .timer-banner {
             background-color: #800000;
@@ -114,8 +116,13 @@
 <body>
 
 <div class="main-container">
-    <div class="header-bg">
+    <div class="header-bg" id="headerTitle" onclick="clickHeaderEgg()">
         HỆ THỐNG QUẢN LÝ LƯU TRỮ VÀ CƠ SỞ VẬT CHẤT<br>(PHIÊN BẢN 2.0.4 - 2006)
+    </div>
+
+    <!-- EASTER EGG AN KHI CLICK HEADER 5 LAN -->
+    <div id="headerSecretEgg" class="easter-egg-box hidden" style="background-color: #000; color: #00ff00; font-family: monospace;">
+        [NHẬT KÝ BẢO TRÌ 2006]: Đã phát hiện vật thể không xác định bò từ ô thạch cao Tầng 2 hướng về phía khu vực phòng học 9A3...
     </div>
 
     <!-- GLOBAL REAL-TIME TIMER -->
@@ -159,7 +166,7 @@
             </div>
             <div class="form-group">
                 <label>Lớp / Nhóm:</label>
-                <input type="text" id="staffClass" class="retro-input" placeholder="Lớp / Nhóm...">
+                <input type="text" id="staffClass" class="retro-input" placeholder="Lớp / Nhóm (Ví dụ: 9A3, 9A6)...">
             </div>
             <div class="form-group">
                 <label><b>Mật khẩu Phong Ấn:</b></label>
@@ -182,7 +189,7 @@
             <br><br>
 
             <button class="retro-btn" onclick="verifyFinal()">[ BƯỚC 2: XÁC NHẬN GIẢI MÃ ]</button>
-            <p id="err2" class="red-text hidden" style="margin-top: 8px;">Mật khẩu không chính xác! Hãy mở Áo Choàng Bảo Hộ để xem hướng dẫn lấy mật khẩu.</p>
+            <p id="err2" class="red-text hidden" style="margin-top: 8px;"></p>
         </div>
 
         <!-- BƯỚC 3: MÀN HÌNH CHỜ THÔNG TIN -->
@@ -207,7 +214,7 @@
             </div>
         </div>
 
-        <!-- BƯỚC 4: HỒ SƠ THỰC ĐỊA KHI HẾT GIỜ (ĐÃ BỎ SEASON 2) -->
+        <!-- BƯỚC 4: HỒ SƠ THỰC ĐỊA KHI HẾT GIỜ -->
         <div id="stepUnlocked" class="hidden">
             <h3 style="color: #800000; text-align: center; margin-top:0;">[ HỒ SƠ THỰC ĐỊA BỊ PHONG ẤN - TẦNG 2.5 ]</h3>
             <hr>
@@ -238,7 +245,6 @@
 </div>
 
 <script>
-    // --- BỘ TẠO ÂM THANH U ÁM WEB AUDIO API ---
     const AudioCtx = window.AudioContext || window.webkitAudioContext;
     let audioCtx = null;
 
@@ -280,6 +286,16 @@
             osc.start();
             osc.stop(audioCtx.currentTime + 0.3);
         } catch(e){}
+    }
+
+    // EASTER EGG CLICK HEADER 5 LAN
+    let headerClickCount = 0;
+    function clickHeaderEgg() {
+        headerClickCount++;
+        playRetroClick();
+        if (headerClickCount >= 5) {
+            document.getElementById("headerSecretEgg").classList.remove("hidden");
+        }
     }
 
     // 1. ĐẾM NGƯỢC REAL-TIME (17/09/2026 00:00:00 GMT+7)
@@ -332,31 +348,43 @@
         hintBox.classList.toggle("hidden");
     }
 
-    // 4. BƯỚC 2: XÁC NHẬN MẬT MÃ KHOA & KÍCH HOẠT EASTER EGG
+    // 4. BƯỚC 2: XÁC NHẬN MẬT MÃ & EASTER EGGS
     function verifyFinal() {
         const name = document.getElementById("staffName").value.trim();
         const className = document.getElementById("staffClass").value.trim();
         const pass = document.getElementById("zaloPass").value.trim().toUpperCase();
+        const err2 = document.getElementById("err2");
 
         if (pass === "KHOA") {
             playRetroClick();
-            document.getElementById("err2").classList.add("hidden");
+            err2.classList.add("hidden");
             
             let fullInfo = (name !== "" ? name : "Cán bộ ẩn danh") + (className !== "" ? " (" + className + ")" : "");
             document.getElementById("displayName").innerText = fullInfo;
 
-            // KIỂM TRA EASTER EGG THEO TÊN NHẬP VÀO
+            // KIỂM TRA EASTER EGG THEO TÊN VA LOP
             const lowerName = name.toLowerCase();
+            const lowerClass = className.toLowerCase();
             const eggBox = document.getElementById("customEasterEgg");
             
+            let eggMsg = "";
             if (lowerName.includes("tiến") || lowerName.includes("tien")) {
-                eggBox.innerHTML = "<b>[CẢNH BÁO HỆ THỐNG]:</b> Phát hiện vân tay trùng khớp của <b>Nguyễn Minh Tiến (9A3)</b> trên tấm thạch cao Tầng 2!";
-                eggBox.classList.remove("hidden");
-            } else if (lowerName.includes("thịnh") || lowerName.includes("thinh")) {
-                eggBox.innerHTML = "<b>[GHI CHÚ HỆ THỐNG]:</b> <b>Lê Trường Thịnh (9A3)</b> đã được ghi nhận trong danh sách nghi vấn sự cố rò rỉ.";
-                eggBox.classList.remove("hidden");
-            } else if (lowerName.includes("nguyên") || lowerName.includes("long") || lowerName.includes("huy")) {
-                eggBox.innerHTML = "<b>[NHẬN DẠNG CÁN BỘ]:</b> XÁC NHẬN CÁN BỘ GIÁM SÁT THUỘC TỔ ĐỘI 9A6.";
+                eggMsg += "<b>[CẢNH BÁO]:</b> Phát hiện vân tay trùng khớp của <b>Nguyễn Minh Tiến (9A3)</b> trên tấm thạch cao Tầng 2!<br>";
+            } 
+            if (lowerName.includes("thịnh") || lowerName.includes("thinh")) {
+                eggMsg += "<b>[GHI CHÚ]:</b> <b>Lê Trường Thịnh (9A3)</b> có tên trong danh sách bị cảnh cáo sự cố Tầng 2.<br>";
+            }
+            if (lowerName.includes("nguyên") || lowerName.includes("long") || lowerName.includes("huy")) {
+                eggMsg += "<b>[NHẬN DẠNG]:</b> Xác nhận Cán bộ giám sát Tầng 2 thuộc tổ đội Khối 9 (9A6).<br>";
+            }
+            if (lowerClass.includes("9a3")) {
+                eggMsg += "<b>[LỚP 9A3]:</b> Phòng học có vị trí tiếp giáp gần nhất với khu vực rò rỉ âm thanh Tầng 2.5.";
+            } else if (lowerClass.includes("9a6")) {
+                eggMsg += "<b>[LỚP 9A6]:</b> Đội ngũ cán bộ niêm phong hồ sơ sự cố 2006.";
+            }
+
+            if (eggMsg !== "") {
+                eggBox.innerHTML = eggMsg;
                 eggBox.classList.remove("hidden");
             }
 
@@ -370,7 +398,13 @@
             }
         } else {
             playErrorSound();
-            document.getElementById("err2").classList.remove("hidden");
+            // EASTER EGG KHI NHẬP SAI MẬT KHẨU TROLL
+            if (pass === "THITHINH" || pass === "THINHTIEN" || pass === "1234" || pass === "X89") {
+                err2.innerText = "[HỆ THỐNG] CẢNH BÁO: Phát hiện học sinh đang cố tình dò mật khẩu hệ thống!";
+            } else {
+                err2.innerText = "Mật khẩu không chính xác! Hãy mở Áo Choàng Bảo Hộ để xem hướng dẫn lấy mật khẩu.";
+            }
+            err2.classList.remove("hidden");
         }
     }
 </script>
