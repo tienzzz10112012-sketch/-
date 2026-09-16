@@ -181,7 +181,7 @@
     <h2 id="khaosatdan">3. Biên bản khảo sát dân cư xung quanh</h2>
     <p><i>Trích biên bản phỏng vấn thực địa người dân sống cạnh dãy nhà C (Thực hiện năm 2006):</i></p>
 
-    <!-- ĐOẠN KHẢO SÁT THỰC TẾ - CÁC CHỮ ĐẦU DÒNG GHÉP THÀNH: DUOITRANNHA -->
+    <!-- CÁC CHỮ ĐẦU DÒNG GHÉP THÀNH: DUOITRANNHA -->
     <div class="interview-box">
         <p><b>D</b>ãy nhà bỏ hoang này tầm nửa đêm là bắt đầu nghe thấy mấy tiếng động lạ lắm chú ơi.</p>
         <p><b>U</b>u phiền nhất là mấy hôm mưa bão, nước ngấm đen hết cả mảng tường bên hông.</p>
@@ -199,29 +199,28 @@
     </div>
 
     <h2 id="timkiem">4. Tra cứu dữ liệu lưu trữ mở rộng</h2>
-    <p>Nhập từ khóa hoặc mã thu thập được từ bài phỏng vấn khảo sát ở trên để tra cứu hồ sơ nén:</p>
+    <p><i>Lưu ý: Mật mã tra cứu không nằm trên bài viết này. Hãy tìm manh mối bí mật từ trang máy chủ chính.</i></p>
 
     <!-- SEARCH BAR VỚI HIỆU ỨNG LOADING 3S -->
     <div class="search-container">
         <label style="font-weight: bold; font-size: 13px;">🔍 Thanh tìm kiếm Wikipedia / Hồ sơ lưu trữ:</label>
         <div class="search-box">
-            <input type="text" id="searchInput" class="search-input" placeholder="Nhập từ khóa bí mật..." autocomplete="off">
+            <input type="text" id="searchInput" class="search-input" placeholder="Nhập từ khóa tìm kiếm bí mật..." autocomplete="off">
             <button onclick="executeSearch()" class="search-btn">Tìm kiếm</button>
         </div>
         <div id="statusArea" style="margin-top: 10px; font-size: 13px;"></div>
     </div>
 
-    <!-- TẬP TIN ẨN HIỆN KHI NHẬP DUOITRANNHA -->
+    <!-- TẬP TIN ẨN HIỆN KHI NHẬP MẬT MÃ BÔI ĐEN "VIT3301" -->
     <div class="secret-panel" id="secretPanel">
-        === BÁO CÁO MỞ RỘNG: MÃ "DUOITRANNHA" ĐÃ ĐƯỢC XÁC NHẬN ===<br>
+        === BÁO CÁO MỞ RỘNG: MÃ "VIT3301" ĐÃ ĐƯỢC GIẢI MÃ ===<br>
         --------------------------------------------------------------<br>
         [FILE NHẬT KÝ KHẢO SÁT #09-C]:<br>
         Vật thể rò rỉ ở Tầng 2.5 không phải do sạt lở tự nhiên. Nó bò dọc theo đường ống nước kẹp giữa trần thạch cao Tầng 2 và sàn Tầng 3.<br><br>
-        👉 Mật mã giải tầng phong ấn trên hệ thống bảo trì chính là: <b>X89</b>.
+        👉 Mật mã xác minh bảo trì trên hệ thống chính là: <b>X89</b>.
     </div>
 
 <script>
-    // GIỮ NGUYÊN TÍNH NĂNG CLICK ẢNH CỦ
     document.getElementById('imgCeiling').addEventListener('click', function() {
         alert("BẠN SOI LỖ TRẦN: Khoảng trống trên trần nhà hoàn toàn tối om...");
         this.style.filter = "invert(100%)";
@@ -232,7 +231,7 @@
         this.style.filter = "contrast(250%)";
     });
 
-    // TÍNH NĂNG SEARCH BAR LOADING 3S
+    // NHẬP VIT3301 MỚI RA KẾT QUẢ
     function executeSearch() {
         const query = document.getElementById('searchInput').value.trim().toUpperCase().replace(/\s+/g, '');
         const statusArea = document.getElementById('statusArea');
@@ -247,7 +246,7 @@
         statusArea.innerHTML = "<span class='loader-spinner'></span> Đang kết nối máy chủ và tìm kiếm dữ liệu...";
 
         setTimeout(function() {
-            if (query === "DUOITRANNHA") {
+            if (query === "VIT3301") {
                 statusArea.innerHTML = "<span style='color: green; font-weight: bold;'>[✓] Tìm thấy 1 kết quả lưu trữ ẩn!</span>";
                 secretPanel.style.display = 'block';
             } else {
