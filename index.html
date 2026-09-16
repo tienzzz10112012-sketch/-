@@ -44,6 +44,7 @@
             font-weight: bold;
             font-size: 13px;
             margin: 8px 0;
+            transition: background-color 0.5s;
         }
         .content-box {
             background-color: #ffffff;
@@ -175,8 +176,8 @@
         [NHẬT KÝ BẢO TRÌ 2006]: Đã phát hiện vật thể không xác định bò từ ô thạch cao Tầng 2...
     </div>
 
-    <!-- BANNER ĐẾM NGƯỢC ĐẾN 15:15 HÔM NAY -->
-    <div class="timer-banner">
+    <!-- BANNER ĐẾM NGƯỢC THỜI GIAN -->
+    <div class="timer-banner" id="timerBanner">
         [CẢNH BÁO PHONG ẤN TẦNG 2.5] THỜI GIAN GIẢI MÃ CÒN LẠI:<br>
         <span id="countdownDisplay" style="font-size: 16px; color: #fff;">00h 00m 00s</span>
     </div>
@@ -231,7 +232,7 @@
             <div id="cloakHintBox" class="hint-box hidden" style="border: 2px solid #800000; background-color: #fff0f0;">
                 <b style="color: #800000;">[LỜI THÌ THẦM TỪ ÁO CHOÀNG BẢO HỘ]:</b><br><br>
                 1. Mở ứng dụng <b>Zalo</b> trên điện thoại.<br>
-                2. Tìm đến <b>Trang cá nhân (bị che)</b>.<br>
+                2. Tìm đến <b>Trang cá nhân của người gửi link này</b>.<br>
                 3. Đọc bài thơ 4 câu ghi ở phần <b>Mô tả / Bio</b>.<br>
                 4. Ghép <b>4 chữ cái đầu tiên</b> của mỗi dòng thơ lại thành 1 từ (4 chữ) -> Đó chính là MẬT KHẨU!
             </div>
@@ -239,33 +240,22 @@
 
             <button class="retro-btn" onclick="verifyFinal()">[ BƯỚC 2: XÁC NHẬN GIẢI MÃ ]</button>
             <p id="err2" class="red-text hidden" style="margin-top: 8px;"></p>
-            <div id="horrorEggBox" class="creepy-box hidden"></div>
         </div>
 
-        <!-- BƯỚC 3 -->
+        <!-- BƯỚC 3: MÀN HÌNH CHỜ VÀ CHUYỂN HƯỚNG TỰ ĐỘNG SANG BAOCAO.HTML -->
         <div id="stepWaiting" class="hidden">
             <h3 style="color: #000080; margin-top:0;">XÁC NHẬN GIẢI MÃ THÀNH CÔNG</h3>
             <hr>
             <p><b>Cán bộ kiểm tra:</b> <span id="displayName" style="font-weight: bold; color: #a00;"></span></p>
             <p><b>Trạng thái:</b> Mật khẩu phong ấn đã khớp.</p>
-            <div id="customEasterEgg" class="easter-egg-box hidden"></div>
             <br>
-            <div style="background-color: #ffffcc; border: 1px solid #ffcc00; padding: 12px; text-align: center;">
+            <div style="background-color: #ffffcc; border: 1px solid #ffcc00; padding: 15px; text-align: center;">
                 <p style="font-size: 15px; font-weight: bold; color: #000;" class="loading-dots">
                     Hệ thống đang trích xuất dữ liệu hồ sơ
                 </p>
-            </div>
-        </div>
-
-        <!-- BƯỚC 4 -->
-        <div id="stepUnlocked" class="hidden">
-            <h3 style="color: #800000; text-align: center; margin-top:0;">[ HỒ SƠ THỰC ĐỊA BỊ PHONG ẤN - TẦNG 2.5 ]</h3>
-            <hr>
-            <p style="color: #008000; font-weight: bold;">[✓] GIẢI MÃ HOÀN TẤT.</p>
-            <br>
-            <p><b>BẢN GHI HÌNH CẬN CẢNH TRẦN NHÀ TẦNG 2:</b></p>
-            <div style="background: #000; color: #fff; text-align: center; padding: 30px 10px; border: 2px dashed #ff0000; margin: 10px 0;">
-                [ HÌNH ẢNH TRẦN NHÀ TẦNG 2 ]
+                <p id="redirectCounter" style="font-size: 14px; font-weight: bold; color: #b30000; margin-top: 10px;">
+                    Hệ thống sẽ chuyển hướng sang file báo cáo trong <span id="secCount">5</span>...
+                </p>
             </div>
         </div>
     </div>
@@ -309,17 +299,27 @@
 </div>
 
 <script>
-    // XỬ LÝ ĐẾM NGƯỢC ĐẾN 15:15 HÔM NAY
+    // XỬ LÝ ĐẾM NGƯỢC ĐẾN 15:20 HÔM NAY (ĐỪNG LẠI Ở 0 KHI HẾT GIỜ)
+    let timerInterval = null;
+
     function updateCountdown() {
         const now = new Date();
+        // Mốc thời gian target: 15h 20m 00s chiều hôm nay
         let targetTime = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 15, 20, 0);
 
-        // Nếu đã qua 15:15 hôm nay, tự động đếm đến 15:15 ngày mai
-        if (now.getTime() > targetTime.getTime()) {
-            targetTime.setDate(targetTime.getDate() + 1);
-        }
-
         const diff = targetTime.getTime() - now.getTime();
+
+        if (diff <= 0) {
+            // HẾT THỜI GIAN: Dừng đếm, giữ nguyên 00h 00m 00s và đổi màu thông báo
+            clearInterval(timerInterval);
+            document.getElementById('countdownDisplay').innerText = "00h 00m 00s";
+            
+            const timerBanner = document.getElementById('timerBanner');
+            timerBanner.style.backgroundColor = "#d97706"; // Màu cam vàng
+            timerBanner.style.color = "#ffffff";
+            timerBanner.innerHTML = "[ THÔNG BÁO HỆ THỐNG ]<br><span style='font-size: 15px; font-weight: bold;'>Hệ thống đang cập nhật thông tin</span>";
+            return;
+        }
 
         const hours = Math.floor(diff / (1000 * 60 * 60));
         const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
@@ -329,7 +329,7 @@
         document.getElementById('countdownDisplay').innerText = `${pad(hours)}h ${pad(minutes)}m ${pad(seconds)}s`;
     }
 
-    setInterval(updateCountdown, 1000);
+    timerInterval = setInterval(updateCountdown, 1000);
     updateCountdown();
 
     const AudioCtx = window.AudioContext || window.webkitAudioContext;
@@ -386,6 +386,7 @@
         document.getElementById("cloakHintBox").classList.toggle("hidden");
     }
 
+    // XÁC NHẬN MẬT KHẨU KHOA -> CHẠY ĐẾM NGƯỢC 5..4..3.. MỚI CHUYỂN SANG BAOCAO.HTML
     function verifyFinal() {
         const name = document.getElementById("staffName").value.trim();
         const className = document.getElementById("staffClass").value.trim();
@@ -398,6 +399,21 @@
             document.getElementById("displayName").innerText = name + (className ? " (" + className + ")" : "");
             document.getElementById("step2").classList.add("hidden");
             document.getElementById("stepWaiting").classList.remove("hidden");
+
+            // BẮT ĐẦU ĐẾM NGƯỢC 5..4..3..2..1 ĐỂ CHUYỂN HƯỚNG
+            let secondsLeft = 5;
+            const secSpan = document.getElementById("secCount");
+            
+            const redirectInterval = setInterval(() => {
+                secondsLeft--;
+                if (secSpan) secSpan.innerText = secondsLeft;
+                
+                if (secondsLeft <= 0) {
+                    clearInterval(redirectInterval);
+                    window.location.href = "baocao.html"; // TỰ ĐỘNG SANG TRANG WIKIPEDIA
+                }
+            }, 1000);
+
         } else {
             playErrorSound();
             err2.innerText = "Mật khẩu không chính xác! Mở Áo Choàng Bảo Hộ để xem hướng dẫn.";
