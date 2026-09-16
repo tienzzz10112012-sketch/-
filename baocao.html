@@ -1,223 +1,279 @@
-<!DOCTYPE html>
+import html
+
+html_content = """<!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trường THPT Khu C – Bách khoa toàn thư mở Wikipedia</title>
+    <title>Báo cáo Khảo sát & Đánh giá Thực địa - Cơ sở cũ Trường THPT Khu C</title>
     <style>
         :root {
-            --wiki-bg: #ffffff;
-            --wiki-text: #202122;
-            --wiki-link: #36c;
-            --wiki-border: #a2a9b1;
-            --wiki-box-bg: #f8f9fa;
+            --primary-color: #1a365d;
+            --secondary-color: #2b6cb0;
+            --accent-red: #9b2c2c;
+            --bg-light: #f7fafc;
+            --text-dark: #2d3748;
+            --border-color: #e2e8f0;
         }
 
         body {
-            background-color: var(--wiki-bg);
-            color: var(--wiki-text);
-            font-family: sans-serif, Arial, Helvetica;
-            margin: 0;
-            padding: 20px 12%;
+            font-family: 'Segoe UI', Arial, sans-serif;
             line-height: 1.6;
+            color: var(--text-dark);
+            background-color: #f0f4f8;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .header {
+            border-bottom: 3px solid var(--primary-color);
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            color: var(--primary-color);
+            font-size: 24px;
+            margin: 0 0 10px 0;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .header .doc-id {
+            font-size: 13px;
+            color: #718096;
+            font-weight: 600;
+        }
+
+        .meta-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            background: var(--bg-light);
+            padding: 15px 20px;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            margin-bottom: 30px;
             font-size: 14px;
         }
 
-        .wiki-header {
-            border-bottom: 1px solid var(--wiki-border);
-            padding-bottom: 5px;
-            margin-bottom: 20px;
-        }
-        .wiki-title {
-            font-family: 'Linux Libertine','Georgia','Times',serif;
-            font-size: 28px;
-            font-weight: normal;
-            margin: 0;
-        }
-        .wiki-subtitle {
-            font-size: 12px;
-            color: #54595d;
-        }
-
-        .infobox {
-            float: right;
-            width: 290px;
-            background-color: var(--wiki-box-bg);
-            border: 1px solid var(--wiki-border);
-            padding: 8px;
-            margin: 0 0 15px 20px;
-            font-size: 12px;
-        }
-        .infobox-title {
-            background-color: #ced3d8;
-            text-align: center;
+        .meta-item span {
             font-weight: bold;
-            padding: 6px;
-            font-size: 13px;
+            color: var(--primary-color);
         }
-        .infobox-image { text-align: center; margin: 8px 0; }
-        .infobox-image img {
-            max-width: 100%; height: auto; cursor: pointer; border: 1px solid #ccc;
-        }
-
-        .toc {
-            background-color: var(--wiki-box-bg);
-            border: 1px solid var(--wiki-border);
-            padding: 10px; display: inline-block; min-width: 220px; margin: 15px 0; font-size: 13px;
-        }
-        .toc-title { font-weight: bold; text-align: center; }
-        .toc ul { list-style-type: none; padding-left: 15px; margin: 5px 0; }
-        .toc a { color: var(--wiki-link); text-decoration: none; }
 
         h2 {
-            font-family: 'Linux Libertine','Georgia','Times',serif;
-            font-size: 19px; border-bottom: 1px solid var(--wiki-border); padding-bottom: 3px; margin-top: 35px;
-        }
-
-        .corrupted-img {
-            filter: grayscale(100%) contrast(110%); transition: filter 0.4s;
-        }
-        .corrupted-img:hover { filter: grayscale(100%) contrast(180%) brightness(70%); }
-
-        /* KHUNG KHẢO SÁT HÀNG XÓM */
-        .interview-box {
-            background-color: #f4f1ea;
-            border-left: 4px solid #8b0000;
-            padding: 15px;
-            margin: 15px 0;
-            font-style: italic;
-        }
-
-        /* KHUNG TÌM KIẾM WIKIPEDIA */
-        .search-container {
+            color: var(--primary-color);
+            font-size: 18px;
+            border-left: 4px solid var(--secondary-color);
+            padding-left: 10px;
             margin-top: 30px;
-            padding: 15px;
-            background: #f8f9fa;
-            border: 1px solid var(--wiki-border);
+            margin-bottom: 15px;
         }
+
+        .acrostic-box {
+            background-color: #fffaf0;
+            border: 1px solid #feebc8;
+            border-left: 4px solid #dd6b20;
+            padding: 20px;
+            border-radius: 4px;
+            margin: 20px 0;
+        }
+
+        .acrostic-box p {
+            margin: 6px 0;
+            font-style: italic;
+            font-size: 14px;
+        }
+
+        .acrostic-highlight {
+            font-weight: bold;
+            color: var(--accent-red);
+            font-size: 16px;
+            font-style: normal;
+        }
+
+        .interactive-section {
+            background: var(--bg-light);
+            border: 1px solid var(--border-color);
+            padding: 20px;
+            border-radius: 6px;
+            margin-top: 25px;
+        }
+
         .search-box {
             display: flex;
-            gap: 8px;
-            margin-top: 8px;
+            gap: 10px;
+            margin-top: 10px;
         }
+
         .search-input {
             flex: 1;
-            padding: 8px 12px;
-            border: 1px solid var(--wiki-border);
+            padding: 10px;
+            border: 1px solid #cbd5e0;
+            border-radius: 4px;
             font-size: 14px;
             outline: none;
         }
+
         .search-btn {
-            background: #36c;
-            color: #fff;
+            background: var(--secondary-color);
+            color: white;
             border: none;
-            padding: 8px 16px;
+            padding: 10px 20px;
+            border-radius: 4px;
             cursor: pointer;
             font-weight: bold;
+            transition: background 0.2s;
+        }
+
+        .search-btn:hover {
+            background: #2b4c7e;
+        }
+
+        .secret-panel {
+            display: none;
+            background: #1a202c;
+            color: #48bb78;
+            font-family: 'Courier New', Courier, monospace;
+            padding: 20px;
+            border-radius: 6px;
+            margin-top: 15px;
+            border-left: 4px solid #38a169;
+            font-size: 13px;
+            line-height: 1.5;
         }
 
         .loader-spinner {
             display: inline-block;
             width: 14px;
             height: 14px;
-            border: 2px solid #ccc;
-            border-top: 2px solid #36c;
+            border: 2px solid #cbd5e0;
+            border-top: 2px solid var(--secondary-color);
             border-radius: 50%;
             animation: spin 1s linear infinite;
-            margin-right: 5px;
+            margin-right: 6px;
         }
+
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-        .secret-panel {
-            display: none;
-            background: #111;
-            color: #00ff66;
-            font-family: monospace;
-            padding: 15px;
-            margin-top: 15px;
-            border-left: 4px solid #00ff66;
+        .img-container {
+            display: flex;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .img-card {
+            flex: 1;
+            border: 1px solid var(--border-color);
+            padding: 10px;
+            border-radius: 6px;
+            text-align: center;
+            background: #fff;
+        }
+
+        .img-card img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 4px;
+            cursor: pointer;
+            filter: grayscale(100%);
+            transition: filter 0.3s;
+        }
+
+        .img-card img:hover {
+            filter: grayscale(0%);
+        }
+
+        .img-caption {
+            font-size: 12px;
+            color: #718096;
+            margin-top: 8px;
         }
     </style>
 </head>
 <body>
 
-    <div class="wiki-header">
-        <h1 class="wiki-title">Trường THPT Khu C (Cơ sở cũ)</h1>
-        <div class="wiki-subtitle">Bách khoa toàn thư mở Wikipedia</div>
-    </div>
-
-    <!-- INFOBOX -->
-    <div class="infobox">
-        <div class="infobox-title">Trường THPT Khu C</div>
-        <div class="infobox-image">
-            <img src="lonha.png" alt="Hành lang Khu C" class="corrupted-img" id="imgCeiling" title="Soi khoảng trống trần nhà...">
-            <div style="font-size:11px; color:#555; text-align:center;">Hành lang tầng 2 dãy C chụp trong đợt khảo sát.</div>
+    <div class="container">
+        <div class="header">
+            <h1>BÁO CÁO KHẢO SÁT & ĐÁNH GIÁ THỰC ĐỊA</h1>
+            <div class="doc-id">MÃ HỒ SƠ LƯU TRỮ: THPT-KC/2006-BS</div>
         </div>
-    </div>
 
-    <p><b>Trường THPT Khu C</b> là cơ sở giáo dục trung học đã ngừng hoạt động, từng thuộc quản lý của khu vực phía Bắc. Sau nhiều thập kỷ vận hành, cơ sở đã ghi nhận nhiều tổn hại kết cấu nghiêm trọng dẫn đến quyết định di dời toàn bộ học sinh.</p>
-
-    <!-- TOC -->
-    <div class="toc">
-        <div class="toc-title">Mục lục</div>
-        <ul>
-            <li><a href="#lichsu">1 Lịch sử hình thành</a></li>
-            <li><a href="#suco">2 Các hiện tượng hư hỏng</a></li>
-            <li><a href="#khaosatdan">3 Biên bản khảo sát dân cư xung quanh</a></li>
-            <li><a href="#timkiem">4 Tra cứu dữ liệu lưu trữ mở rộng</a></li>
-        </ul>
-    </div>
-
-    <h2 id="lichsu">1. Lịch sử hình thành</h2>
-    <p>Cơ sở được cấp phép xây dựng vào đầu thập niên 90. Ban đầu, Dãy C được thiết kế làm khu vực học tập trọng điểm với các phòng thí nghiệm tầng trên cùng.</p>
-
-    <h2 id="suco">2. Các hiện tượng hư hỏng</h2>
-    <p>Mảng trần la-phông bị bong tróc vỡ vụn, để lộ những ô trống tối om nối thẳng lên khoảng không mái tôn. Đồng thời, khu vực góc tường cầu thang bị xâm nhập bởi các vết mốc đen ngấm nước kéo dài.</p>
-
-    <div style="text-align: center; margin: 25px 0;">
-        <img src="mocmeo.png" alt="Mảng mốc cầu thang" class="corrupted-img" id="imgMold" style="max-width: 320px;" title="Soi vết mốc đen...">
-    </div>
-
-    <h2 id="khaosatdan">3. Biên bản khảo sát dân cư xung quanh</h2>
-    <p><i>Trích biên bản phỏng vấn thực địa người dân sống cạnh dãy nhà C (Thực hiện năm 2006):</i></p>
-
-    <!-- CÁC CHỮ ĐẦU DÒNG GHÉP THÀNH: DUOITRANNHA -->
-    <div class="interview-box">
-        <p><b>D</b>ãy nhà bỏ hoang này tầm nửa đêm là bắt đầu nghe thấy mấy tiếng động lạ lắm chú ơi.</p>
-        <p><b>U</b>u phiền nhất là mấy hôm mưa bão, nước ngấm đen hết cả mảng tường bên hông.</p>
-        <p><b>O</b>ng bướm hay chuột bọ dạo đó cũng không thấy xuất hiện gần khu vực này nữa.</p>
-        <p><b>I</b>m lìm được một lúc thì lại nghe như có tiếng bước chân kéo lê trên tầng ba.</p>
-        <br>
-        <p><b>T</b>ôi có báo bảo vệ vài lần nhưng đêm đến người ta cũng chẳng dám vào kiểm tra.</p>
-        <p><b>R</b>õ ràng là có tiếng cào sột soạt kéo dài dọc theo đường ống dẫn nước.</p>
-        <p><b>A</b>i đi ngang qua đây lúc rạng sáng cũng đều phải rảo bước đi thật nhanh.</p>
-        <p><b>N</b>hìn từ bên ngoài vào chỉ thấy ánh đèn hành lang cứ chập chờn rồi tắt ngụm.</p>
-        <br>
-        <p><b>N</b>gười dân quanh đây đồn nhau có thứ gì đó đang bò ngoằn ngoèo trong bóng tối.</p>
-        <p><b>H</b>ễ mỗi lần có tiếng thạch cao vỡ rơi xuống sàn là tiếng cào lại dừng lại.</p>
-        <p><b>A</b>i đời nhà cửa dột nát thế mà thứ đó vẫn nằm ẩn nấp cố định một chỗ.</p>
-    </div>
-
-    <h2 id="timkiem">4. Tra cứu dữ liệu lưu trữ mở rộng</h2>
-    <p><i>Lưu ý: Mật mã tra cứu không nằm trên bài viết này. Hãy tìm manh mối bí mật từ trang máy chủ chính.</i></p>
-
-    <!-- SEARCH BAR VỚI HIỆU ỨNG LOADING 3S -->
-    <div class="search-container">
-        <label style="font-weight: bold; font-size: 13px;">🔍 Thanh tìm kiếm Wikipedia / Hồ sơ lưu trữ:</label>
-        <div class="search-box">
-            <input type="text" id="searchInput" class="search-input" placeholder="Nhập từ khóa tìm kiếm bí mật..." autocomplete="off">
-            <button onclick="executeSearch()" class="search-btn">Tìm kiếm</button>
+        <div class="meta-grid">
+            <div class="meta-item"><span>Đối tượng khảo sát:</span> Cơ sở cũ Trường THPT Khu C</div>
+            <div class="meta-item"><span>Thời gian thực hiện:</span> Tháng 10/2006</div>
+            <div class="meta-item"><span>Trạng thái kết cấu:</span> Nguy cơ sụt nở / Ngừng hoạt động</div>
+            <div class="meta-item"><span>Đơn vị lập báo cáo:</span> Tổ Khảo sát Hạ tầng & An toàn</div>
         </div>
-        <div id="statusArea" style="margin-top: 10px; font-size: 13px;"></div>
-    </div>
 
-    <!-- TẬP TIN ẨN HIỆN KHI NHẬP MẬT MÃ BÔI ĐEN "VIT3301" -->
-    <div class="secret-panel" id="secretPanel">
-        === BÁO CÁO MỞ RỘNG: MÃ "VIT3301" ĐÃ ĐƯỢC GIẢI MÃ ===<br>
-        --------------------------------------------------------------<br>
-        [FILE NHẬT KÝ KHẢO SÁT #09-C]:<br>
-        Vật thể rò rỉ ở Tầng 2.5 không phải do sạt lở tự nhiên. Nó bò dọc theo đường ống nước kẹp giữa trần thạch cao Tầng 2 và sàn Tầng 3.<br><br>
-        👉 Mật mã xác minh bảo trì trên hệ thống chính là: <b>X89</b>.
+        <h2>1. Tổng quan & Lịch sử Khảo sát</h2>
+        <p>Cơ sở được cấp phép xây dựng vào đầu thập niên 90. Ban đầu, Dãy C được thiết kế làm khu vực học tập trọng điểm với các phòng thí nghiệm đặt tại tầng trên cùng. Sau nhiều thập kỷ vận hành, cơ sở đã ghi nhận nhiều tổn hại kết cấu nghiêm trọng, dẫn đến quyết định di dời toàn bộ học sinh để đảm bảo an toàn.</p>
+
+        <h2>2. Ghi nhận Hiện tượng Hư hỏng</h2>
+        <p>Mảng trần la-phông tại Tầng 2 bị bong tróc vỡ vụn, để lộ những ô trống tối om nối thẳng lên khoảng không mái tôn. Đồng thời, khu vực góc tường cầu thang bị xâm nhập nghiêm trọng bởi các vết mốc đen ngấm nước kéo dài.</p>
+
+        <div class="img-container">
+            <div class="img-card">
+                <img src="lonha.png" alt="Hành lang Khu C" id="imgCeiling" title="Nhấp để soi khoảng trống trần nhà...">
+                <div class="img-caption">Hình 1.1: Mảng trần hổng tại hành lang Tầng 2 Dãy C.</div>
+            </div>
+            <div class="img-card">
+                <img src="mocmeo.png" alt="Mảng mốc cầu thang" id="imgMold" title="Nhấp để soi vết mốc đen...">
+                <div class="img-caption">Hình 1.2: Vết mốc đen xâm nhập khu vực cầu thang.</div>
+            </div>
+        </div>
+
+        <h2>3. Biên bản Khảo sát Dân cư Xung quanh</h2>
+        <p><i>Trích biên bản phỏng vấn thực địa người dân sống cạnh dãy nhà C (Thực hiện năm 2006):</i></p>
+
+        <div class="acrostic-box">
+            <p><span class="acrostic-highlight">D</span>ãy nhà bỏ hoang này tầm nửa đêm là bắt đầu nghe thấy mấy tiếng động lạ lắm chú ơi.</p>
+            <p><span class="acrostic-highlight">U</span>u phiền nhất là mấy hôm mưa bão, nước ngấm đen hết cả mảng tường bên hông.</p>
+            <p><span class="acrostic-highlight">O</span>ng bướm hay chuột bọ dạo đó cũng không thấy xuất hiện gần khu vực này nữa.</p>
+            <p><span class="acrostic-highlight">I</span>m lìm được một lúc thì lại nghe như có tiếng bước chân kéo lê trên tầng ba.</p>
+            <br>
+            <p><span class="acrostic-highlight">T</span>ôi có báo bảo vệ vài lần nhưng đêm đến người ta cũng chẳng dám vào kiểm tra.</p>
+            <p><span class="acrostic-highlight">R</span>õ ràng là có tiếng cào sột soạt kéo dài dọc theo đường ống dẫn nước.</p>
+            <p><span class="acrostic-highlight">A</span>i đi ngang qua đây lúc rạng sáng cũng đều phải rảo bước đi thật nhanh.</p>
+            <p><span class="acrostic-highlight">N</span>hìn từ bên ngoài vào chỉ thấy ánh đèn hành lang cứ chập chờn rồi tắt ngụm.</p>
+            <br>
+            <p><span class="acrostic-highlight">N</span>gười dân quanh đây đồn nhau có thứ gì đó đang bò ngoằn ngoèo trong bóng tối.</p>
+            <p><span class="acrostic-highlight">H</span>ễ mỗi lần có tiếng thạch cao vỡ rơi xuống sàn là tiếng cào lại dừng lại.</p>
+            <p><span class="acrostic-highlight">A</span>i đời nhà cửa dột nát thế mà thứ đó vẫn nằm ẩn nấp cố định một chỗ.</p>
+        </div>
+
+        <h2>4. Tra cứu Dữ liệu Lưu trữ Mở rộng</h2>
+        <p><i>Lưu ý: Tra cứu dữ liệu chuyên sâu yêu cầu nhập mật mã truy cập hợp lệ (Đã mã hóa).</i></p>
+
+        <div class="interactive-section">
+            <label style="font-weight: bold; font-size: 13px;">🔍 Hệ thống Truy vấn Hồ sơ Mở rộng:</label>
+            <div class="search-box">
+                <input type="text" id="searchInput" class="search-input" placeholder="Nhập mật mã truy cập bí mật..." autocomplete="off">
+                <button onclick="executeSearch()" class="search-btn">Xác minh / Truy vấn</button>
+            </div>
+            <div id="statusArea" style="margin-top: 10px; font-size: 13px;"></div>
+
+            <div class="secret-panel" id="secretPanel">
+                ==============================================================<br>
+                === BÁO CÁO MỞ RỘNG: MÃ "VIT3301" ĐÃ ĐƯỢC GIẢI MÃ ===<br>
+                ==============================================================<br><br>
+                [FILE NHẬT KÝ KHẢO SÁT #09-C]:<br>
+                Vật thể rò rỉ ở Tầng 2.5 không phải do sạt lở tự nhiên.<br>
+                Nó bò dọc theo đường ống nước kẹp giữa trần thạch cao Tầng 2 và sàn Tầng 3.<br><br>
+                👉 Mật mã xác minh bảo trì trên hệ thống chính là: <b>X89</b>.
+            </div>
+        </div>
     </div>
 
 <script>
@@ -231,26 +287,25 @@
         this.style.filter = "contrast(250%)";
     });
 
-    // NHẬP VIT3301 MỚI RA KẾT QUẢ
     function executeSearch() {
         const query = document.getElementById('searchInput').value.trim().toUpperCase().replace(/\s+/g, '');
         const statusArea = document.getElementById('statusArea');
         const secretPanel = document.getElementById('secretPanel');
 
         if (!query) {
-            statusArea.innerHTML = "<span style='color: red;'>Vui lòng nhập từ khóa để tìm kiếm!</span>";
+            statusArea.innerHTML = "<span style='color: #e53e3e;'>Vui lòng nhập từ khóa / mật mã để tìm kiếm!</span>";
             return;
         }
 
         secretPanel.style.display = 'none';
-        statusArea.innerHTML = "<span class='loader-spinner'></span> Đang kết nối máy chủ và tìm kiếm dữ liệu...";
+        statusArea.innerHTML = "<span class='loader-spinner'></span> Đang kết nối máy chủ lưu trữ và truy xuất dữ liệu...";
 
         setTimeout(function() {
             if (query === "VIT3301") {
-                statusArea.innerHTML = "<span style='color: green; font-weight: bold;'>[✓] Tìm thấy 1 kết quả lưu trữ ẩn!</span>";
+                statusArea.innerHTML = "<span style='color: #38a169; font-weight: bold;'>[✓] Xác thực thành công! Đã giải mã 1 bản ghi lưu trữ ẩn.</span>";
                 secretPanel.style.display = 'block';
             } else {
-                statusArea.innerHTML = "<span style='color: #d93025; font-weight: bold;'>⚠️ Xin lỗi, hệ thống đang gặp trục trặc kỹ thuật hoặc không tìm thấy dữ liệu liên quan.</span>";
+                statusArea.innerHTML = "<span style='color: #e53e3e; font-weight: bold;'>⚠️ Truy cập bị từ chối: Mật mã không hợp lệ hoặc dữ liệu không tồn tại.</span>";
             }
         }, 3000);
     }
@@ -258,3 +313,9 @@
 
 </body>
 </html>
+"""
+
+with open("baocao.html", "w", encoding="utf-8") as f:
+    f.write(html_content)
+
+print("Đã tạo file baocao.html thành công!")
