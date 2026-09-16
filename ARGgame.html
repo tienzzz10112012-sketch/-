@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CAUSALITY_MATRIX.EXE - Windows XP</title>
+    <style>
+        * { box-sizing: border-box; user-select: none; }
+        body {
+            margin: 0; padding: 0;
+            background-color: #5a7edc; /* Màu nền desktop XP */
+            background-image: radial-gradient(circle, #5a7edc 0%, #294a9c 100%);
+            font-family: 'Tahoma', 'Segoe UI', Geneva, sans-serif;
+            display: flex; justify-content: center; align-items: center;
+            min-height: 100vh; overflow: hidden;
+        }
+
+        /* KHUNG CỬA SỔ WINDOWS XP */
+        .xp-window {
+            width: 95%; max-width: 520px;
+            background-color: #ece9d8;
+            border: 3px solid #0054e3;
+            border-radius: 8px 8px 0 0;
+            box-shadow: 4px 4px 20px rgba(0,0,0,0.5);
+            overflow: hidden;
+        }
+
+        /* THANH TIÊU ĐỀ BLUE LUNA */
+        .xp-titlebar {
+            background: linear-gradient(to bottom, #0058ee 0%, #3593ff 4%, #288eff 6%, #0058ee 8%, #0052de 14%, #0056e5 18%, #0056e5 20%, #0057e7 93%, #0042b7 100%);
+            padding: 4px 8px; color: #ffffff; font-weight: bold; font-size: 12px;
+            text-shadow: 1px 1px 1px #000;
+            display: flex; justify-content: space-between; align-items: center;
+            height: 30px;
+        }
+
+        .xp-title-text {
+            display: flex; align-items: center; gap: 6px;
+        }
+
+        .xp-controls {
+            display: flex; gap: 2px;
+        }
+
+        .xp-btn-close {
+            width: 21px; height: 21px; background: #e04322;
+            border: 1px solid #fff; border-radius: 3px; color: #fff;
+            font-weight: bold; font-size: 11px; cursor: pointer;
+            display: flex; justify-content: center; align-items: center;
+            box-shadow: inset 1px 1px 0px rgba(255,255,255,0.5);
+        }
+        .xp-btn-close:active { background: #c02302; }
+
+        /* NỘI DUNG BÊN TRONG */
+        .xp-body {
+            padding: 12px; font-size: 11px; color: #000;
+        }
+
+        .xp-groupbox {
+            border: 1px solid #d0d0c0; background-color: #fff;
+            padding: 10px; border-radius: 3px; margin-bottom: 10px;
+            box-shadow: inset 1px 1px 2px rgba(0,0,0,0.1);
+        }
+
+        .xp-info-text {
+            font-size: 11px; color: #333; margin-bottom: 8px; line-height: 1.3;
+        }
+
+        /* MA TRẬN BÀN CHƠI */
+        .matrix-grid {
+            display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px;
+            background-color: #ece9d8; padding: 4px; border: 2px inset #fff;
+        }
+
+        .tile {
+            height: 65px; background: linear-gradient(to bottom, #ffffff 0%, #ece9d8 100%);
+            border: 2px outset #ffffff; border-radius: 3px;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            cursor: pointer; font-family: 'Tahoma', sans-serif;
+        }
+        .tile:active { border-style: inset; background: #e0e0d0; }
+
+        .tile-sym { font-size: 20px; font-weight: bold; color: #000080; }
+        .tile-pos { font-size: 9px; color: #666; margin-top: 2px; }
+
+        .tile.ripple-effect {
+            animation: xpFlash 0.3s ease;
+        }
+
+        @keyframes xpFlash {
+            0% { background: #316ac5; color: #fff; }
+            100% { background: #ffffff; color: #000080; }
+        }
+
+        /* KHUNG TERMINAL RETRO LOG */
+        .xp-log {
+            background-color: #000; color: #00ff00;
+            font-family: 'Courier New', monospace; font-size: 11px;
+            padding: 8px; border: 2px inset #777; height: 90px;
+            overflow-y: auto; line-height: 1.3;
+        }
+
+        .xp-statusbar {
+            background: #ece9d8; border-top: 1px solid #aca899;
+            padding: 3px 8px; font-size: 11px; color: #444;
+            display: flex; justify-content: space-between;
+        }
+
+        .win-banner {
+            display: none; background: #d4edda; border: 1px solid #c3e6cb;
+            color: #155724; padding: 10px; border-radius: 3px; margin-bottom: 10px;
+            font-size: 12px; text-align: center; font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<div class="xp-window">
+    <div class="xp-titlebar">
+        <div class="xp-title-text">
+            <span>⚙️ CAUSALITY_MATRIX.EXE - [TẦNG 2.5 RESTRICTED]</span>
+        </div>
+        <div class="xp-controls">
+            <button class="xp-btn-close" onclick="window.location.href='baocao.html'">✕</button>
+        </div>
+    </div>
+
+    <div class="xp-body">
+        <div id="winBanner" class="win-banner">
+            🎉 CHIẾN THẮNG! Bạn đã giải mã triệt để ma trận Nhân Quả Tầng 2.5!
+        </div>
+
+        <div class="xp-groupbox">
+            <div class="xp-info-text">
+                <b>HỆ THỐNG GIẢI MÃ NHÂN QUẢ (WINDOWS XP EDITION)</b><br>
+                Triệt hạ toàn bộ Entropy bằng cách đưa 16 ô dữ liệu về mã <b>[ Ø ]</b>.
+            </div>
+            
+            <div class="matrix-grid" id="grid"></div>
+        </div>
+
+        <div class="xp-log" id="log">
+            > Windows XP Kernel Loaded...<br>
+            > Initializing Causality Matrix 4x4...<br>
+            > CẢNH BÁO: Mọi tác động đều tạo ra gợn sóng nhân quả vô hình.
+        </div>
+    </div>
+
+    <div class="xp-statusbar">
+        <span id="stepCount">Lượt bấm: 0</span>
+        <span>Trạng thái: Đang giải mã...</span>
+    </div>
+</div>
+
+<script>
+    const GRID_SIZE = 4;
+    const SYMBOLS = ['Ø', 'Ι', 'ΙΙ', 'ΙΙΙ', 'ΙV', 'V'];
+    let board = [];
+    let steps = 0;
+
+    function initBoard() {
+        board = [];
+        steps = 0;
+        for (let r = 0; r < GRID_SIZE; r++) {
+            board[r] = [];
+            for (let c = 0; c < GRID_SIZE; c++) {
+                board[r][c] = Math.floor(Math.random() * 5) + 1;
+            }
+        }
+        render();
+    }
+
+    function render() {
+        const gridElem = document.getElementById('grid');
+        gridElem.innerHTML = '';
+
+        for (let r = 0; r < GRID_SIZE; r++) {
+            for (let c = 0; c < GRID_SIZE; c++) {
+                const val = board[r][c];
+                const tile = document.createElement('div');
+                tile.className = 'tile';
+                tile.id = `tile-${r}-${c}`;
+                tile.innerHTML = `
+                    <div class="tile-sym">${SYMBOLS[val]}</div>
+                    <div class="tile-pos">[${r},${c}]</div>
+                `;
+                tile.onclick = () => handleTileClick(r, c);
+                gridElem.appendChild(tile);
+            }
+        }
+        document.getElementById('stepCount').innerText = `Lượt bấm: ${steps}`;
+    }
+
+    function handleTileClick(targetR, targetC) {
+        steps++;
+        const impactRadius = board[targetR][targetC];
+        addLog(`> Tác động [${targetR},${targetC}] | Bán kính: ${impactRadius}`);
+
+        for (let r = 0; r < GRID_SIZE; r++) {
+            for (let c = 0; c < GRID_SIZE; c++) {
+                const distance = Math.abs(r - targetR) + Math.abs(c - targetC);
+                if (distance === impactRadius || (r === targetR && c === targetC)) {
+                    board[r][c] = (board[r][c] + r + c + 1) % 6;
+                    
+                    setTimeout(() => {
+                        const el = document.getElementById(`tile-${r}-${c}`);
+                        if (el) el.classList.add('ripple-effect');
+                    }, 50);
+                }
+            }
+        }
+
+        render();
+        checkVictory();
+    }
+
+    function addLog(msg) {
+        const logBox = document.getElementById('log');
+        logBox.innerHTML += `<br>${msg}`;
+        logBox.scrollTop = logBox.scrollHeight;
+    }
+
+    function checkVictory() {
+        let isWin = true;
+        for (let r = 0; r < GRID_SIZE; r++) {
+            for (let c = 0; c < GRID_SIZE; c++) {
+                if (board[r][c] !== 0) {
+                    isWin = false;
+                    break;
+                }
+            }
+        }
+
+        if (isWin) {
+            document.getElementById('winBanner').style.display = 'block';
+            addLog('> MA TRẬN ĐÃ GIẢI MÃ HOÀN TOÀN!');
+        }
+    }
+
+    initBoard();
+</script>
+</body>
+</html>
