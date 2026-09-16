@@ -30,6 +30,7 @@
             text-align: center;
             font-weight: bold;
             font-size: 14px;
+            line-height: 1.3;
             cursor: pointer;
             user-select: none;
         }
@@ -121,7 +122,7 @@
             80%, 100% { content: ' . . . .'; }
         }
 
-        /* TRANG BÍ MẬT CICADA CON VỊT */
+        /* TRANG BÍ MẬT CICADA CON VỊT (TÍNH NĂNG MỚI THÊM) */
         #cicadaPage {
             display: none;
             position: fixed;
@@ -239,6 +240,10 @@
                 <p style="font-size: 15px; font-weight: bold; color: #000;" class="loading-dots">
                     Hệ thống đang trích xuất dữ liệu hồ sơ
                 </p>
+                <p style="font-size: 12px; color: #555; margin-top: 8px;">
+                    Dữ liệu hình ảnh và nhật ký thực địa Tầng 2.5 đang được xử lý.<br>
+                    Toàn bộ tập tin nén sẽ tự động giải mã khi đồng hồ đếm ngược kết thúc!
+                </p>
             </div>
         </div>
 
@@ -246,20 +251,32 @@
         <div id="stepUnlocked" class="hidden">
             <h3 style="color: #800000; text-align: center; margin-top:0;">[ HỒ SƠ THỰC ĐỊA BỊ PHONG ẤN - TẦNG 2.5 ]</h3>
             <hr>
-            <p style="color: #008000; font-weight: bold;">[✓] GIẢI MÃ HOÀN TẤT.</p>
+            <p style="color: #008000; font-weight: bold;">[✓] GIẢI MÃ HOÀN TẤT. DỮ LIỆU ĐÃ ĐƯỢC BẢO MẬT MỞ KHÓA.</p>
             <br>
             <p><b>BẢN GHI HÌNH CẬN CẢNH TRẦN NHÀ TẦNG 2:</b></p>
             <div style="background: #000; color: #fff; text-align: center; padding: 30px 10px; border: 2px dashed #ff0000; margin: 10px 0;">
-                [ HÌNH ẢNH TRẦN NHÀ TẦNG 2 ]
+                [ KHU VỰC CHÈN HÌNH CHỤP THỰC TẾ TRẦN NHÀ TẦNG 2 ]
             </div>
+            <div class="hint-box">
+                <b>[TRÍCH XUẤT NHẬT KÝ SỰ CỐ - KHỐI 9]:</b><br>
+                - <i>23:15</i>: Phát hiện dấu vết di chuyển bất thường trên trần thạch cao Tầng 2.<br>
+                - <i>Đối tượng liên quan:</i> Nghi vấn nhóm học sinh <b>Lê Trường Thịnh</b> & <b>Nguyễn Minh Tiến</b> (Lớp 9A3) xuất hiện gần khu vực rò rỉ.<br>
+                - <i>Cán bộ niêm phong xác nhận:</i> <b>Nguyễn Quốc Nguyên</b>, <b>Lê Hoàng Long</b>, <b>Nguyễn Hoàng Huy</b> (Lớp 9A6).
+            </div>
+            <br>
+            <p style="text-align: center; font-size: 11px; color: #555;">--- BÁO CÁO HOÀN TẤT - HỆ THỐNG ĐÃ GHI NHẬN DANH TÍNH CỦA BẠN ---</p>
         </div>
+    </div>
+
+    <div style="text-align: center; font-size: 11px; color: #ffffff; margin-top: 10px;">
+        Bản quyền © 2006 Trường THPT X - Hệ thống Lưu trữ Nội bộ.
     </div>
 </div>
 
-<!-- TRANG BÍ MẬT CICADA CON VỊT (KHI NHẬP DUOITRANNHA) -->
+<!-- TRANG BÍ MẬT CICADA CON VỊT -->
 <div id="cicadaPage">
     <div style="font-size: 20px; color: #ff3333; font-weight: bold;">[ ⚠️ WOOPS! YOU HAVE GONE TOO DEEP... ]</div>
-    <div style="font-size: 13px; color: #aaa; margin-top: 5px;">Xin lỗi! Bạn vừa vượt quá giới hạn truy cập cho phép của hệ thống.</div>
+    <div style="font-size: 13px; color: #aaa; margin-top: 5px;">Có vẻ như bạn đã bò quá sâu vào khoảng trống trần nhà...</div>
     
     <div class="duck-ascii">
           __
@@ -269,9 +286,9 @@
     </div>
 
     <div style="max-width: 500px; margin: 0 auto; text-align: left; font-size: 13px; line-height: 1.6; border: 1px dashed #00ff00; padding: 15px;">
-        <p style="color: #ffff00;">> Chúc mừng người giải mã! Bạn đã tìm ra đường hầm bí mật "DƯỚI TRẦN NHÀ".</p>
+        <p style="color: #ffff00;">> Chúc mừng người giải mã! Bạn đã nhập mã "DƯỚI TRẦN NHÀ".</p>
         <p>> Con vịt này bảo vệ khoảng trống Tầng 2.5 khỏi những kẻ tò mò.</p>
-        <p style="color: #00ffff;">> Thông điệp gửi đến bạn: "Có những thứ tốt nhất nên nằm yên dưới lớp thạch cao..."</p>
+        <p style="color: #00ffff;">> Thông điệp: "Có những thứ tốt nhất nên nằm yên dưới lớp thạch cao..."</p>
     </div>
     <br>
     <button onclick="location.reload()" style="background: #00ff00; color: #000; border: none; padding: 10px 20px; font-weight: bold; cursor: pointer; font-family: monospace;">[ QUAY LẠI TRANG CHỦ ]</button>
@@ -304,13 +321,65 @@
         } catch(e){}
     }
 
+    function playCreepySound() {
+        try {
+            initAudio(); if (audioCtx.state === 'suspended') audioCtx.resume();
+            const osc = audioCtx.createOscillator(); const gain = audioCtx.createGain();
+            osc.type = 'sawtooth'; osc.frequency.setValueAtTime(50, audioCtx.currentTime);
+            osc.frequency.linearRampToValueAtTime(300, audioCtx.currentTime + 0.8);
+            gain.gain.setValueAtTime(0.5, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 1.2);
+            osc.connect(gain); gain.connect(audioCtx.destination);
+            osc.start(); osc.stop(audioCtx.currentTime + 1.2);
+        } catch(e){}
+    }
+
+    let isIdle = false; let idleTimer = null;
+    function resetIdleTimer() {
+        isIdle = false; clearTimeout(idleTimer);
+        idleTimer = setTimeout(function() {
+            isIdle = true; playCreepySound();
+            document.body.classList.add("glitch-bg");
+            setTimeout(function() { document.body.classList.remove("glitch-bg"); }, 300);
+        }, 15000);
+    }
+
+    window.onload = resetIdleTimer; document.onmousemove = resetIdleTimer;
+    document.onmousedown = resetIdleTimer; document.ontouchstart = resetIdleTimer;
+    document.onclick = resetIdleTimer; document.onkeypress = resetIdleTimer; document.onscroll = resetIdleTimer;
+
     let headerClickCount = 0;
     function clickHeaderEgg() {
         headerClickCount++; playRetroClick();
         if (headerClickCount >= 5) document.getElementById("headerSecretEgg").classList.remove("hidden");
     }
 
-    // NHẬP MÃ BƯỚC 1
+    const targetDate = new Date("2026-09-17T00:00:00+07:00").getTime();
+    let isTimerFinished = false; let isUserVerified = false;
+
+    const timerInterval = setInterval(function() {
+        const now = new Date().getTime(); const distance = targetDate - now;
+        if (distance > 0) {
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            if (isIdle) {
+                document.getElementById("countdownDisplay").innerHTML = "<span style='color:#ff0000;'>NÓ ĐANG Ở TRÊN TRẦN NHÀ BẠN...</span>";
+            } else {
+                document.getElementById("countdownDisplay").innerHTML = days + "N " + hours + "G " + minutes + "P " + seconds + "S";
+            }
+        } else {
+            clearInterval(timerInterval); isTimerFinished = true;
+            document.getElementById("countdownDisplay").innerHTML = "ĐÃ HẾT GIỜ - DỮ LIỆU ĐÃ MỞ KHÓA!";
+            if (isUserVerified) {
+                document.getElementById("stepWaiting").classList.add("hidden");
+                document.getElementById("stepUnlocked").classList.remove("hidden");
+            }
+        }
+    }, 1000);
+
+    // XỬ LÝ NHẬP MÃ BƯỚC 1 (X89 BÌNH THƯỜNG / DUOITRANNHA THÌ VÀO TRANG VỊT)
     function verifyStaff() {
         const code = document.getElementById("staffCode").value.trim().toUpperCase().replace(/\s+/g, '');
         
@@ -334,22 +403,69 @@
         document.getElementById("cloakHintBox").classList.toggle("hidden");
     }
 
-    // NHẬP MẬT KHẨU BƯỚC 2 (PHẢI LÀ KHOA)
+    // XỬ LÝ MẬT KHẨU BƯỚC 2 (KHOA)
+    let failAttempts = 0;
     function verifyFinal() {
         const name = document.getElementById("staffName").value.trim();
         const className = document.getElementById("staffClass").value.trim();
         const pass = document.getElementById("zaloPass").value.trim().toUpperCase();
         const err2 = document.getElementById("err2");
+        const horrorBox = document.getElementById("horrorEggBox");
+
+        if (pass === "6666" || pass === "CHET" || pass === "MA") {
+            playCreepySound();
+            document.body.classList.add("glitch-bg");
+            setTimeout(function() { document.body.classList.remove("glitch-bg"); }, 500);
+            horrorBox.innerHTML = "<b>[CẢNH BÁO TỪ NĂM 2006]:</b> ĐỪNG TÌM KIẾM TẦNG 2.5 NỮA... CÁC CÁN BỘ BẢO TRÌ ĐÃ KHÔNG THỂ RỜI KHỎI ĐÓ!";
+            horrorBox.classList.remove("hidden");
+            return;
+        } else {
+            horrorBox.classList.add("hidden");
+        }
 
         if (pass === "KHOA") {
             playRetroClick();
             err2.classList.add("hidden");
-            document.getElementById("displayName").innerText = name + (className ? " (" + className + ")" : "");
+            
+            let fullInfo = (name !== "" ? name : "Cán bộ ẩn danh") + (className !== "" ? " (" + className + ")" : "");
+            document.getElementById("displayName").innerText = fullInfo;
+
+            const lowerName = name.toLowerCase();
+            const lowerClass = className.toLowerCase();
+            const eggBox = document.getElementById("customEasterEgg");
+            
+            let eggMsg = "";
+            if (lowerName.includes("tiến") || lowerName.includes("tien")) eggMsg += "<b>[CẢNH BÁO]:</b> Phát hiện vân tay trùng khớp của <b>Nguyễn Minh Tiến (9A3)</b> trên tấm thạch cao Tầng 2!<br>";
+            if (lowerName.includes("thịnh") || lowerName.includes("thinh")) eggMsg += "<b>[GHI CHÚ]:</b> <b>Lê Trường Thịnh (9A3)</b> có tên trong danh sách bị cảnh cáo sự cố Tầng 2.<br>";
+            if (lowerName.includes("nguyên") || lowerName.includes("long") || lowerName.includes("huy")) eggMsg += "<b>[NHẬN DẠNG]:</b> Xác nhận Cán bộ giám sát Tầng 2 thuộc tổ đội Khối 9 (9A6).<br>";
+            if (lowerName.includes("ma") || lowerName.includes("quỷ")) eggMsg += "<b>[ẢO GIÁC]:</b> Hệ thống ghi nhận có bóng người đứng đằng sau lưng bạn...<br>";
+            if (lowerClass.includes("9a3")) eggMsg += "<b>[LỚP 9A3]:</b> Phòng học có vị trí tiếp giáp gần nhất với khu vực rò rỉ Tầng 2.5.";
+            else if (lowerClass.includes("9a6")) eggMsg += "<b>[LỚP 9A6]:</b> Đội ngũ cán bộ niêm phong hồ sơ sự cố 2006.";
+
+            if (eggMsg !== "") {
+                eggBox.innerHTML = eggMsg;
+                eggBox.classList.remove("hidden");
+            }
+
             document.getElementById("step2").classList.add("hidden");
-            document.getElementById("stepWaiting").classList.remove("hidden");
+            isUserVerified = true;
+
+            if (!isTimerFinished) {
+                document.getElementById("stepWaiting").classList.remove("hidden");
+            } else {
+                document.getElementById("stepUnlocked").classList.remove("hidden");
+            }
         } else {
+            failAttempts++;
             playErrorSound();
-            err2.innerText = "Mật khẩu không chính xác! Mở Áo Choàng Bảo Hộ để xem hướng dẫn.";
+            if (failAttempts >= 3) {
+                playCreepySound();
+                document.body.classList.add("glitch-bg");
+                setTimeout(function() { document.body.classList.remove("glitch-bg"); }, 300);
+                err2.innerText = "CẢNH BÁO: BẠN ĐÃ NHẬP SAI QUÁ 3 LẦN. CÓ TIẾNG CÀO TỪ TRẦN NHÀ TẦNG 2...";
+            } else {
+                err2.innerText = "Mật khẩu không chính xác! Hãy mở Áo Choàng Bảo Hộ để xem hướng dẫn lấy mật khẩu.";
+            }
             err2.classList.remove("hidden");
         }
     }
