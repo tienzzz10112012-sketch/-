@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trường THPT Khu C – Bách khoa toàn thư mở Wikipedia</title>
+    <style>
+        :root {
+            --wiki-bg: #ffffff;
+            --wiki-text: #202122;
+            --wiki-link: #36c;
+            --wiki-border: #a2a9b1;
+            --wiki-box-bg: #f8f9fa;
+        }
+
+        body {
+            background-color: var(--wiki-bg);
+            color: var(--wiki-text);
+            font-family: sans-serif, Arial, Helvetica;
+            margin: 0;
+            padding: 20px 12%;
+            line-height: 1.6;
+            font-size: 14px;
+        }
+
+        .wiki-header {
+            border-bottom: 1px solid var(--wiki-border);
+            padding-bottom: 5px;
+            margin-bottom: 20px;
+        }
+        .wiki-title {
+            font-family: 'Linux Libertine','Georgia','Times',serif;
+            font-size: 28px;
+            font-weight: normal;
+            margin: 0;
+        }
+        .wiki-subtitle {
+            font-size: 12px;
+            color: #54595d;
+        }
+
+        .infobox {
+            float: right;
+            width: 290px;
+            background-color: var(--wiki-box-bg);
+            border: 1px solid var(--wiki-border);
+            padding: 8px;
+            margin: 0 0 15px 20px;
+            font-size: 12px;
+        }
+        .infobox-title {
+            background-color: #ced3d8;
+            text-align: center;
+            font-weight: bold;
+            padding: 6px;
+            font-size: 13px;
+        }
+        .infobox-image {
+            text-align: center;
+            margin: 8px 0;
+        }
+        .infobox-image img {
+            max-width: 100%;
+            height: auto;
+            cursor: pointer;
+            border: 1px solid #ccc;
+        }
+        .infobox-caption {
+            font-size: 11px;
+            color: #555;
+            text-align: center;
+        }
+
+        .toc {
+            background-color: var(--wiki-box-bg);
+            border: 1px solid var(--wiki-border);
+            padding: 10px;
+            display: inline-block;
+            min-width: 220px;
+            margin: 15px 0;
+            font-size: 13px;
+        }
+        .toc-title {
+            font-weight: bold;
+            text-align: center;
+        }
+        .toc ul {
+            list-style-type: none;
+            padding-left: 15px;
+            margin: 5px 0;
+        }
+        .toc a {
+            color: var(--wiki-link);
+            text-decoration: none;
+        }
+
+        h2 {
+            font-family: 'Linux Libertine','Georgia','Times',serif;
+            font-size: 19px;
+            border-bottom: 1px solid var(--wiki-border);
+            padding-bottom: 3px;
+            margin-top: 35px;
+        }
+
+        .corrupted-img {
+            filter: grayscale(100%) contrast(110%);
+            transition: filter 0.4s;
+        }
+        .corrupted-img:hover {
+            filter: grayscale(100%) contrast(180%) brightness(70%);
+        }
+
+        /* MẬT MÃ BÍ MẬT KHI GIẢI XONG */
+        .secret-panel {
+            display: none;
+            background: #111;
+            color: #00ff66;
+            font-family: monospace;
+            padding: 20px;
+            margin-top: 40px;
+            border-left: 4px solid #ff3333;
+        }
+
+        .code-input-box {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f0f4f8;
+            border: 1px dashed #a2a9b1;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="wiki-header">
+        <h1 class="wiki-title">Trường THPT Khu C (Cơ sở cũ)</h1>
+        <div class="wiki-subtitle">Bách khoa toàn thư mở Wikipedia</div>
+    </div>
+
+    <!-- INFOBOX -->
+    <div class="infobox">
+        <div class="infobox-title">Trường THPT Khu C</div>
+        <div class="infobox-image">
+            <img src="lonha.png" alt="Hành lang Khu C" class="corrupted-img" id="imgCeiling" title="Soi khoảng trống trần nhà...">
+            <div class="infobox-caption">Hành lang tầng 2 dãy C chụp trong đợt khảo sát cơ sở vật chất.</div>
+        </div>
+        <table style="width:100%; font-size:11px; line-height:1.8;">
+            <tr><td><b>Vị trí:</b> Dãy nhà C cũ</td></tr>
+            <tr><td><b>Trạng thái:</b> Đã niêm phong</td></tr>
+            <tr><td><b>Năm lập:</b> 1992</td></tr>
+        </table>
+    </div>
+
+    <p><b>Trường THPT Khu C</b> là cơ sở giáo dục trung học đã ngừng hoạt động, từng thuộc quản lý của khu vực phía Bắc. Trường nổi tiếng với kiến trúc khối nhà nhiều tầng cổ điển và hệ thống hành lang kéo dài. Sau hơn ba thập kỷ vận hành, cơ sở đã ghi nhận nhiều tổn hại kết cấu nghiêm trọng dẫn đến quyết định di dời toàn bộ học sinh.</p>
+
+    <!-- TOC -->
+    <div class="toc">
+        <div class="toc-title">Mục lục</div>
+        <ul>
+            <li><a href="#lichsu">1 Lịch sử hình thành</a></li>
+            <li><a href="#suco">2 Các hiện tượng hư hỏng</a></li>
+            <li><a href="#khaosat">3 Nhật ký khảo sát địa bàn</a></li>
+            <li><a href="#giaima">4 Xác minh mã truy cập</a></li>
+        </ul>
+    </div>
+
+    <h2 id="lichsu">1. Lịch sử hình thành</h2>
+    <p>Cơ sở được cấp phép xây dựng vào đầu thập niên 90 nhằm phục vụ nhu cầu gia tăng học sinh tại địa phương. Toàn bộ khu nhà gồm 3 dãy riêng biệt kết nối bằng đường hành lang lộ thiên. Ban đầu, Dãy C được thiết kế làm khu vực học tập trọng điểm với các phòng thí nghiệm tầng trên cùng.</p>
+    <p>Tuy nhiên, do ảnh hưởng thời tiết và các trận mưa lớn, công trình bắt đầu xuất hiện dấu hiệu xuống cấp từ những năm giữa thập niên 2010. Việc bảo trì bị hoãn nhiều lần do thiếu kinh phí dự phòng.</p>
+
+    <h2 id="suco">2. Các hiện tượng hư hỏng</h2>
+    <p>Theo tài liệu lưu trữ, quá trình xuống cấp diễn ra nhanh chóng tại Dãy C. Mảng trần la-phông bị bong tróc vỡ vụn, để lộ những ô trống tối om nối thẳng lên khoảng không mái tôn. Đồng thời, khu vực góc tường cầu thang bị xâm nhập bởi các vết mốc đen ngấm nước kéo dài.</p>
+
+    <div style="text-align: center; margin: 25px 0;">
+        <img src="mocmeo.png" alt="Mảng mốc cầu thang" class="corrupted-img" id="imgMold" style="max-width: 320px;" title="Soi vết mốc đen...">
+        <div style="font-size: 11px; color: #555;">Hình 2.1: Mảng mốc đen lan rộng từ góc tường cầu thang nối lên trần nhà.</div>
+    </div>
+
+    <h2 id="khaosat">3. Nhật ký khảo sát địa bàn</h2>
+    <p><i>Ghi chú: Đoạn dưới đây trích nguyên văn từ sổ nhật ký của tổ bảo trì. Xin đọc kỹ từng câu văn để phục vụ quá trình tổng hợp báo cáo.</i></p>
+
+    <!-- CÁC CÂU GIẤU MẬT MÃ - VIẾT HOA ĐẦU CÂU GHÉP LẠI RA CHỮ: "DUOI TRAN NHA" -->
+    <div style="background: #f9f9f9; padding: 15px; border-left: 3px solid #36c; margin: 15px 0;">
+        <p><b>D</b>ãy hành lang tầng hai chìm trong im lặng khi đoàn khảo sát bắt đầu làm việc.</p>
+        <p><b>U</b>u thế thuộc về những mảng tối khi ánh đèn tuýp liên tục chập chập chập chờn.</p>
+        <p><b>O</b>ng bướm hay côn trùng đều không xuất hiện ở khu vực góc tường ngấm nước này.</p>
+        <p><b>I</b>m lìm đến mức người ta có thể nghe rõ tiếng nước nhỏ giọt ngắt quãng từng hồi.</p>
+        <br>
+        <p><b>T</b>rần nhà bị thủng một khoảng lớn làm lộ ra khoảng trống hoàn toàn đen thẫm.</p>
+        <p><b>R</b>ất nhiều lần cán bộ kiểm tra cảm thấy như có luồng gió lạnh thổi qua cổ.</p>
+        <p><b>A</b>i đó đã quên tắt chiếc quạt trần phía cuối dãy dù điện đã ngắt từ lâu.</p>
+        <p><b>N</b>hững bóng đen dài ngoằng đổ gập xuống mặt sàn gạch hoa cũ kỹ.</p>
+        <br>
+        <p><b>N</b>gười ta nhận ra có tiếng bước chân kéo lê trên tầng ba trống rỗng.</p>
+        <p><b>H</b>ãy rời khỏi đây trước khi đồng hồ điểm đúng mốc thời gian một giờ sáng.</p>
+        <p><b>A</b>i đi qua đây cũng đều phải cẩn trọng nhìn lên khoảng không phía trên.</p>
+    </div>
+
+    <h2 id="giaima">4. Xác minh mã truy cập</h2>
+    <p>Nếu bạn đã phát hiện ra quy luật của các chữ cái đầu câu trong đoạn nhật ký khảo sát trên, hãy nhập đáp án (viết liền không dấu) vào ô bên dưới để mở khóa tập tin bảo mật tiếp theo:</p>
+
+    <div class="code-input-box">
+        <label><b>Nhập mật mã giải mật:</b> </label>
+        <input type="text" id="passInput" placeholder="Nhập đáp án tại đây..." style="padding: 5px; width: 200px;">
+        <button onclick="unlockData()" style="padding: 5px 12px; cursor: pointer;">Mở khóa</button>
+        <span id="errorMsg" style="color: red; margin-left: 10px; font-size: 12px;"></span>
+    </div>
+
+    <!-- TERMINAL BÍ MẬT HIỆN RA KHI NHẬP ĐÚNG -->
+    <div class="secret-panel" id="secretPanel">
+        [SYSTEM OVERRIDE SUCCESSFUL]<br>
+        ----------------------------------------------<br>
+        MÃ BẢO MẬT XÁC NHẬN: "DUOITRANNHA"<br>
+        ĐỊA DIỂM: Lỗ trần nhà dãy C - Tầng 2.<br>
+        GHI CHÚ QUAN TRỌNG: Thứ ở trên trần nhà không phải là mèo hay động vật hoang. Nó đang chờ người bước qua.<br>
+        ----------------------------------------------<br>
+        <b>>> TẬP TIN PAGE 3 ĐÃ ĐƯỢC KÍCH HOẠT.</b>
+    </div>
+
+<script>
+    // 1. Click ảnh lỗ trần
+    document.getElementById('imgCeiling').addEventListener('click', function() {
+        alert("BẠN SOI LỖ TRẦN: Khoảng trống trên trần nhà hoàn toàn tối om, hình như có thứ gì đó vừa thụt đầu vào!");
+        this.style.filter = "invert(100%)";
+    });
+
+    // 2. Click ảnh mốc
+    document.getElementById('imgMold').addEventListener('click', function() {
+        alert("BẠN SOI VẾT MỐC: Mảng mốc đen này tạo thành hình dạng giống một bàn tay đang bám vào tường!");
+        this.style.filter = "contrast(250%)";
+    });
+
+    // 3. Giải mật mã bằng ô Input
+    function unlockData() {
+        const input = document.getElementById('passInput').value.trim().toLowerCase();
+        // Mật mã là: duoitrannha (Viết hoa chữ đầu ghép lại: D-U-O-I T-R-A-N N-H-A)
+        if (input === "duoitrannha" || input === "dưới trần nhà") {
+            document.getElementById('secretPanel').style.display = 'block';
+            document.getElementById('errorMsg').innerText = "";
+            window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+        } else {
+            document.getElementById('errorMsg').innerText = "Mật mã không đúng! Hãy ghép các chữ CÁI VIẾT HOA ĐẦU CÂU lại.";
+        }
+    }
+</script>
+
+</body>
+</html>
