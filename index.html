@@ -14,7 +14,6 @@
             padding: 10px;
             display: flex;
             justify-content: center;
-            transition: all 0.5s ease;
         }
         .main-container {
             width: 100%;
@@ -23,7 +22,6 @@
             border: 3px ridge #ffffff;
             padding: 8px;
             box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-            transition: all 0.5s ease;
         }
         .header-bg {
             background-color: #000080;
@@ -32,7 +30,6 @@
             text-align: center;
             font-weight: bold;
             font-size: 14px;
-            line-height: 1.3;
             cursor: pointer;
             user-select: none;
         }
@@ -53,7 +50,6 @@
             padding: 12px;
             font-size: 14px;
             line-height: 1.4;
-            transition: all 0.5s ease;
         }
         .retro-btn {
             background-color: #D4D0C8;
@@ -112,45 +108,7 @@
         .hidden { display: none; }
         .red-text { color: #cc0000; font-weight: bold; }
         hr { border: 0; border-top: 1px inset #ffffff; margin: 10px 0; }
-        
         .glitch-bg { background-color: #800000 !important; }
-
-        /* THEME ĐỎ ĐEN KHI NHẬP DUOITRANNHA */
-        body.dark-horror {
-            background-color: #050000 !important;
-            color: #d1c4c4 !important;
-            font-family: 'Courier New', Courier, monospace !important;
-        }
-        body.dark-horror .main-container {
-            background-color: #120202 !important;
-            border: 2px solid #8b0000 !important;
-            box-shadow: 0 0 20px rgba(255, 0, 0, 0.4) !important;
-        }
-        body.dark-horror .header-bg {
-            background-color: #3b0000 !important;
-            color: #ff3333 !important;
-            border: 1px solid #ff0000 !important;
-        }
-        body.dark-horror .content-box {
-            background-color: #0a0101 !important;
-            border: 1px solid #5a0000 !important;
-            color: #ffaaaa !important;
-        }
-        body.dark-horror .retro-btn {
-            background-color: #4a0000 !important;
-            border: 1px solid #ff0000 !important;
-            color: #ffffff !important;
-        }
-        body.dark-horror .retro-input {
-            background-color: #1a0505 !important;
-            border: 1px solid #8b0000 !important;
-            color: #ffaaaa !important;
-        }
-        body.dark-horror .hint-box {
-            background-color: #1c0505 !important;
-            border: 1px dashed #8b0000 !important;
-            color: #e0aaaa !important;
-        }
 
         .loading-dots:after {
             content: ' .';
@@ -162,10 +120,35 @@
             60% { content: ' . . .'; }
             80%, 100% { content: ' . . . .'; }
         }
+
+        /* TRANG BÍ MẬT CICADA CON VỊT */
+        #cicadaPage {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background-color: #000000;
+            color: #00ff00;
+            font-family: 'Courier New', Courier, monospace;
+            padding: 20px;
+            box-sizing: border-box;
+            z-index: 99999;
+            overflow-y: auto;
+            text-align: center;
+        }
+        .duck-ascii {
+            font-size: 12px;
+            white-space: pre;
+            color: #ffff00;
+            line-height: 1.1;
+            margin: 20px 0;
+            display: inline-block;
+            text-align: left;
+        }
     </style>
 </head>
 <body>
 
+<!-- KHUNG TRANG CHÍNH BÌNH THƯỜNG -->
 <div class="main-container" id="mainContainer">
     <div class="header-bg" id="headerTitle" onclick="clickHeaderEgg()">
         HỆ THỐNG QUẢN LÝ LƯU TRỮ VÀ CƠ SỞ VẬT CHẤT<br>(PHIÊN BẢN 2.0.4 - 2006)
@@ -173,7 +156,7 @@
 
     <!-- EASTER EGG HEADER -->
     <div id="headerSecretEgg" class="easter-egg-box hidden" style="background-color: #000; color: #00ff00; font-family: monospace;">
-        [NHẬT KÝ BẢO TRÌ 2006]: Đã phát hiện vật thể không xác định bò từ ô thạch cao Tầng 2 hướng về phía khu vực phòng học 9A3...
+        [NHẬT KÝ BẢO TRÌ 2006]: Đã phát hiện vật thể không xác định bò từ ô thạch cao Tầng 2...
     </div>
 
     <!-- TIMER -->
@@ -207,7 +190,7 @@
 
         <!-- BƯỚC 2 -->
         <div id="step2" class="hidden">
-            <p style="color: #008000; font-weight: bold; margin-top:0;" id="successStep1Text">[✓] GIẢI MÃ MÃ BẢO TRÌ THÀNH CÔNG.</p>
+            <p style="color: #008000; font-weight: bold; margin-top:0;">[✓] GIẢI MÃ MÃ BẢO TRÌ THÀNH CÔNG.</p>
             <p>Vui lòng khai báo danh tính trước khi mở khóa phong ấn Tầng 2.5:</p>
             <hr>
             
@@ -225,8 +208,8 @@
             </div>
             <br>
             
-            <!-- ÁO CHOÀNG BẢO HỘ (GIỮ NGUYÊN) -->
-            <button class="retro-btn" style="background-color: #f4e8c1;" id="cloakBtn" onclick="toggleCloakHint()">
+            <!-- ÁO CHOÀNG BẢO HỘ -->
+            <button class="retro-btn" style="background-color: #f4e8c1;" onclick="toggleCloakHint()">
                 [ 🛟 ÁO CHOÀNG BẢO HỘ: CLICK XEM GỢI Ý ]
             </button>
             
@@ -244,59 +227,59 @@
             <div id="horrorEggBox" class="creepy-box hidden"></div>
         </div>
 
-        <!-- BƯỚC 3: MÀN HÌNH CHỜ -->
+        <!-- BƯỚC 3 -->
         <div id="stepWaiting" class="hidden">
-            <h3 style="color: #000080; margin-top:0;" id="waitTitle">XÁC NHẬN GIẢI MÃ THÀNH CÔNG</h3>
+            <h3 style="color: #000080; margin-top:0;">XÁC NHẬN GIẢI MÃ THÀNH CÔNG</h3>
             <hr>
             <p><b>Cán bộ kiểm tra:</b> <span id="displayName" style="font-weight: bold; color: #a00;"></span></p>
             <p><b>Trạng thái:</b> Mật khẩu phong ấn đã khớp.</p>
-            
             <div id="customEasterEgg" class="easter-egg-box hidden"></div>
             <br>
-            <div style="background-color: #ffffcc; border: 1px solid #ffcc00; padding: 12px; text-align: center;" id="loadingBox">
+            <div style="background-color: #ffffcc; border: 1px solid #ffcc00; padding: 12px; text-align: center;">
                 <p style="font-size: 15px; font-weight: bold; color: #000;" class="loading-dots">
                     Hệ thống đang trích xuất dữ liệu hồ sơ
                 </p>
-                <p style="font-size: 12px; color: #555; margin-top: 8px;">
-                    Dữ liệu hình ảnh và nhật ký thực địa Tầng 2.5 đang được xử lý.<br>
-                    Toàn bộ tập tin nén sẽ tự động giải mã khi đồng hồ đếm ngược kết thúc!
-                </p>
             </div>
         </div>
 
-        <!-- BƯỚC 4: HỒ SƠ UNLOCKED -->
+        <!-- BƯỚC 4 -->
         <div id="stepUnlocked" class="hidden">
             <h3 style="color: #800000; text-align: center; margin-top:0;">[ HỒ SƠ THỰC ĐỊA BỊ PHONG ẤN - TẦNG 2.5 ]</h3>
             <hr>
-            <p style="color: #008000; font-weight: bold;">[✓] GIẢI MÃ HOÀN TẤT. DỮ LIỆU ĐÃ ĐƯỢC BẢO MẬT MỞ KHÓA.</p>
+            <p style="color: #008000; font-weight: bold;">[✓] GIẢI MÃ HOÀN TẤT.</p>
             <br>
             <p><b>BẢN GHI HÌNH CẬN CẢNH TRẦN NHÀ TẦNG 2:</b></p>
-            
             <div style="background: #000; color: #fff; text-align: center; padding: 30px 10px; border: 2px dashed #ff0000; margin: 10px 0;">
-                [ KHU VỰC CHÈN HÌNH CHỤP THỰC TẾ TRẦN NHÀ TẦNG 2 ]
+                [ HÌNH ẢNH TRẦN NHÀ TẦNG 2 ]
             </div>
-
-            <div class="hint-box">
-                <b>[TRÍCH XUẤT NHẬT KÝ SỰ CỐ - KHỐI 9]:</b><br>
-                - <i>23:15</i>: Phát hiện dấu vết di chuyển bất thường trên trần thạch cao Tầng 2.<br>
-                - <i>Đối tượng liên quan:</i> Nghi vấn nhóm học sinh <b>Lê Trường Thịnh</b> & <b>Nguyễn Minh Tiến</b> (Lớp 9A3) xuất hiện gần khu vực rò rỉ.<br>
-                - <i>Cán bộ niêm phong xác nhận:</i> <b>Nguyễn Quốc Nguyên</b>, <b>Lê Hoàng Long</b>, <b>Nguyễn Hoàng Huy</b> (Lớp 9A6).
-            </div>
-
-            <br>
-            <p style="text-align: center; font-size: 11px; color: #555;">--- BÁO CÁO HOÀN TẤT - HỆ THỐNG ĐÃ GHI NHẬN DANH TÍNH CỦA BẠN ---</p>
         </div>
     </div>
+</div>
 
-    <div style="text-align: center; font-size: 11px; color: #ffffff; margin-top: 10px;">
-        Bản quyền © 2006 Trường THPT X - Hệ thống Lưu trữ Nội bộ.
+<!-- TRANG BÍ MẬT CICADA CON VỊT (KHI NHẬP DUOITRANNHA) -->
+<div id="cicadaPage">
+    <div style="font-size: 20px; color: #ff3333; font-weight: bold;">[ ⚠️ WOOPS! YOU HAVE GONE TOO DEEP... ]</div>
+    <div style="font-size: 13px; color: #aaa; margin-top: 5px;">Xin lỗi! Bạn vừa vượt quá giới hạn truy cập cho phép của hệ thống.</div>
+    
+    <div class="duck-ascii">
+          __
+        <(o )___
+         ( ._> /
+          `---'   [ CICADA 3301 - DUCK DIVISION ]
     </div>
+
+    <div style="max-width: 500px; margin: 0 auto; text-align: left; font-size: 13px; line-height: 1.6; border: 1px dashed #00ff00; padding: 15px;">
+        <p style="color: #ffff00;">> Chúc mừng người giải mã! Bạn đã tìm ra đường hầm bí mật "DƯỚI TRẦN NHÀ".</p>
+        <p>> Con vịt này bảo vệ khoảng trống Tầng 2.5 khỏi những kẻ tò mò.</p>
+        <p style="color: #00ffff;">> Thông điệp gửi đến bạn: "Có những thứ tốt nhất nên nằm yên dưới lớp thạch cao..."</p>
+    </div>
+    <br>
+    <button onclick="location.reload()" style="background: #00ff00; color: #000; border: none; padding: 10px 20px; font-weight: bold; cursor: pointer; font-family: monospace;">[ QUAY LẠI TRANG CHỦ ]</button>
 </div>
 
 <script>
     const AudioCtx = window.AudioContext || window.webkitAudioContext;
     let audioCtx = null;
-
     function initAudio() { if (!audioCtx) audioCtx = new AudioCtx(); }
 
     function playRetroClick() {
@@ -304,9 +287,7 @@
             initAudio(); if (audioCtx.state === 'suspended') audioCtx.resume();
             const osc = audioCtx.createOscillator(); const gain = audioCtx.createGain();
             osc.type = 'sawtooth'; osc.frequency.setValueAtTime(150, audioCtx.currentTime);
-            osc.frequency.exponentialRampToValueAtTime(30, audioCtx.currentTime + 0.15);
             gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
-            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.15);
             osc.connect(gain); gain.connect(audioCtx.destination);
             osc.start(); osc.stop(audioCtx.currentTime + 0.15);
         } catch(e){}
@@ -317,41 +298,11 @@
             initAudio(); if (audioCtx.state === 'suspended') audioCtx.resume();
             const osc = audioCtx.createOscillator(); const gain = audioCtx.createGain();
             osc.type = 'square'; osc.frequency.setValueAtTime(80, audioCtx.currentTime);
-            osc.frequency.setValueAtTime(60, audioCtx.currentTime + 0.1);
             gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
-            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
             osc.connect(gain); gain.connect(audioCtx.destination);
             osc.start(); osc.stop(audioCtx.currentTime + 0.3);
         } catch(e){}
     }
-
-    function playCreepySound() {
-        try {
-            initAudio(); if (audioCtx.state === 'suspended') audioCtx.resume();
-            const osc = audioCtx.createOscillator(); const gain = audioCtx.createGain();
-            osc.type = 'sawtooth'; osc.frequency.setValueAtTime(50, audioCtx.currentTime);
-            osc.frequency.linearRampToValueAtTime(300, audioCtx.currentTime + 0.8);
-            osc.frequency.linearRampToValueAtTime(40, audioCtx.currentTime + 1.2);
-            gain.gain.setValueAtTime(0.5, audioCtx.currentTime);
-            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 1.2);
-            osc.connect(gain); gain.connect(audioCtx.destination);
-            osc.start(); osc.stop(audioCtx.currentTime + 1.2);
-        } catch(e){}
-    }
-
-    let isIdle = false; let idleTimer = null;
-    function resetIdleTimer() {
-        isIdle = false; clearTimeout(idleTimer);
-        idleTimer = setTimeout(function() {
-            isIdle = true; playCreepySound();
-            document.body.classList.add("glitch-bg");
-            setTimeout(function() { document.body.classList.remove("glitch-bg"); }, 300);
-        }, 15000);
-    }
-
-    window.onload = resetIdleTimer; document.onmousemove = resetIdleTimer;
-    document.onmousedown = resetIdleTimer; document.ontouchstart = resetIdleTimer;
-    document.onclick = resetIdleTimer; document.onkeypress = resetIdleTimer; document.onscroll = resetIdleTimer;
 
     let headerClickCount = 0;
     function clickHeaderEgg() {
@@ -359,54 +310,19 @@
         if (headerClickCount >= 5) document.getElementById("headerSecretEgg").classList.remove("hidden");
     }
 
-    const targetDate = new Date("2026-09-17T00:00:00+07:00").getTime();
-    let isTimerFinished = false; let isUserVerified = false;
-
-    const timerInterval = setInterval(function() {
-        const now = new Date().getTime(); const distance = targetDate - now;
-        if (distance > 0) {
-            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-            if (isIdle) {
-                document.getElementById("countdownDisplay").innerHTML = "<span style='color:#ff0000;'>NÓ ĐANG Ở TRÊN TRẦN NHÀ BẠN...</span>";
-            } else {
-                document.getElementById("countdownDisplay").innerHTML = days + "N " + hours + "G " + minutes + "P " + seconds + "S";
-            }
-        } else {
-            clearInterval(timerInterval); isTimerFinished = true;
-            document.getElementById("countdownDisplay").innerHTML = "ĐÃ HẾT GIỜ - DỮ LIỆU ĐÃ MỞ KHÓA!";
-            if (isUserVerified) {
-                document.getElementById("stepWaiting").classList.add("hidden");
-                document.getElementById("stepUnlocked").classList.remove("hidden");
-            }
-        }
-    }, 1000);
-
-    // XỬ LÝ NHẬP MÃ BƯỚC 1 (X89 HOẶC DUOITRANNHA)
+    // NHẬP MÃ BƯỚC 1
     function verifyStaff() {
         const code = document.getElementById("staffCode").value.trim().toUpperCase().replace(/\s+/g, '');
         
         if (code === "X89") {
-            // Nhánh bình thường
             playRetroClick();
             document.getElementById("err1").classList.add("hidden");
             document.getElementById("step1").classList.add("hidden");
             document.getElementById("step2").classList.remove("hidden");
         } else if (code === "DUOITRANNHA") {
-            // Nhánh rùng rợn Đỏ-Đen
-            playCreepySound();
-            document.body.classList.add("dark-horror");
-            document.getElementById("headerTitle").innerText = "⚠️ TRUNG TÂM GIẢI MÃ BÁO CÁO PHONG ẤN\n[KHU VỰC CẤP CẤP - TẦNG 2.5]";
-            document.getElementById("successStep1Text").innerText = "[✓] CẢNH BÁO: BẠN ĐÃ TRUY CẬP VÀO VÙNG KẾT NỐI BỊ CẤM.";
-            document.getElementById("successStep1Text").style.color = "#ff3333";
-            document.getElementById("cloakBtn").style.backgroundColor = "#3b0000";
-            document.getElementById("cloakBtn").style.color = "#ffaaaa";
-            
-            document.getElementById("err1").classList.add("hidden");
-            document.getElementById("step1").classList.add("hidden");
-            document.getElementById("step2").classList.remove("hidden");
+            // MỞ TRANG BÍ MẬT CICADA CON VỊT
+            document.getElementById("mainContainer").style.display = "none";
+            document.getElementById("cicadaPage").style.display = "block";
         } else {
             playErrorSound();
             document.getElementById("err1").classList.remove("hidden");
@@ -418,70 +334,22 @@
         document.getElementById("cloakHintBox").classList.toggle("hidden");
     }
 
-    // XỬ LÝ NHẬP MẬT KHẨU BƯỚC 2 (PHẢI LÀ KHOA)
-    let failAttempts = 0;
+    // NHẬP MẬT KHẨU BƯỚC 2 (PHẢI LÀ KHOA)
     function verifyFinal() {
         const name = document.getElementById("staffName").value.trim();
         const className = document.getElementById("staffClass").value.trim();
         const pass = document.getElementById("zaloPass").value.trim().toUpperCase();
         const err2 = document.getElementById("err2");
-        const horrorBox = document.getElementById("horrorEggBox");
 
-        if (pass === "6666" || pass === "CHET" || pass === "MA") {
-            playCreepySound();
-            document.body.classList.add("glitch-bg");
-            setTimeout(function() { document.body.classList.remove("glitch-bg"); }, 500);
-            horrorBox.innerHTML = "<b>[CẢNH BÁO TỪ NĂM 2006]:</b> ĐỪNG TÌM KIẾM TẦNG 2.5 NỮA... CÁC CÁN BỘ BẢO TRÌ ĐÃ KHÔNG THỂ RỜI KHỎI ĐÓ!";
-            horrorBox.classList.remove("hidden");
-            return;
-        } else {
-            horrorBox.classList.add("hidden");
-        }
-
-        // BẮT BUỘC MẬT KHẨU LÀ KHOA
         if (pass === "KHOA") {
             playRetroClick();
             err2.classList.add("hidden");
-            
-            let fullInfo = (name !== "" ? name : "Cán bộ ẩn danh") + (className !== "" ? " (" + className + ")" : "");
-            document.getElementById("displayName").innerText = fullInfo;
-
-            const lowerName = name.toLowerCase();
-            const lowerClass = className.toLowerCase();
-            const eggBox = document.getElementById("customEasterEgg");
-            
-            let eggMsg = "";
-            if (lowerName.includes("tiến") || lowerName.includes("tien")) eggMsg += "<b>[CẢNH BÁO]:</b> Phát hiện vân tay trùng khớp của <b>Nguyễn Minh Tiến (9A3)</b> trên tấm thạch cao Tầng 2!<br>";
-            if (lowerName.includes("thịnh") || lowerName.includes("thinh")) eggMsg += "<b>[GHI CHÚ]:</b> <b>Lê Trường Thịnh (9A3)</b> có tên trong danh sách bị cảnh cáo sự cố Tầng 2.<br>";
-            if (lowerName.includes("nguyên") || lowerName.includes("long") || lowerName.includes("huy")) eggMsg += "<b>[NHẬN DẠNG]:</b> Xác nhận Cán bộ giám sát Tầng 2 thuộc tổ đội Khối 9 (9A6).<br>";
-            if (lowerName.includes("ma") || lowerName.includes("quỷ")) eggMsg += "<b>[ẢO GIÁC]:</b> Hệ thống ghi nhận có bóng người đứng đằng sau lưng bạn...<br>";
-            if (lowerClass.includes("9a3")) eggMsg += "<b>[LỚP 9A3]:</b> Phòng học có vị trí tiếp giáp gần nhất với khu vực rò rỉ Tầng 2.5.";
-            else if (lowerClass.includes("9a6")) eggMsg += "<b>[LỚP 9A6]:</b> Đội ngũ cán bộ niêm phong hồ sơ sự cố 2006.";
-
-            if (eggMsg !== "") {
-                eggBox.innerHTML = eggMsg;
-                eggBox.classList.remove("hidden");
-            }
-
+            document.getElementById("displayName").innerText = name + (className ? " (" + className + ")" : "");
             document.getElementById("step2").classList.add("hidden");
-            isUserVerified = true;
-
-            if (!isTimerFinished) {
-                document.getElementById("stepWaiting").classList.remove("hidden");
-            } else {
-                document.getElementById("stepUnlocked").classList.remove("hidden");
-            }
+            document.getElementById("stepWaiting").classList.remove("hidden");
         } else {
-            failAttempts++;
             playErrorSound();
-            if (failAttempts >= 3) {
-                playCreepySound();
-                document.body.classList.add("glitch-bg");
-                setTimeout(function() { document.body.classList.remove("glitch-bg"); }, 300);
-                err2.innerText = "CẢNH BÁO: BẠN ĐÃ NHẬP SAI QUÁ 3 LẦN. CÓ TIẾNG CÀO TỪ TRẦN NHÀ TẦNG 2...";
-            } else {
-                err2.innerText = "Mật khẩu không chính xác! Hãy mở Áo Choàng Bảo Hộ để xem hướng dẫn lấy mật khẩu.";
-            }
+            err2.innerText = "Mật khẩu không chính xác! Mở Áo Choàng Bảo Hộ để xem hướng dẫn.";
             err2.classList.remove("hidden");
         }
     }
