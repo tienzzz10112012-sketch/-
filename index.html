@@ -312,7 +312,7 @@
     // XỬ LÝ ĐẾM NGƯỢC ĐẾN 15:15 HÔM NAY
     function updateCountdown() {
         const now = new Date();
-        let targetTime = new Date(now.getFullYear(2026), now.getMonth(9), now.getDate(16), 15, 20, 0);
+        let targetTime = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 15, 20, 0);
 
         // Nếu đã qua 15:15 hôm nay, tự động đếm đến 15:15 ngày mai
         if (now.getTime() > targetTime.getTime()) {
