@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Công cụ tìm kiếm - WebSearch</title>
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 20px;
+            color: #202124;
+        }
+        .search-container {
+            max-width: 650px;
+            margin: 40px auto 20px auto;
+            text-align: center;
+        }
+        .logo {
+            font-size: 36px;
+            font-weight: bold;
+            color: #4285f4;
+            margin-bottom: 20px;
+            letter-spacing: -1px;
+        }
+        .search-box-wrapper {
+            display: flex;
+            align-items: center;
+            border: 1px solid #dfe1e5;
+            border-radius: 24px;
+            padding: 10px 16px;
+            background: #fff;
+            box-shadow: 0 1px 6px rgba(32,33,36,0.1);
+        }
+        .search-box-wrapper:hover, .search-box-wrapper:focus-within {
+            box-shadow: 0 1px 6px rgba(32,33,36,0.28);
+            border-color: rgba(223,225,229,0);
+        }
+        .search-input {
+            width: 100%;
+            border: none;
+            outline: none;
+            font-size: 16px;
+            margin-left: 10px;
+        }
+        .search-btn {
+            margin-top: 18px;
+            padding: 10px 20px;
+            background-color: #f8f9fa;
+            border: 1px solid #f8f9fa;
+            border-radius: 4px;
+            color: #3c4043;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        .search-btn:hover {
+            border: 1px solid #dadce0;
+            box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+        }
+        .results-container {
+            max-width: 650px;
+            margin: 20px auto;
+            display: none;
+        }
+        .result-item {
+            margin-bottom: 24px;
+            text-align: left;
+        }
+        .result-url {
+            font-size: 12px;
+            color: #202124;
+            margin-bottom: 4px;
+            word-break: break-all;
+        }
+        .result-title {
+            font-size: 18px;
+            color: #1a0dab;
+            text-decoration: none;
+            cursor: pointer;
+            display: inline-block;
+            margin-bottom: 4px;
+        }
+        .result-title:hover {
+            text-decoration: underline;
+        }
+        .result-snippet {
+            font-size: 13px;
+            color: #4d5156;
+            line-height: 1.4;
+        }
+        .no-result {
+            color: #70757a;
+            font-size: 14px;
+            text-align: left;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="search-container">
+    <div class="logo"><span style="color:#4285f4">G</span><span style="color:#ea4335">o</span><span style="color:#fbbc05">o</span><span style="color:#4285f4">g</span><span style="color:#34a853">l</span><span style="color:#ea4335">e</span> <span style="font-size:16px; color:#5f6368;">Archive</span></div>
+    
+    <div class="search-box-wrapper">
+        🔍 <input type="text" id="searchInput" class="search-input" placeholder="Nhập từ khóa hoặc mã giải..." onkeydown="if(event.key === 'Enter') doSearch()">
+    </div>
+    <button class="search-btn" onclick="doSearch()">Tìm kiếm</button>
+</div>
+
+<!-- KHU VỰC HIỆN KẾT QUẢ -->
+<div class="results-container" id="resultsContainer">
+    <!-- Kết quả vit3301 -->
+    <div id="vitResult" style="display: none;">
+        <p style="font-size: 12px; color: #70757a; text-align: left;">Khoảng 1 kết quả (0.23 giây)</p>
+        
+        <div class="result-item">
+            <div class="result-url">https://security-cam.thptx.edu.vn › internal › hoso_t25</div>
+            <a href="hoso_t25.html" class="result-title">System Live Stream - Máy Máy Camera Bảo Trì Tầng 2.5 (Restricted)</a>
+            <div class="result-snippet">
+                [HỆ THỐNG GIÁM SÁT TỰ ĐỘNG] Cảnh báo: Tệp nhật ký ghi hình tín hiệu Tầng 2.5 bị ngắt kết nối từ năm 2006. Yêu cầu quyền truy cập ưu tiên từ bộ phận kỹ thuật...
+            </div>
+        </div>
+    </div>
+
+    <!-- Kết quả khi gõ từ khóa khác -->
+    <div id="noResult" class="no-result" style="display: none;">
+        Không tìm thấy kết quả phù hợp cho từ khóa của bạn. Hãy thử tìm kiếm với từ khóa khác hoặc tra cứu tài liệu bảo trì.
+    </div>
+</div>
+
+<script>
+    function doSearch() {
+        const query = document.getElementById('searchInput').value.trim().toLowerCase();
+        const container = document.getElementById('resultsContainer');
+        const vitResult = document.getElementById('vitResult');
+        const noResult = document.getElementById('noResult');
+
+        container.style.display = 'block';
+
+        if (query === 'vit3301') {
+            vitResult.style.display = 'block';
+            noResult.style.display = 'none';
+        } else if (query !== '') {
+            vitResult.style.display = 'none';
+            noResult.style.display = 'block';
+        } else {
+            container.style.display = 'none';
+        }
+    }
+</script>
+
+</body>
+</html>
