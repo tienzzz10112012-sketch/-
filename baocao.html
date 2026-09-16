@@ -233,7 +233,7 @@ html_content = """<!DOCTYPE html>
 
     <div class="archive-search-box">
         <label style="font-weight: bold;">🔍 Tra cứu Mã Hồ sơ Lưu trữ:</label><br><br>
-        <input type="text" id="searchInput" class="search-input" placeholder="Nhập mật mã ..." autocomplete="off">
+        <input type="text" id="searchInput" class="search-input" placeholder="Nhập mật mã ..." autocomplete="off"; required oninput="this.value = this.value.replace(/\s+/g, '')">
         <button onclick="executeSearch()" class="search-btn">Truy vấn Wikipedia</button>
         <div id="statusArea" class="status-msg"></div>
     </div>
