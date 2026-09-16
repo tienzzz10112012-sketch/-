@@ -271,6 +271,9 @@ html_content = """<!DOCTYPE html>
                 setTimeout(function() {
                     window.location.href = "hoso_t25.html";
                 }, 1000);
+                
+                if (query === "duoitrannha") {
+                statusArea.innerHTML = "<span style='color: red;'>[X] Mật mã này không thuộc về WIKIPEDIA, hãy kiểm tra MÃ NHÂN VIÊN</span>";
 
             } else {
                 statusArea.innerHTML = "<span style='color: red;'>⚠️ Mật mã không đúng hoặc hồ sơ đã bị xóa khỏi lưu trữ.</span>";
