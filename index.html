@@ -231,7 +231,7 @@
             <div id="cloakHintBox" class="hint-box hidden" style="border: 2px solid #800000; background-color: #fff0f0;">
                 <b style="color: #800000;">[LỜI THÌ THẦM TỪ ÁO CHOÀNG BẢO HỘ]:</b><br><br>
                 1. Mở ứng dụng <b>Zalo</b> trên điện thoại.<br>
-                2. Tìm đến <b>Trang cá nhân của người gửi link này</b>.<br>
+                2. Tìm đến <b>Trang cá nhân (bị che)</b>.<br>
                 3. Đọc bài thơ 4 câu ghi ở phần <b>Mô tả / Bio</b>.<br>
                 4. Ghép <b>4 chữ cái đầu tiên</b> của mỗi dòng thơ lại thành 1 từ (4 chữ) -> Đó chính là MẬT KHẨU!
             </div>
@@ -312,7 +312,7 @@
     // XỬ LÝ ĐẾM NGƯỢC ĐẾN 15:15 HÔM NAY
     function updateCountdown() {
         const now = new Date();
-        let targetTime = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 15, 15, 0);
+        let targetTime = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 15, 20, 0);
 
         // Nếu đã qua 15:15 hôm nay, tự động đếm đến 15:15 ngày mai
         if (now.getTime() > targetTime.getTime()) {
