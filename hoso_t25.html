@@ -54,7 +54,7 @@
             padding: 4px; font-size: 11px;
         }
 
-        /* GIAO DIỆN BSOD CHI TIẾT GIỐNG HỆT ẢNH MẪU */
+        /* GIAO DIỆN BSOD CHI TIẾT GIỐNG HỆT ẢNH MẪU WINDOWS 10/11 */
         #bsodScreen {
             display: none; position: fixed;
             top: 0; left: 0; width: 100vw; height: 100vh;
@@ -93,7 +93,7 @@
             100% { transform: translate(5px, -7px); }
         }
 
-        /* LỖI GIẢ TRÌNH DUYỆT */
+        /* LỖI GIẢ TRÌNH DUYỆT BỊ DI CHUYỂN/XÓA */
         #fakeErrorScreen {
             display: none; position: fixed;
             top: 0; left: 0; width: 100vw; height: 100vh;
@@ -147,7 +147,7 @@
     <h2 style="font-size: 24px; padding: 0 10px;" id="scareText">NÓ ĐANG ĐẾN.</h2>
 </div>
 
-<!-- LỖI GIẢ GIẢ LẬP TRÌNH DUYỆT BỊ XÓA FILE -->
+<!-- LỖI GIẢ TẬP TIN DẪN VỀ WIKIPEDIA -->
 <div id="fakeErrorScreen">
     <div style="font-size: 40px; margin-bottom: 10px;">⚠️</div>
     <div class="fake-err-title">TẬP TIN ĐÃ BỊ XÓA HOẶC DI CHUYỂN</div>
@@ -190,12 +190,11 @@
         enableFullScreen();
         let elapsed = 0;
         
-        // 1. DỒN DẬP SPAM POPUP TRONG 4 GIÂY
+        // 1. POPUP LỖI DỒN DẬP TRONG 4 GIÂY
         const popInterval = setInterval(() => {
             elapsed += 35;
             playBeep();
 
-            // Popup nhỏ
             const rect = document.createElement('div');
             rect.className = 'pop-rect';
             rect.style.width = (Math.random() * 110 + 90) + 'px';
@@ -205,7 +204,6 @@
             rect.innerHTML = `<div class="win-titlebar" style="font-size:8px;">ERROR</div><div style="padding:2px; font-size:9px;">Corrupted Memory</div>`;
             document.body.appendChild(rect);
 
-            // Popup lớn
             if (Math.random() > 0.4) {
                 const sq = document.createElement('div');
                 sq.className = 'pop-square';
@@ -231,7 +229,7 @@
         }, 35);
     }
 
-    // 2. CHẠY THANH PHẦN TRĂM COMPLETE TỪ 0% TỚI 100% (6-7 GIÂY)
+    // 2. LOADING PHẦN TRĂM COMPLETE TỪ 0% ĐẾN 100% (6-7 GIÂY)
     function startBsodProgress() {
         let percent = 0;
         const countElem = document.getElementById('bsodCount');
@@ -244,6 +242,7 @@
                 countElem.innerText = percent;
                 clearInterval(progressInterval);
 
+                // KHI CHẠM 100% -> DỪNG KHỰNG NỬA GIÂY RỒI BẬT JUMPSCARE
                 setTimeout(() => {
                     triggerFinalBlackJumpscare();
                 }, 500);
@@ -253,7 +252,7 @@
         }, 600);
     }
 
-    // 3. JUMPSCARE MÀN HÌNH ĐEN & RUNG LẮC
+    // 3. JUMPSCARE MÀN HÌNH ĐEN & CHUYỂN HƯỚNG SANG WIKIPEDIA
     function triggerFinalBlackJumpscare() {
         document.getElementById('bsodScreen').style.display = 'none';
         const scare = document.getElementById('blackJumpscare');
@@ -282,7 +281,7 @@
         }, 3000);
     }
 
-    // CHUYỂN HƯỚNG VỀ WIKIPEDIA
+    // CHUYỂN HƯỚNG VỀ TRANG WIKIPEDIA
     function redirectToWikipedia() {
         window.location.href = "https://vi.wikipedia.org/wiki/Cicada_3301";
     }
