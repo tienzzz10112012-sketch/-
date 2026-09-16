@@ -109,7 +109,6 @@
         .hidden { display: none; }
         .red-text { color: #cc0000; font-weight: bold; }
         hr { border: 0; border-top: 1px inset #ffffff; margin: 10px 0; }
-        .glitch-bg { background-color: #800000 !important; }
 
         .loading-dots:after {
             content: ' .';
@@ -122,7 +121,7 @@
             80%, 100% { content: ' . . . .'; }
         }
 
-        /* TRANG BÍ MẬT CICADA CON VỊT - CHUẨN STYLE RETRO 2006 */
+        /* TRANG BÍ MẬT CICADA CON VỊT */
         #cicadaPage {
             display: none;
             width: 100%;
@@ -150,17 +149,15 @@
             text-align: left;
         }
         
-        /* DÒNG BÔI ĐEN MỚI HIỆN BÍ MẬT */
         .hidden-stego-text {
             background-color: #000000;
-            color: #000000; /* Trùng màu nền -> tàng hình */
-            user-select: text; /* Cho phép bôi đen */
+            color: #000000;
+            user-select: text;
             font-weight: bold;
             padding: 4px;
             margin-top: 10px;
             border: 1px solid #111;
         }
-        /* Khi người dùng bôi đen chữ này */
         .hidden-stego-text::selection {
             background-color: #00ff00;
             color: #000000;
@@ -169,21 +166,19 @@
 </head>
 <body>
 
-<!-- KHUNG TRANG CHÍNH BÌNH THƯỜNG -->
 <div class="main-container" id="mainContainer">
     <div class="header-bg" id="headerTitle" onclick="clickHeaderEgg()">
         HỆ THỐNG QUẢN LÝ LƯU TRỮ VÀ CƠ SỞ VẬT CHẤT<br>(PHIÊN BẢN 2.0.4 - 2006)
     </div>
 
-    <!-- EASTER EGG HEADER -->
     <div id="headerSecretEgg" class="easter-egg-box hidden" style="background-color: #000; color: #00ff00; font-family: monospace;">
         [NHẬT KÝ BẢO TRÌ 2006]: Đã phát hiện vật thể không xác định bò từ ô thạch cao Tầng 2...
     </div>
 
-    <!-- TIMER -->
+    <!-- BANNER ĐẾM NGƯỢC ĐẾN 15:15 HÔM NAY -->
     <div class="timer-banner">
         [CẢNH BÁO PHONG ẤN TẦNG 2.5] THỜI GIAN GIẢI MÃ CÒN LẠI:<br>
-        <span id="countdownDisplay" style="font-size: 16px; color: #fff;">Đang tính toán...</span>
+        <span id="countdownDisplay" style="font-size: 16px; color: #fff;">00h 00m 00s</span>
     </div>
 
     <div class="content-box">
@@ -229,7 +224,6 @@
             </div>
             <br>
             
-            <!-- ÁO CHOÀNG BẢO HỘ -->
             <button class="retro-btn" style="background-color: #f4e8c1;" onclick="toggleCloakHint()">
                 [ 🛟 ÁO CHOÀNG BẢO HỘ: CLICK XEM GỢI Ý ]
             </button>
@@ -277,7 +271,7 @@
     </div>
 </div>
 
-<!-- TRANG BÍ MẬT CICADA CON VỊT (STYLE ĐỒNG BỘ 100% VỚI INDEX RETRO 2006) -->
+<!-- TRANG BÍ MẬT CICADA CON VỊT -->
 <div id="cicadaPage">
     <div class="header-bg" style="background-color: #800000;">
         [ KHU VỰC BẢO MẬT CICADA 3301 - DUCK DIVISION ]
@@ -303,7 +297,6 @@
             > Dữ liệu bạn tìm kiếm trên trang Wikipedia không nằm ở bề nổi.<br>
             > Bôi đen dòng bên dưới để lấy MẬT MÃ TÌM KIẾM WIKIPEDIA:
             
-            <!-- DÒNG NÀY PHẢI BÔI ĐEN MỚI HIỆN MÃ VIT3301 -->
             <div class="hidden-stego-text">
                 [ TỪ KHÓA TÌM KIẾM WIKIPEDIA: VIT3301 ]
             </div>
@@ -316,6 +309,29 @@
 </div>
 
 <script>
+    // XỬ LÝ ĐẾM NGƯỢC ĐẾN 15:15 HÔM NAY
+    function updateCountdown() {
+        const now = new Date();
+        let targetTime = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 15, 15, 0);
+
+        // Nếu đã qua 15:15 hôm nay, tự động đếm đến 15:15 ngày mai
+        if (now.getTime() > targetTime.getTime()) {
+            targetTime.setDate(targetTime.getDate() + 1);
+        }
+
+        const diff = targetTime.getTime() - now.getTime();
+
+        const hours = Math.floor(diff / (1000 * 60 * 60));
+        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+        const pad = (n) => n < 10 ? '0' + n : n;
+        document.getElementById('countdownDisplay').innerText = `${pad(hours)}h ${pad(minutes)}m ${pad(seconds)}s`;
+    }
+
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
+
     const AudioCtx = window.AudioContext || window.webkitAudioContext;
     let audioCtx = null;
     function initAudio() { if (!audioCtx) audioCtx = new AudioCtx(); }
@@ -348,7 +364,6 @@
         if (headerClickCount >= 5) document.getElementById("headerSecretEgg").classList.remove("hidden");
     }
 
-    // XỬ LÝ NHẬP MÃ BƯỚC 1
     function verifyStaff() {
         const code = document.getElementById("staffCode").value.trim().toUpperCase().replace(/\s+/g, '');
         
@@ -358,7 +373,6 @@
             document.getElementById("step1").classList.add("hidden");
             document.getElementById("step2").classList.remove("hidden");
         } else if (code === "DUOITRANNHA") {
-            // MỞ TRANG BÍ MẬT CICADA CON VỊT
             document.getElementById("mainContainer").style.display = "none";
             document.getElementById("cicadaPage").style.display = "block";
         } else {
