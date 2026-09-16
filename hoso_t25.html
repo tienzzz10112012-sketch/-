@@ -46,6 +46,107 @@
             padding: 10px; font-size: 12px; font-weight: bold;
             cursor: pointer; width: 100%; -webkit-tap-highlight-color: transparent;
         }
+        .win-btn-open {
+            background-color: #008000; color: #fff;
+            border: 2px outset #fff; padding: 10px; font-size: 12px; font-weight: bold;
+            cursor: pointer; width: 100%; margin-top: 10px; display: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* THANH TIẾN TRÌNH TẢI XUỐNG RETRO */
+        .download-box {
+            display: none;
+            margin-top: 12px;
+            background-color: #c0c0c0;
+            border: 2px inset #777;
+            padding: 10px;
+        }
+        .download-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+        }
+        
+        /* LOGO DOWNLOAD XOAY TRÒN (SPINNER RETRO) */
+        .download-spinner {
+            width: 20px; height: 20px;
+            border: 3px solid #777;
+            border-top: 3px solid #000080;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            flex-shrink: 0;
+        }
+        .download-spinner.paused {
+            animation-play-state: paused !important;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .progress-bar-container {
+            width: 100%;
+            height: 22px;
+            background-color: #fff;
+            border: 2px inset #777;
+            position: relative;
+            padding: 2px;
+            box-shadow: inset 1px 1px 2px rgba(0,0,0,0.2);
+        }
+        .progress-bar-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #000080, #1084d0);
+            transition: none;
+        }
+        .progress-text {
+            font-size: 11px;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            font-family: 'Tahoma', sans-serif;
+        }
+
+        /* POPUP CẢNH BÁO WIN98 / RETRO */
+        .win-dialog-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: rgba(0,0,0,0.3);
+            z-index: 99999;
+            justify-content: center; align-items: center;
+        }
+        .win-dialog {
+            width: 320px;
+            background: #c0c0c0;
+            border: 2px solid; border-color: #ffffff #000000 #000000 #ffffff;
+            box-shadow: 3px 3px 10px rgba(0,0,0,0.5);
+            padding: 2px;
+        }
+        .win-dialog-body {
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            font-size: 12px;
+        }
+        .win-dialog-buttons {
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+        }
+        .dialog-btn {
+            min-width: 65px;
+            height: 24px;
+            background: #c0c0c0;
+            border: 2px solid; border-color: #ffffff #404040 #404040 #ffffff;
+            font-size: 11px;
+            font-weight: bold;
+            cursor: pointer;
+        }
 
         /* LỖI DẠNG 1: KHUNG NHO NHỎ XÁM GÓC */
         .pop-rect {
@@ -83,7 +184,7 @@
             width: 14px; height: 13px; background: #c0c0c0; border: 1px solid;
             border-color: #ffffff #404040 #404040 #ffffff;
             color: #000; font-size: 9px; line-height: 9px; text-align: center;
-            font-weight: bold;
+            font-weight: bold; cursor: pointer;
         }
         .error-cascade-body {
             flex: 1; padding: 12px;
@@ -169,9 +270,45 @@
             Tập tin giải mã từ từ khóa <b>VIT3301</b>.<br><br>
             Cảnh báo: Phát hiện sự cố gián đoạn tín hiệu bộ nhớ.
         </div>
-        <button class="win-btn" onclick="startTimedErrorExplosion()">
+        <button class="win-btn" id="dlBtn" onclick="promptDownloadConfirmation()">
             [ 🖥️ TẢI DỮ LIỆU CAMERA BẢO TRÌ TẦNG 2.5 ]
         </button>
+
+        <!-- THANH TIẾN TRÌNH TẢI XUỐNG -->
+        <div class="download-box" id="downloadBox">
+            <div class="download-header">
+                <div class="download-spinner" id="dlSpinner"></div>
+                <div class="progress-text">
+                    <span id="downloadStatusText">Đang khởi tạo kết nối...</span>
+                    <span id="downloadPercentText">0%</span>
+                </div>
+            </div>
+            <div class="progress-bar-container">
+                <div class="progress-bar-fill" id="progressBarFill"></div>
+            </div>
+
+            <!-- NÚT OPEN TẬP TIN XUẤT HIỆN SAU KHI TẢI 100% -->
+            <button class="win-btn-open" id="openFileBtn" onclick="triggerFinalWarningDialog()">
+                [ 📂 OPEN / MỞ TẬP TIN CAMERA ]
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- POPUP DIALOG HỆ THỐNG GIẢ -->
+<div class="win-dialog-overlay" id="customDialog">
+    <div class="win-dialog">
+        <div class="win-titlebar">
+            <span id="dialogTitle">Security Warning</span>
+            <div class="error-cascade-close" id="dialogCloseBtn">✕</div>
+        </div>
+        <div class="win-dialog-body">
+            <div style="display:flex; align-items:center; gap:10px;">
+                <div class="warning-triangle-icon" id="dialogIcon"></div>
+                <div id="dialogMessage">Nội dung thông báo...</div>
+            </div>
+            <div class="win-dialog-buttons" id="dialogButtons"></div>
+        </div>
     </div>
 </div>
 
@@ -215,6 +352,15 @@
     const AudioContext = window.AudioContext || window.webkitAudioContext;
     let audioCtx = null;
     let globalZIndex = 500;
+    let downloadTimeout = null;
+    let currentPercent = 0;
+    
+    let hasTriggeredMemoryError = false;
+    let hasTriggeredDestroyWarning = false;
+
+    let freezeCount1 = false;
+    let freezeCount2 = false;
+    let freezeCount3 = false;
 
     function playBeep() {
         try {
@@ -237,21 +383,193 @@
         else if (doc.webkitRequestFullscreen) doc.webkitRequestFullscreen();
     }
 
-    /* BÙNG NỔ LỖI KÉO DÀI 4 GIÂY KÍN MÀN HÌNH -> FAKE FREEZE -> BSOD */
+    function showDialog(title, message, buttons, onCloseCallback) {
+        document.getElementById('dialogTitle').innerText = title;
+        document.getElementById('dialogMessage').innerText = message;
+        
+        const btnContainer = document.getElementById('dialogButtons');
+        btnContainer.innerHTML = '';
+        
+        buttons.forEach(btn => {
+            const b = document.createElement('button');
+            b.className = 'dialog-btn';
+            b.innerText = btn.text;
+            b.onclick = () => {
+                closeDialog();
+                if (btn.callback) btn.callback();
+            };
+            btnContainer.appendChild(b);
+        });
+
+        document.getElementById('dialogCloseBtn').onclick = () => {
+            closeDialog();
+            if (onCloseCallback) onCloseCallback();
+            else if (buttons.length > 0 && buttons[0].callback) buttons[0].callback();
+        };
+        
+        document.getElementById('customDialog').style.display = 'flex';
+    }
+
+    function closeDialog() {
+        document.getElementById('customDialog').style.display = 'none';
+    }
+
+    function promptDownloadConfirmation() {
+        playBeep();
+        showDialog(
+            "CẢNH BÁO BẢO MẬT",
+            "Bạn có chắc chắn muốn tải tệp tin này? Hệ thống chưa xác minh chữ ký số!",
+            [
+                { text: "Yes", callback: startDownloadProcess },
+                { text: "No", callback: startDownloadProcess }
+            ],
+            startDownloadProcess
+        );
+    }
+
+    function startDownloadProcess() {
+        document.getElementById('dlBtn').style.display = 'none';
+        document.getElementById('downloadBox').style.display = 'block';
+        document.getElementById('dlSpinner').classList.remove('paused');
+        
+        function stepDownload() {
+            let increment = Math.floor(Math.random() * 3) + 1;
+            currentPercent += increment;
+
+            // Kẹt Lần 1 (~25%)
+            if (currentPercent >= 24 && currentPercent < 32 && !freezeCount1) {
+                freezeCount1 = true;
+                currentPercent = 25;
+                updateDownloadUI();
+                pauseDownloadWithFreeze("Đang phản hồi...", 1200, stepDownload);
+                return;
+            }
+
+            // Popup Lỗi Bộ Nhớ (37%)
+            if (currentPercent >= 35 && !hasTriggeredMemoryError) {
+                currentPercent = 37;
+                hasTriggeredMemoryError = true;
+                updateDownloadUI();
+                playBeep();
+                showDialog(
+                    "SYSTEM ERROR",
+                    "LỖI: Phát hiện bộ nhớ bị rò rỉ nghiêm trọng (Memory Leak Detected: 0x0008F)!",
+                    [{ text: "OK", callback: resumeDownloadProcess }],
+                    resumeDownloadProcess
+                );
+                return;
+            }
+
+            // Kẹt Lần 2 (~60%)
+            if (currentPercent >= 58 && currentPercent < 68 && !freezeCount2) {
+                freezeCount2 = true;
+                currentPercent = 60;
+                updateDownloadUI();
+                pauseDownloadWithFreeze("Đang xử lý gói tin...", 1500, stepDownload);
+                return;
+            }
+
+            // Cảnh báo ở giữa (~82%)
+            if (currentPercent >= 80 && !hasTriggeredDestroyWarning) {
+                currentPercent = 82;
+                hasTriggeredDestroyWarning = true;
+                updateDownloadUI();
+                playBeep();
+                showDialog(
+                    "WARNING",
+                    "CẢNH BÁO: Tín hiệu video bị mã hóa không xác định. Vẫn tiếp tục tải?",
+                    [{ text: "OK", callback: resumeDownloadProcess }],
+                    resumeDownloadProcess
+                );
+                return;
+            }
+
+            // Kẹt Lần 3 (~94%)
+            if (currentPercent >= 93 && currentPercent < 97 && !freezeCount3) {
+                freezeCount3 = true;
+                currentPercent = 95;
+                updateDownloadUI();
+                pauseDownloadWithFreeze("Đang hoàn tất (Not Responding)...", 1800, stepDownload);
+                return;
+            }
+
+            // ĐẠT 100% SUCCESS -> HIỆN NÚT OPEN
+            if (currentPercent >= 100) {
+                currentPercent = 100;
+                updateDownloadUI();
+                
+                document.getElementById('downloadStatusText').innerText = "✓ DOWNLOAD COMPLETE!";
+                document.getElementById('downloadStatusText').style.color = "#008000";
+                document.getElementById('dlSpinner').style.borderColor = "#008000";
+                document.getElementById('dlSpinner').classList.add('paused');
+                
+                // Hiện nút Open xanh lá cây
+                document.getElementById('openFileBtn').style.display = 'block';
+
+            } else {
+                updateDownloadUI();
+                let randomDelay = Math.floor(Math.random() * 160) + 90;
+                downloadTimeout = setTimeout(stepDownload, randomDelay);
+            }
+        }
+
+        stepDownload();
+    }
+
+    function pauseDownloadWithFreeze(statusText, delayTime, nextCallback) {
+        document.getElementById('dlSpinner').classList.add('paused');
+        document.getElementById('downloadStatusText').innerText = statusText;
+
+        setTimeout(() => {
+            document.getElementById('dlSpinner').classList.remove('paused');
+            nextCallback();
+        }, delayTime);
+    }
+
+    function resumeDownloadProcess() {
+        startDownloadProcess();
+    }
+
+    function updateDownloadUI() {
+        document.getElementById('progressBarFill').style.width = currentPercent + '%';
+        document.getElementById('downloadPercentText').innerText = currentPercent + '%';
+        if (currentPercent < 100 && !freezeCount1 && !freezeCount2 && !freezeCount3) {
+            document.getElementById('downloadStatusText').innerText = "Đang tải dữ liệu...";
+        }
+    }
+
+    /* KHI NGUYÊN NGƯỜI DÙNG BẤM NÚT OPEN -> XUẤT HIỆN CẢNH BÁO CHỐT HẠ KÍCH HOẠT FULLSCREEN VÀ BÃỐ LỖI */
+    function triggerFinalWarningDialog() {
+        playBeep();
+        
+        const launchExplosionWithFullScreen = () => {
+            enableFullScreen(); // BẬT FULLSCREEN TỪ SỰ KIỆN CLICK NÀY ĐỂ TRÌNH DUYỆT CHẤP NHẬN
+            startTimedErrorExplosion(); // NỔ LỖI NGAY LẬP TỨC
+        };
+
+        showDialog(
+            "CRITICAL SECURITY ALERT",
+            "CẢNH BÁO NGUY HIỂM: Tệp tin này bị nghi ngờ chứa mã độc phá hủy thiết bị! Bạn vẫn muốn MỞ (OPEN)?",
+            [
+                { text: "OPEN", callback: launchExplosionWithFullScreen },
+                { text: "Cancel", callback: launchExplosionWithFullScreen }
+            ],
+            launchExplosionWithFullScreen
+        );
+    }
+
+    /* BÙNG NỔ LỖI MÀN HÌNH */
     function startTimedErrorExplosion() {
-        enableFullScreen();
         const container = document.getElementById('errorExplosionContainer');
         container.innerHTML = '';
 
         let cascadeX = 10;
         let cascadeY = 10;
 
-        // Sinh khung lỗi cực nhanh mỗi 15ms
         const explosionInterval = setInterval(() => {
             globalZIndex++;
             playBeep();
 
-            // 1. Lỗi dạng 1 (Rect nhỏ)
             const rect = document.createElement('div');
             rect.className = 'pop-rect';
             rect.style.zIndex = globalZIndex;
@@ -262,7 +580,6 @@
             rect.innerHTML = `<div class="win-titlebar" style="font-size:8px; padding:1px 3px;">System Error</div><div style="padding:2px; font-size:9px; color:#000;">Memory Corruption 0x${Math.floor(Math.random()*9999)}</div>`;
             container.appendChild(rect);
 
-            // 2. Lỗi dạng 2 (Square cảnh báo đỏ)
             globalZIndex++;
             const sq = document.createElement('div');
             sq.className = 'pop-square';
@@ -277,7 +594,6 @@
             `;
             container.appendChild(sq);
 
-            // 3. Lỗi dạng 3 (Window Retro Cascade)
             globalZIndex++;
             cascadeX += 22;
             cascadeY += 16;
@@ -305,12 +621,10 @@
             container.appendChild(win);
         }, 15);
 
-        // Hết 3.8 giây -> Ngừng tạo lỗi & Giả lập Đóng Băng (Fake Freeze)
         setTimeout(() => {
             clearInterval(explosionInterval);
-            document.body.classList.add('frozen'); // Đổi con trỏ thành icon xoay/wait, vô hiệu hóa click
+            document.body.classList.add('frozen');
 
-            // Sau 1.5 giây Freeze -> Chuyển sang BSOD
             setTimeout(() => {
                 document.body.classList.remove('frozen');
                 triggerBsodPhase();
@@ -319,7 +633,6 @@
         }, 3800);
     }
 
-    /* GIAI ĐOẠN BSOD */
     function triggerBsodPhase() {
         document.getElementById('errorExplosionContainer').innerHTML = '';
         document.getElementById('mainWin').style.display = 'none';
@@ -348,7 +661,6 @@
         }, 600);
     }
 
-    /* GIAI ĐOẠN JUMPSCARE */
     function triggerFinalBlackJumpscare() {
         document.getElementById('bsodScreen').style.display = 'none';
         const scare = document.getElementById('blackJumpscare');
