@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>C:\WINDOWS\SYSTEM32\RESTRICTED_LOG.EXE</title>
+    <style>
+        * { box-sizing: border-box; touch-action: manipulation; }
+        html, body {
+            width: 100%; height: 100%;
+            margin: 0; padding: 0;
+            background-color: #008080;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden; user-select: none;
+            display: flex; justify-content: center; align-items: center;
+        }
+
+        /* CỬA SỔ RETRO MAIN */
+        .win-window {
+            width: 90%; max-width: 500px;
+            background-color: #c0c0c0;
+            border: 2px solid; border-color: #ffffff #404040 #404040 #ffffff;
+            box-shadow: 2px 2px 10px rgba(0,0,0,0.5); padding: 2px;
+            position: relative; z-index: 10;
+        }
+        .win-titlebar {
+            background: linear-gradient(90deg, #000080, #1084d0); color: #fff;
+            padding: 4px 8px; font-weight: bold; font-size: 12px;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .win-body { padding: 12px; font-size: 12px; color: #000; }
+        .win-inset {
+            background-color: #fff; border: 2px inset #777;
+            padding: 8px; margin-bottom: 10px; font-family: 'Courier New', monospace;
+            font-size: 11px;
+        }
+        .win-btn {
+            background-color: #c0c0c0; border: 2px outset #fff;
+            padding: 10px; font-size: 12px; font-weight: bold;
+            cursor: pointer; width: 100%; -webkit-tap-highlight-color: transparent;
+        }
+
+        /* POPUP LỖI DỒN DẬP */
+        .pop-rect {
+            position: absolute; background: #c0c0c0;
+            border: 2px solid; border-color: #fff #404040 #404040 #fff;
+            z-index: 1000; box-shadow: 1px 1px 4px rgba(0,0,0,0.6);
+            font-size: 10px; padding: 2px;
+        }
+        .pop-square {
+            position: absolute; width: 65vw; max-width: 250px; height: 160px;
+            background: #fff0f0; border: 3px solid #ff0000;
+            z-index: 2000; box-shadow: 3px 3px 15px #000;
+            padding: 4px; font-size: 11px;
+        }
+
+        /* GIAO DIỆN BSOD CHI TIẾT GIỐNG HỆT ẢNH MẪU */
+        #bsodScreen {
+            display: none; position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background-color: #0078d7; color: #ffffff;
+            font-family: 'Segoe UI', sans-serif;
+            padding: 10% 8%; z-index: 999999; box-sizing: border-box;
+        }
+        .bsod-sad-face {
+            font-size: 110px; line-height: 1; margin-bottom: 25px; font-weight: 300;
+        }
+        .bsod-msg {
+            font-size: 23px; line-height: 1.35; margin-bottom: 35px; max-width: 750px; font-weight: 300;
+        }
+        .bsod-percentage {
+            font-size: 26px; font-weight: 400; margin-bottom: 45px;
+        }
+        .bsod-subtext {
+            font-size: 12px; line-height: 1.6; opacity: 0.9; font-weight: 300;
+        }
+        .bsod-stopcode {
+            font-weight: bold; background: rgba(255,255,255,0.2); padding: 2px 6px; border-radius: 2px;
+        }
+
+        /* MÀN HÌNH ĐEN JUMPSCARE & RUNG LẮC */
+        #blackJumpscare {
+            display: none; position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background-color: #000000; z-index: 10000000;
+            flex-direction: column; justify-content: center; align-items: center;
+            text-align: center; color: #ff0000; font-family: 'Courier New', monospace;
+        }
+        .shake-effect { animation: shake 0.05s infinite alternate; }
+        @keyframes shake {
+            0% { transform: translate(7px, 7px); }
+            50% { transform: translate(-7px, -6px); }
+            100% { transform: translate(5px, -7px); }
+        }
+
+        /* LỖI GIẢ TRÌNH DUYỆT */
+        #fakeErrorScreen {
+            display: none; position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background-color: #1f1f1f; color: #cccccc;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            padding: 30px 20px; z-index: 20000000; box-sizing: border-box;
+        }
+        .fake-err-title { color: #f44336; font-size: 20px; font-weight: bold; margin-bottom: 10px; }
+        .fake-err-btn {
+            margin-top: 25px; padding: 10px 18px;
+            background-color: #333; color: #fff; border: 1px solid #555;
+            border-radius: 4px; font-weight: bold; cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<!-- CỬA SỔ MAIN -->
+<div class="win-window" id="mainWin">
+    <div class="win-titlebar">
+        <span>📑 C:\LOG_TAG2_5.TXT</span>
+    </div>
+    <div class="win-body">
+        <p><b>[BÁO CÁO KỸ THUẬT THPT X - 2006]</b></p>
+        <div class="win-inset">
+            Tập tin giải mã từ từ khóa <b>VIT3301</b>.<br><br>
+            Cảnh báo: Phát hiện sự cố gián đoạn tín hiệu bộ nhớ.
+        </div>
+        <button class="win-btn" onclick="startCorruptionSequence()">
+            [ 🖥️ TẢI DỮ LIỆU CAMERA BẢO TRÌ TẦNG 2.5 ]
+        </button>
+    </div>
+</div>
+
+<!-- MÀN HÌNH XANH BSOD CHUẨN WINDOWS 10/11 -->
+<div id="bsodScreen">
+    <div class="bsod-sad-face">:(</div>
+    <div class="bsod-msg">
+        Your PC ran into a problem and needs to restart. We're just collecting some error info, and then we'll restart for you.
+    </div>
+    <div class="bsod-percentage"><span id="bsodCount">0</span>% complete</div>
+    <div class="bsod-subtext">
+        For more information about this issue and possible fixes, visit our website.<br><br>
+        If you call a support person, give them this info:<br>
+        Stop code: <span class="bsod-stopcode">LOG_9A3_TRANNHA</span>
+    </div>
+</div>
+
+<!-- MÀN HÌNH ĐEN JUMPSCARE -->
+<div id="blackJumpscare">
+    <h2 style="font-size: 24px; padding: 0 10px;" id="scareText">NÓ ĐANG ĐẾN.</h2>
+</div>
+
+<!-- LỖI GIẢ GIẢ LẬP TRÌNH DUYỆT BỊ XÓA FILE -->
+<div id="fakeErrorScreen">
+    <div style="font-size: 40px; margin-bottom: 10px;">⚠️</div>
+    <div class="fake-err-title">TẬP TIN ĐÃ BỊ XÓA HOẶC DI CHUYỂN</div>
+    <p style="font-size: 13px; color: #aaa; line-height: 1.5;">
+        Trang web tại địa chỉ <b>/hoso_t25.html</b> không còn tồn tại do máy chủ đã hủy bỏ liên kết dữ liệu khẩn cấp.
+    </p>
+    <p style="font-size: 11px; color: #777; margin-top: 20px;">ERR_FILE_NOT_FOUND_OR_CORRUPTED</p>
+    
+    <button class="fake-err-btn" onclick="redirectToWikipedia()">
+        [ Quay lại trang Wikipedia ]
+    </button>
+</div>
+
+<script>
+    const AudioContext = window.AudioContext || window.webkitAudioContext;
+    let audioCtx = null;
+
+    function playBeep() {
+        try {
+            if (!audioCtx) audioCtx = new AudioContext();
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.type = 'sawtooth';
+            osc.frequency.setValueAtTime(300 + Math.random() * 600, audioCtx.currentTime);
+            gain.gain.setValueAtTime(0.12, audioCtx.currentTime);
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.start();
+            osc.stop(audioCtx.currentTime + 0.03);
+        } catch(e){}
+    }
+
+    function enableFullScreen() {
+        const doc = document.documentElement;
+        if (doc.requestFullscreen) doc.requestFullscreen();
+        else if (doc.webkitRequestFullscreen) doc.webkitRequestFullscreen();
+    }
+
+    function startCorruptionSequence() {
+        enableFullScreen();
+        let elapsed = 0;
+        
+        // 1. DỒN DẬP SPAM POPUP TRONG 4 GIÂY
+        const popInterval = setInterval(() => {
+            elapsed += 35;
+            playBeep();
+
+            // Popup nhỏ
+            const rect = document.createElement('div');
+            rect.className = 'pop-rect';
+            rect.style.width = (Math.random() * 110 + 90) + 'px';
+            rect.style.height = (Math.random() * 45 + 30) + 'px';
+            rect.style.left = Math.random() * (window.innerWidth - 80) + 'px';
+            rect.style.top = Math.random() * (window.innerHeight - 40) + 'px';
+            rect.innerHTML = `<div class="win-titlebar" style="font-size:8px;">ERROR</div><div style="padding:2px; font-size:9px;">Corrupted Memory</div>`;
+            document.body.appendChild(rect);
+
+            // Popup lớn
+            if (Math.random() > 0.4) {
+                const sq = document.createElement('div');
+                sq.className = 'pop-square';
+                sq.style.left = Math.random() * (window.innerWidth - 180) + 'px';
+                sq.style.top = Math.random() * (window.innerHeight - 150) + 'px';
+                sq.innerHTML = `
+                    <div class="win-titlebar" style="background:#800000; font-size:10px;">⚠️ OVERFLOW DETECTED</div>
+                    <div style="padding:6px; color:#000; font-size:10px;">
+                        <b>CRITICAL ERROR!</b><br>Khoảng không Tầng 2.5 đang lan rộng!
+                    </div>
+                `;
+                document.body.appendChild(sq);
+            }
+
+            if (elapsed >= 4000) {
+                clearInterval(popInterval);
+                
+                setTimeout(() => {
+                    document.getElementById('bsodScreen').style.display = 'block';
+                    startBsodProgress();
+                }, 1000);
+            }
+        }, 35);
+    }
+
+    // 2. CHẠY THANH PHẦN TRĂM COMPLETE TỪ 0% TỚI 100% (6-7 GIÂY)
+    function startBsodProgress() {
+        let percent = 0;
+        const countElem = document.getElementById('bsodCount');
+
+        const progressInterval = setInterval(() => {
+            percent += Math.floor(Math.random() * 12) + 5;
+            
+            if (percent >= 100) {
+                percent = 100;
+                countElem.innerText = percent;
+                clearInterval(progressInterval);
+
+                setTimeout(() => {
+                    triggerFinalBlackJumpscare();
+                }, 500);
+            } else {
+                countElem.innerText = percent;
+            }
+        }, 600);
+    }
+
+    // 3. JUMPSCARE MÀN HÌNH ĐEN & RUNG LẮC
+    function triggerFinalBlackJumpscare() {
+        document.getElementById('bsodScreen').style.display = 'none';
+        const scare = document.getElementById('blackJumpscare');
+        scare.style.display = 'flex';
+        document.body.classList.add('shake-effect');
+
+        try {
+            const noiseOsc = audioCtx.createOscillator();
+            const noiseGain = audioCtx.createGain();
+            noiseOsc.type = 'sawtooth';
+            noiseOsc.frequency.setValueAtTime(45, audioCtx.currentTime);
+            noiseGain.gain.setValueAtTime(0.85, audioCtx.currentTime);
+            noiseOsc.connect(noiseGain);
+            noiseGain.connect(audioCtx.destination);
+            noiseOsc.start();
+        } catch(e){}
+
+        setTimeout(() => {
+            document.getElementById('scareText').innerText = "NÓ ĐANG Ở NGAY SAU LƯNG BẠN.";
+        }, 1200);
+
+        setTimeout(() => {
+            document.body.classList.remove('shake-effect');
+            scare.style.display = 'none';
+            document.getElementById('fakeErrorScreen').style.display = 'block';
+        }, 3000);
+    }
+
+    // CHUYỂN HƯỚNG VỀ WIKIPEDIA
+    function redirectToWikipedia() {
+        window.location.href = "https://vi.wikipedia.org/wiki/Cicada_3301";
+    }
+</script>
+
+</body>
+</html>
