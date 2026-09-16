@@ -16,6 +16,12 @@
             position: relative;
         }
 
+        /* TRẠNG THÁI KHÓA ĐÓNG BĂNG GIẢ (FAKE FREEZE) */
+        body.frozen {
+            cursor: wait !important;
+            pointer-events: none !important;
+        }
+
         /* CỬA SỔ RETRO MAIN */
         .win-window {
             width: 90%; max-width: 500px;
@@ -41,62 +47,68 @@
             cursor: pointer; width: 100%; -webkit-tap-highlight-color: transparent;
         }
 
-        /* STYLES CỬA SỔ ERROR DẠNG CHỒNG LỚP (CASCADE) */
+        /* LỖI DẠNG 1: KHUNG NHO NHỎ XÁM GÓC */
+        .pop-rect {
+            position: absolute; background: #c0c0c0;
+            border: 2px solid; border-color: #fff #404040 #404040 #fff;
+            box-shadow: 1px 1px 4px rgba(0,0,0,0.6);
+            font-size: 10px; padding: 2px;
+        }
+
+        /* LỖI DẠNG 2: KHUNG CẢNH BÁO ĐỎ */
+        .pop-square {
+            position: absolute; width: 65vw; max-width: 250px; height: 140px;
+            background: #fff0f0; border: 3px solid #ff0000;
+            box-shadow: 3px 3px 15px #000;
+            padding: 4px; font-size: 11px;
+        }
+
+        /* LỖI DẠNG 3: CỬA SỔ ERROR XẾP CHỒNG RETRO */
         .error-cascade-window {
             position: absolute;
-            width: 300px;
-            height: 170px;
+            width: 280px; height: 160px;
             background-color: #c0c0c0;
-            border: 2px solid;
-            border-color: #ffffff #000000 #000000 #ffffff;
+            border: 2px solid; border-color: #ffffff #000000 #000000 #ffffff;
             box-shadow: 3px 3px 10px rgba(0,0,0,0.6);
             display: flex; flex-direction: column;
         }
         .error-cascade-titlebar {
-            height: 24px;
+            height: 22px;
             background: linear-gradient(90deg, #000080, #1084d0);
             color: white;
             display: flex; align-items: center; justify-content: space-between;
-            padding: 0 4px 0 6px; font-size: 12px; font-weight: bold;
+            padding: 0 4px 0 6px; font-size: 11px; font-weight: bold;
         }
         .error-cascade-close {
-            width: 16px; height: 14px;
-            background: #c0c0c0; border: 1px solid;
+            width: 14px; height: 13px; background: #c0c0c0; border: 1px solid;
             border-color: #ffffff #404040 #404040 #ffffff;
-            color: #000; font-size: 10px; line-height: 10px; text-align: center;
-            font-weight: bold; cursor: pointer;
+            color: #000; font-size: 9px; line-height: 9px; text-align: center;
+            font-weight: bold;
         }
         .error-cascade-body {
-            flex: 1; padding: 15px;
+            flex: 1; padding: 12px;
             display: flex; flex-direction: column;
             align-items: center; justify-content: space-between;
             background: #c0c0c0;
         }
         .error-cascade-content {
-            display: flex; align-items: center; gap: 15px; width: 100%;
+            display: flex; align-items: center; gap: 12px; width: 100%;
         }
         .warning-triangle-icon {
-            width: 36px; height: 36px;
-            background: #ffcc00;
+            width: 32px; height: 32px; background: #ffcc00;
             clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
             display: flex; align-items: center; justify-content: center;
             flex-shrink: 0;
         }
         .warning-triangle-icon::after {
             content: '!'; color: #000;
-            font-weight: 900; font-size: 20px; margin-top: 4px;
+            font-weight: 900; font-size: 18px; margin-top: 2px;
         }
-        .error-cascade-text {
-            font-size: 13px; color: #000; font-weight: bold;
-        }
+        .error-cascade-text { font-size: 12px; color: #000; font-weight: bold; }
         .error-cascade-ok-btn {
-            width: 75px; height: 23px;
-            background: #c0c0c0; border: 2px solid;
+            width: 70px; height: 22px; background: #c0c0c0; border: 2px solid;
             border-color: #ffffff #404040 #404040 #ffffff;
-            font-size: 12px; cursor: pointer; outline: none;
-        }
-        .error-cascade-ok-btn:active {
-            border-color: #404040 #ffffff #ffffff #404040;
+            font-size: 11px; outline: none; font-weight: bold;
         }
 
         /* GIAO DIỆN BSOD WINDOWS 10/11 */
@@ -107,21 +119,11 @@
             font-family: 'Segoe UI', sans-serif;
             padding: 10% 8%; z-index: 999999; box-sizing: border-box;
         }
-        .bsod-sad-face {
-            font-size: 110px; line-height: 1; margin-bottom: 25px; font-weight: 300;
-        }
-        .bsod-msg {
-            font-size: 23px; line-height: 1.35; margin-bottom: 35px; max-width: 750px; font-weight: 300;
-        }
-        .bsod-percentage {
-            font-size: 26px; font-weight: 400; margin-bottom: 45px;
-        }
-        .bsod-subtext {
-            font-size: 12px; line-height: 1.6; opacity: 0.9; font-weight: 300;
-        }
-        .bsod-stopcode {
-            font-weight: bold; background: rgba(255,255,255,0.2); padding: 2px 6px; border-radius: 2px;
-        }
+        .bsod-sad-face { font-size: 110px; line-height: 1; margin-bottom: 25px; font-weight: 300; }
+        .bsod-msg { font-size: 23px; line-height: 1.35; margin-bottom: 35px; max-width: 750px; font-weight: 300; }
+        .bsod-percentage { font-size: 26px; font-weight: 400; margin-bottom: 45px; }
+        .bsod-subtext { font-size: 12px; line-height: 1.6; opacity: 0.9; font-weight: 300; }
+        .bsod-stopcode { font-weight: bold; background: rgba(255,255,255,0.2); padding: 2px 6px; border-radius: 2px; }
 
         /* MÀN HÌNH ĐEN JUMPSCARE & RUNG LẮC */
         #blackJumpscare {
@@ -138,7 +140,7 @@
             100% { transform: translate(5px, -7px); }
         }
 
-        /* LỖI GIẢ TRÌNH DUYỆT BỊ DI CHUYỂN/XÓA */
+        /* LỖI GIẢ TRÌNH DUYỆT */
         #fakeErrorScreen {
             display: none; position: fixed;
             top: 0; left: 0; width: 100vw; height: 100vh;
@@ -167,16 +169,16 @@
             Tập tin giải mã từ từ khóa <b>VIT3301</b>.<br><br>
             Cảnh báo: Phát hiện sự cố gián đoạn tín hiệu bộ nhớ.
         </div>
-        <button class="win-btn" onclick="startCorruptionSequence()">
+        <button class="win-btn" onclick="startTimedErrorExplosion()">
             [ 🖥️ TẢI DỮ LIỆU CAMERA BẢO TRÌ TẦNG 2.5 ]
         </button>
     </div>
 </div>
 
-<!-- CONTAINER CHỨA POPUP ERROR STACKING -->
-<div id="errorCascadeContainer"></div>
+<!-- CONTAINER BÙNG NỔ TẤT CẢ CÁC LOẠI LỖI -->
+<div id="errorExplosionContainer"></div>
 
-<!-- MÀN HÌNH XANH BSOD CHUẨN WINDOWS 10/11 -->
+<!-- MÀN HÌNH XANH BSOD -->
 <div id="bsodScreen">
     <div class="bsod-sad-face">:(</div>
     <div class="bsod-msg">
@@ -195,7 +197,7 @@
     <h2 style="font-size: 24px; padding: 0 10px;" id="scareText">NÓ ĐANG ĐẾN.</h2>
 </div>
 
-<!-- LỖI GIẢ TẬP TIN DẪN VỀ WIKIPEDIA -->
+<!-- LỖI GIẢ TRÌNH DUYỆT -->
 <div id="fakeErrorScreen">
     <div style="font-size: 40px; margin-bottom: 10px;">⚠️</div>
     <div class="fake-err-title">TẬP TIN ĐÃ BỊ XÓA HOẶC DI CHUYỂN</div>
@@ -212,7 +214,7 @@
 <script>
     const AudioContext = window.AudioContext || window.webkitAudioContext;
     let audioCtx = null;
-    let currentZIndex = 100;
+    let globalZIndex = 500;
 
     function playBeep() {
         try {
@@ -220,12 +222,12 @@
             const osc = audioCtx.createOscillator();
             const gain = audioCtx.createGain();
             osc.type = 'sawtooth';
-            osc.frequency.setValueAtTime(300 + Math.random() * 600, audioCtx.currentTime);
-            gain.gain.setValueAtTime(0.12, audioCtx.currentTime);
+            osc.frequency.setValueAtTime(200 + Math.random() * 900, audioCtx.currentTime);
+            gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
             osc.connect(gain);
             gain.connect(audioCtx.destination);
             osc.start();
-            osc.stop(audioCtx.currentTime + 0.03);
+            osc.stop(audioCtx.currentTime + 0.02);
         } catch(e){}
     }
 
@@ -235,62 +237,91 @@
         else if (doc.webkitRequestFullscreen) doc.webkitRequestFullscreen();
     }
 
-    /* GIAI ĐOẠN 1: TẠO CHUỖI CỬA SỔ LỖI CHỒNG LỚP (CASCADE) */
-    function startCorruptionSequence() {
+    /* BÙNG NỔ LỖI KÉO DÀI 4 GIÂY KÍN MÀN HÌNH -> FAKE FREEZE -> BSOD */
+    function startTimedErrorExplosion() {
         enableFullScreen();
-        const container = document.getElementById('errorCascadeContainer');
+        const container = document.getElementById('errorExplosionContainer');
         container.innerHTML = '';
 
-        const totalErrors = 10;
-        const stepX = 20;
-        const stepY = 20;
+        let cascadeX = 10;
+        let cascadeY = 10;
 
-        let startX = Math.max(10, (window.innerWidth / 2) - 220);
-        let startY = Math.max(10, (window.innerHeight / 2) - 180);
+        // Sinh khung lỗi cực nhanh mỗi 15ms
+        const explosionInterval = setInterval(() => {
+            globalZIndex++;
+            playBeep();
 
-        for (let i = 0; i < totalErrors; i++) {
-            setTimeout(() => {
-                createCascadeErrorWindow(
-                    startX + (i * stepX),
-                    startY + (i * stepY),
-                    i === totalErrors - 1
-                );
-            }, i * 150);
-        }
-    }
+            // 1. Lỗi dạng 1 (Rect nhỏ)
+            const rect = document.createElement('div');
+            rect.className = 'pop-rect';
+            rect.style.zIndex = globalZIndex;
+            rect.style.width = (Math.random() * 140 + 80) + 'px';
+            rect.style.height = (Math.random() * 60 + 30) + 'px';
+            rect.style.left = Math.random() * (window.innerWidth - 100) + 'px';
+            rect.style.top = Math.random() * (window.innerHeight - 50) + 'px';
+            rect.innerHTML = `<div class="win-titlebar" style="font-size:8px; padding:1px 3px;">System Error</div><div style="padding:2px; font-size:9px; color:#000;">Memory Corruption 0x${Math.floor(Math.random()*9999)}</div>`;
+            container.appendChild(rect);
 
-    function createCascadeErrorWindow(x, y, isLast) {
-        const container = document.getElementById('errorCascadeContainer');
-        const win = document.createElement('div');
-        win.className = 'error-cascade-window';
-        
-        // Cửa sổ sinh sau có zIndex cao hơn => nằm đằng trước
-        currentZIndex++;
-        win.style.zIndex = currentZIndex;
-        win.style.left = x + 'px';
-        win.style.top = y + 'px';
-
-        win.innerHTML = `
-            <div class="error-cascade-titlebar">
-                <span>Error</span>
-                <div class="error-cascade-close" onclick="this.parentElement.parentElement.remove()">✕</div>
-            </div>
-            <div class="error-cascade-body">
-                <div class="error-cascade-content">
-                    <div class="warning-triangle-icon"></div>
-                    <div class="error-cascade-text">${isLast ? 'Critical error' : 'Error'}</div>
+            // 2. Lỗi dạng 2 (Square cảnh báo đỏ)
+            globalZIndex++;
+            const sq = document.createElement('div');
+            sq.className = 'pop-square';
+            sq.style.zIndex = globalZIndex;
+            sq.style.left = Math.random() * (window.innerWidth - 220) + 'px';
+            sq.style.top = Math.random() * (window.innerHeight - 140) + 'px';
+            sq.innerHTML = `
+                <div class="win-titlebar" style="background:#800000; font-size:10px;">⚠️ OVERFLOW DETECTED</div>
+                <div style="padding:6px; color:#000; font-size:10px;">
+                    <b>CRITICAL SYSTEM FAULT!</b><br>Khoảng không Tầng 2.5 đã vượt quá giới hạn bộ nhớ!
                 </div>
-                ${isLast ? '<button class="error-cascade-ok-btn" onclick="triggerBsodPhase()">OK</button>' : ''}
-            </div>
-        `;
+            `;
+            container.appendChild(sq);
 
-        container.appendChild(win);
-        playBeep();
+            // 3. Lỗi dạng 3 (Window Retro Cascade)
+            globalZIndex++;
+            cascadeX += 22;
+            cascadeY += 16;
+            if (cascadeX > window.innerWidth - 280) cascadeX = 5;
+            if (cascadeY > window.innerHeight - 160) cascadeY = 5;
+
+            const win = document.createElement('div');
+            win.className = 'error-cascade-window';
+            win.style.zIndex = globalZIndex;
+            win.style.left = cascadeX + 'px';
+            win.style.top = cascadeY + 'px';
+            win.innerHTML = `
+                <div class="error-cascade-titlebar">
+                    <span>Fatal Error</span>
+                    <div class="error-cascade-close">✕</div>
+                </div>
+                <div class="error-cascade-body">
+                    <div class="error-cascade-content">
+                        <div class="warning-triangle-icon"></div>
+                        <div class="error-cascade-text">System Halted</div>
+                    </div>
+                    <button class="error-cascade-ok-btn">OK</button>
+                </div>
+            `;
+            container.appendChild(win);
+        }, 15);
+
+        // Hết 3.8 giây -> Ngừng tạo lỗi & Giả lập Đóng Băng (Fake Freeze)
+        setTimeout(() => {
+            clearInterval(explosionInterval);
+            document.body.classList.add('frozen'); // Đổi con trỏ thành icon xoay/wait, vô hiệu hóa click
+
+            // Sau 1.5 giây Freeze -> Chuyển sang BSOD
+            setTimeout(() => {
+                document.body.classList.remove('frozen');
+                triggerBsodPhase();
+            }, 1500);
+
+        }, 3800);
     }
 
-    /* GIAI ĐOẠN 2: BẮT ĐẦU MÀN HÌNH XANH BSOD (TỪ 0% ĐẾN 100%) */
+    /* GIAI ĐOẠN BSOD */
     function triggerBsodPhase() {
-        document.getElementById('errorCascadeContainer').innerHTML = '';
+        document.getElementById('errorExplosionContainer').innerHTML = '';
         document.getElementById('mainWin').style.display = 'none';
         document.getElementById('bsodScreen').style.display = 'block';
         startBsodProgress();
@@ -317,7 +348,7 @@
         }, 600);
     }
 
-    /* GIAI ĐOẠN 3: JUMPSCARE MÀN HÌNH ĐEN & ĐIỀU HƯỚNG */
+    /* GIAI ĐOẠN JUMPSCARE */
     function triggerFinalBlackJumpscare() {
         document.getElementById('bsodScreen').style.display = 'none';
         const scare = document.getElementById('blackJumpscare');
