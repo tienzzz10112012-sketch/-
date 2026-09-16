@@ -251,9 +251,9 @@ html_content = """<!DOCTYPE html>
         this.style.filter = "contrast(250%)";
     });
 
-    // Lệnh giải mã & chuyển hướng sang hoso_t25.html
+    // Lệnh giải mã & kiểm tra từ khóa
     function executeSearch() {
-        const query = document.getElementById('searchInput').value.trim().toUpperCase().replace(/\s+/g, '');
+        const query = document.getElementById('searchInput').value.trim().toUpperCase().replace(/\\s+/g, '');
         const statusArea = document.getElementById('statusArea');
 
         if (!query) {
@@ -267,14 +267,11 @@ html_content = """<!DOCTYPE html>
             if (query === "VIT3301") {
                 statusArea.innerHTML = "<span style='color: green;'>[✓] Mật mã hợp lệ! Đang chuyển hướng đến Hồ sơ T2.5...</span>";
                 
-                // Chuyển hướng trực tiếp sang file hoso_t25.html sau 1 giây
                 setTimeout(function() {
                     window.location.href = "hoso_t25.html";
                 }, 1000);
-                
-                if (query === "duoitrannha") {
+            } else if (query === "DUOITRANNHA") {
                 statusArea.innerHTML = "<span style='color: red;'>[X] Mật mã này không thuộc về WIKIPEDIA, hãy kiểm tra MÃ NHÂN VIÊN</span>";
-
             } else {
                 statusArea.innerHTML = "<span style='color: red;'>⚠️ Mật mã không đúng hoặc hồ sơ đã bị xóa khỏi lưu trữ.</span>";
             }
@@ -289,4 +286,4 @@ html_content = """<!DOCTYPE html>
 with open("wiki_code.html", "w", encoding="utf-8") as f:
     f.write(html_content)
 
-print("Đã tạo file wiki_code.html")
+print("Đã tạo file wiki_code.html thành công!")
