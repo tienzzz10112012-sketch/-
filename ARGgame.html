@@ -66,7 +66,7 @@
         }
         .win-body { padding: 8px; color: #ff4444; font-size: 12px; }
 
-        .explorer-list { border: 1px solid #440000; height: 160px; overflow-y: auto; padding: 4px; background: #050000; }
+        .explorer-list { border: 1px solid #440000; height: 150px; overflow-y: auto; padding: 4px; background: #050000; }
         .file-item { padding: 4px; cursor: pointer; border-bottom: 1px dashed #330000; color: #ff6666; }
         .file-item:hover { background: #330000; color: #fff; }
         .file-item.locked { opacity: 0.25; pointer-events: none; text-decoration: line-through; }
@@ -77,7 +77,7 @@
             padding: 6px; outline: none; resize: none;
         }
 
-        .cmd-box { background: #000; height: 120px; overflow-y: auto; padding: 4px; border: 1px solid #440000; }
+        .cmd-box { background: #000; height: 110px; overflow-y: auto; padding: 4px; border: 1px solid #440000; }
         .cmd-input { background: transparent; border: none; color: #ff0000; font-family: inherit; width: 80%; outline: none; }
 
         .pass-input {
@@ -92,10 +92,7 @@
             font-size: 10px; padding: 4px; pointer-events: none;
             transition: transform 0.1s linear, opacity 0.5s ease-out;
         }
-        .glitch-win.shrinking {
-            transform: scale(0) !important;
-            opacity: 0 !important;
-        }
+        .glitch-win.shrinking { transform: scale(0) !important; opacity: 0 !important; }
 
         #winA90 {
             top: 50%; left: 50%; transform: translate(-50%, -50%) scale(1);
@@ -108,7 +105,7 @@
         .a90-zoom-crazy { transform: translate(-50%, -50%) scale(1.7) rotate(6deg) !important; filter: brightness(2.8); }
 
         .a90-face {
-            width: 20vw; max-width: 70px; height: auto; margin: 0 auto; display: block;
+            width: 18vw; max-width: 60px; height: auto; margin: 0 auto; display: block;
             filter: drop-shadow(0 0 12px #ff0000);
         }
 
@@ -117,17 +114,17 @@
             border: 1px dashed #ff0000; margin-top: 5px;
         }
         .a90-zone {
-            height: 7vh; min-height: 45px; border: 2px dashed #ff0000; margin-top: 4px;
+            height: 6vh; min-height: 40px; border: 2px dashed #ff0000; margin-top: 4px;
             display: flex; flex-direction: column; justify-content: center; align-items: center;
             background: rgba(255, 0, 0, 0.15); color: #ff0000; font-weight: bold; font-size: 10px;
         }
         .a90-zone.dragover { background: rgba(255, 0, 0, 0.45); border-style: solid; }
 
         .coin-item {
-            font-size: 40px; text-align: center; cursor: pointer; padding: 2px; 
+            font-size: 36px; text-align: center; cursor: pointer; padding: 2px; 
             animation: bounce 0.5s infinite alternate; display: inline-block;
         }
-        @keyframes bounce { from { transform: translateY(0); } to { transform: translateY(-6px); } }
+        @keyframes bounce { from { transform: translateY(0); } to { transform: translateY(-5px); } }
 
         .quiz-btn {
             display: block; width: 100%; margin: 4px 0; background: #200; border: 1px solid #f00;
@@ -142,20 +139,17 @@
         }
 
         .doors-container {
-            display: flex; flex-wrap: wrap; justify-content: center; margin-top: 8px; gap: 8px;
+            display: flex; flex-wrap: wrap; justify-content: center; margin-top: 6px; gap: 6px;
         }
         .door-btn {
-            flex: 1 1 42%; padding: 10px 5px; background: #300; border: 2px solid #f00;
-            color: #fff; font-weight: bold; cursor: pointer; font-size: 12px; text-align: center;
+            flex: 1 1 42%; padding: 8px 4px; background: #300; border: 2px solid #f00;
+            color: #fff; font-weight: bold; cursor: pointer; font-size: 11px; text-align: center;
             transition: all 0.2s;
         }
         .door-btn:hover { background: #500; box-shadow: 0 0 10px #f00; }
         .door-btn.selected { 
-            background: #00aa00 !important; 
-            border-color: #00ff00 !important; 
-            color: #ffffff !important; 
-            box-shadow: 0 0 15px #00ff00;
-            transform: scale(1.05);
+            background: #00aa00 !important; border-color: #00ff00 !important; color: #ffffff !important; 
+            box-shadow: 0 0 15px #00ff00; transform: scale(1.05);
         }
 
         .taskbar {
@@ -220,9 +214,9 @@
 - Mảnh 4: Đảo ngược chuỗi: "6V3B"
 - Mảnh 5: Mã bí mật mặc định: "Q8Z5"
 
-LUẬT CHƠI MỚI: 
-- Giai đoạn 1: Thu thập đủ 10 xu.
-- Giai đoạn 2: Đến màn cửa, cần thu thập thêm 5 xu nữa (Tổng 15 xu) với các câu hỏi tự luận hóc búa hơn!
+LUẬT SINH TỒN: 
+- Gom đủ 10 xu đầu tiên để MỞ CỬA CHỌN ngay lập tức.
+- Gom thêm 5 xu bonus phía sau KHÔNG BẮT BUỘC, nhưng nếu giải các câu hỏi tự luận để lấy chúng, bạn sẽ NHẬN ĐƯỢC MANH MỐI TUYỆT ĐỐI BIẾT TRƯỚC CỬA NÀO AN TOÀN!
             </textarea>
         </div>
     </div>
@@ -277,23 +271,23 @@ LUẬT CHƠI MỚI:
 
     <!-- A-90 MAIN WINDOW -->
     <div class="window" id="winA90">
-        <div class="titlebar"><span id="a90WaveTitle">⚠️ A-90 RANSOMWARE</span></div>
+        <div class="titlebar"><span>⚠️ A-90 RANSOMWARE</span></div>
         <div class="win-body" style="text-align:center;">
             <img src="https://static.wikia.nocookie.net/doors-entities-official/images/d/df/A-90.png/revision/latest?cb=20240926110929" class="a90-face" alt="A-90">
             
-            <!-- KHU VỰC NỘP XU (GIAI ĐOẠN 1 & GIAI ĐOẠN 2) -->
+            <!-- KHU VỰC NỘP XU -->
             <div id="coinStageArea">
-                <p style="margin:2px 0; font-weight:bold; color:#ff0000; font-size:11px;" id="coinStageInstruction">THU THẬP ĐỦ 10 XU ĐỂ MỞ CỬA CHỌN!</p>
-                <p style="font-size: 11px; margin: 2px 0;">Đồng xu đã thu: <span id="coinCountText" style="color:#ffff00; font-weight:bold;">0</span>/<span id="targetCoinText">10</span> 🪙</p>
+                <p style="margin:2px 0; font-weight:bold; color:#ff0000; font-size:11px;" id="coinStageInstruction">THU THẬP ĐỦ 10 XU ĐỂ MỞ CỬA NGAY LẬP TỨC!</p>
+                <p style="font-size: 11px; margin: 2px 0;">Đồng xu đã thu: <span id="coinCountText" style="color:#ffff00; font-weight:bold;">0</span>/10 🪙 <span id="bonusCoinLabel" style="color:#00ff00; display:none;">(Bonus: +<span id="bonusCoinCount">0</span>/5)</span></p>
                 <div class="a90-zone" id="dropZone" ondragover="allowDrop(event)" ondragleave="leaveDrop(event)" ondrop="handleDrop(event)">
-                    <span>KÉO XU HOẶC CLICK VÀO XU ĐỂ NỘP NAY</span>
+                    <span>KÉO HOẶC CLICK VÀO XU ĐỂ NỘP</span>
                 </div>
             </div>
 
             <!-- CHỌN CÁNH CỬA -->
-            <div id="doorStageArea" style="display:none;">
+            <div id="doorStageArea">
                 <p style="margin:4px 0; font-weight:bold; color:#ffff00; font-size:11px;" id="doorStageTitle">⚠️ CHỌN CỬA AN TOÀN ĐỂ THOÁT!</p>
-                <p style="font-size:10px; color:#aaa;" id="doorHintText">Có thể click chọn qua lại giữa các cửa bất cứ lúc nào!</p>
+                <p style="font-size:10px; color:#00ff00; min-height: 14px;" id="doorHintBox">Manh mối cửa an toàn: 🔒 (Chưa rõ)</p>
                 <div class="doors-container" id="doorsContainerBox"></div>
                 <p id="doorChosenStatus" style="color:#00ff00; font-size:10px; font-weight:bold; margin-top:4px; display:none;"></p>
             </div>
@@ -312,8 +306,8 @@ LUẬT CHƠI MỚI:
     let actx;
     let musicInterval = null;
     let coinsCollected = 0;
-    let targetCoinsNeeded = 10; // Bắt đầu với 10 xu
-    let isSecondStage = false;  // Trạng thái đã qua 10 xu đầu hay chưa
+    let bonusCoinsCollected = 0;
+    let isGoalReached = false; // Đã đạt 10 xu hay chưa
     let winningDoorIndex = 0;
     let selectedDoorIndex = null;
     let isVaultSolvedSuccessfully = false;
@@ -398,12 +392,7 @@ LUẬT CHƠI MỚI:
     }
     function stopMove() { activeWin = null; document.removeEventListener('mousemove', moveWin); }
 
-    function openWin(id) { 
-        playClick(); 
-        const w = document.getElementById(id); 
-        w.style.display = 'block'; 
-        if(id !== 'winA90') w.style.zIndex = ++zIndex; 
-    }
+    function openWin(id) { playClick(); const w = document.getElementById(id); w.style.display = 'block'; if(id !== 'winA90') w.style.zIndex = ++zIndex; }
     function closeWin(id) { playClick(); document.getElementById(id).style.display = 'none'; }
 
     function execCmd(e) {
@@ -425,8 +414,7 @@ LUẬT CHƠI MỚI:
         const res = document.getElementById('vaultRes');
         if(p === "K7A2X9M1R4P8B3V6Q8Z5") {
             isVaultSolvedSuccessfully = true;
-            res.style.color = "#00ff00"; 
-            res.innerText = "THÀNH CÔNG! ĐÃ GIẢI MÃ LÕI TỐI CAO.";
+            res.style.color = "#00ff00"; res.innerText = "THÀNH CÔNG! ĐÃ GIẢI MÃ LÕI TỐI CAO.";
             requestFullScreenMode();
             startA90BossFight();
         } else {
@@ -481,8 +469,8 @@ LUẬT CHƠI MỚI:
         document.getElementById('quizChallengeArea').style.display = 'block';
         document.getElementById('quizErr').innerText = '';
 
-        // 30% tỷ lệ ra câu hỏi tự luận ở giai đoạn 2, hoặc ngẫu nhiên
-        let isEssay = isSecondStage && (Math.random() < 0.4);
+        // Nếu đã đủ 10 xu đầu, các tệp còn lại sẽ có tỷ lệ cao ra câu hỏi tự luận hóc búa
+        let isEssay = isGoalReached && (Math.random() < 0.6);
 
         if(isEssay) {
             document.getElementById('quizOptions').style.display = 'none';
@@ -490,9 +478,9 @@ LUẬT CHƠI MỚI:
             document.getElementById('essayInputBox').value = '';
 
             const essayPool = [
-                { q: "CÂU HỎI TỰ LUẬN:\nGõ tên thực thể chính trong tựa game DOORS gây ra màn chơi này:", ans: "A-90" },
-                { q: "CÂU HỎI TỰ LUẬN:\nGõ kết quả phép tính: 15 * 4 - 10 =", ans: "50" },
-                { q: "CÂU HỎI TỰ LUẬN:\nGõ mảnh mã hóa cơ bản 'R4P8' ngược lại hoặc nhập đúng mã chuẩn:", ans: "R4P8" }
+                { q: "CÂU HỎI TỰ LUẬN BÍ MẬT:\nGõ tên thực thể rượt đuổi chính trong phòng thí nghiệm DOORS (A-...) :", ans: "A-90" },
+                { q: "CÂU HỎI TỰ LUẬN TƯ DUY:\nGiải mã phép tính: 2026 - 1976 =", ans: "50" },
+                { q: "CÂU HỎI TỰ LUẬN BẢO MẬT:\nGõ mã chuẩn mảnh 4 được đảo ngược từ '6V3B':", ans: "B3V6" }
             ];
             let chosen = essayPool[Math.floor(Math.random() * essayPool.length)];
             document.getElementById('quizQuestion').innerText = chosen.q;
@@ -551,7 +539,7 @@ LUẬT CHƠI MỚI:
             area.innerHTML = `
                 <p style="color:#ffff00; font-weight:bold; margin:4px 0;">BẠN ĐÃ TÌM THẤY 1 XU!</p>
                 <div class="coin-item" draggable="true" ondragstart="dragCoin(event)" onclick="submitCoinDirectly()">🪙</div>
-                <p style="font-size:10px; color:#888;">(Click thẳng vào xu hoặc kéo thả để nộp)</p>
+                <p style="font-size:10px; color:#888;">(Click thẳng vào xu hoặc kéo thả vào khung nộp)</p>
             `;
         } else {
             area.innerHTML = `<p style="color:#ff0000; font-size:12px; font-weight:bold;">TỆP KHÔNG CHỨA XU!</p>`;
@@ -598,14 +586,16 @@ LUẬT CHƠI MỚI:
 
         openWin('winA90');
         coinsCollected = 0;
-        targetCoinsNeeded = 10;
-        isSecondStage = false;
+        bonusCoinsCollected = 0;
+        isGoalReached = false;
         
-        document.getElementById('targetCoinText').innerText = targetCoinsNeeded;
-        document.getElementById('coinStageInstruction').innerText = "THU THẬP ĐỦ 10 XU ĐỂ MỞ CỬA CHỌN!";
+        document.getElementById('coinCountText').innerText = "0";
+        document.getElementById('bonusCoinLabel').style.display = 'none';
+        document.getElementById('coinStageInstruction').innerText = "THU THẬP ĐỦ 10 XU ĐỂ MỞ CỬA NGAY LẬP TỨC!";
+        document.getElementById('doorHintBox').innerText = "Manh mối cửa an toàn: 🔒 (Cần gom 10 xu để mở cửa / Nhặt thêm 5 xu bonus để soi lộ trình)";
 
-        // Giai đoạn đầu tạo số lượng file vừa phải
-        initFileList(10, 8);
+        // Tạo số lượng tệp txt vừa phải (10 xu chính + 5 xu bonus ẩn trong các tệp)
+        initFileList(15, 6);
 
         timeElapsed = 0;
         clearInterval(musicInterval);
@@ -627,8 +617,8 @@ LUẬT CHƠI MỚI:
         }
         
         document.getElementById('doorStageTitle').innerText = isVaultSolvedSuccessfully ? 
-            "⚠️ GIẢI MÃ THÀNH CÔNG: CHỌN 1 TRONG 2 CỬA (50%)!" : 
-            "⚠️ CHƯA GIẢI MÃ: CHỌN 1 TRONG 4 CỬA (25%)!";
+            "⚠️ MÀN CHỌN CỬA (2 CỬA - 50% TỶ LỆ)!" : 
+            "⚠️ MÀN CHỌN CỬA (4 CỬA - 25% TỶ LỆ)!";
     }
 
     function initFileList(coinCount, emptyCount) {
@@ -796,25 +786,33 @@ LUẬT CHƠI MỚI:
         lockCurrentFile();
         closeWin('winTxtViewer');
 
-        if(coinsCollected < targetCoinsNeeded) {
+        if(coinsCollected < 10) {
             coinsCollected++;
             document.getElementById('coinCountText').innerText = coinsCollected;
 
-            if(coinsCollected === 10 && !isSecondStage) {
-                // KÍCH HOẠT GIAI ĐOẠN 2: THU THÊM 5 XU NỮA, ÍT TỆP HƠN NHƯNG CÓ CÂU TỰ LUẬN
-                isSecondStage = true;
-                targetCoinsNeeded = 15;
-                document.getElementById('targetCoinText').innerText = targetCoinsNeeded;
-                document.getElementById('coinStageInstruction').innerText = "HOÀN TỐT! THU THÊM 5 XU NỮA ĐỂ MỞ KHÓA HOÀN TOÀN CỬA!";
-                
-                // Tạo ít tệp hơn nhưng nâng cấp câu hỏi (có câu tự luận)
-                initFileList(5, 4);
-            } 
-            else if(coinsCollected >= targetCoinsNeeded) {
-                // ĐÃ ĐỦ TỔNG CỘNG 15 XU -> CHUYỂN SANG MÀN CHỌN CỬA
-                document.getElementById('coinStageArea').style.display = 'none';
-                document.getElementById('doorStageArea').style.display = 'block';
+            if(coinsCollected === 10) {
+                isGoalReached = true;
+                document.getElementById('coinStageInstruction').innerHTML = "<span style='color:#00ff00;'>ĐÃ ĐỦ 10 XU! CỬA ĐÃ MỞ (CÓ THỂ NHẶT THÊM 5 XU BONUS ĐỂ SOI MANH MỐI)</span>";
+                document.getElementById('bonusCoinLabel').style.display = 'inline';
             }
+        } else if(bonusCoinsCollected < 5) {
+            bonusCoinsCollected++;
+            document.getElementById('bonusCoinCount').innerText = bonusCoinsCollected;
+            updateDoorHintByBonus();
+        }
+    }
+
+    function updateDoorHintByBonus() {
+        const doorNames = ['A', 'B', 'C', 'D'];
+        let correctName = doorNames[winningDoorIndex];
+        let hintBox = document.getElementById('doorHintBox');
+
+        if(bonusCoinsCollected >= 5) {
+            hintBox.innerHTML = `💡 MANH MỐI TUYỆT ĐỐI: Cửa an toàn chính xác là <span style="color:#ffff00; font-size:13px;"><b>CỬA ${correctName}</b></span>!`;
+        } else if(bonusCoinsCollected >= 3) {
+            hintBox.innerHTML = `💡 MANH MỐI LỚN: Cửa an toàn KHÔNG PHẢI là cửa đầu tiên, hãy chú ý kỹ Cửa ${correctName}!`;
+        } else {
+            hintBox.innerHTML = `💡 MANH MỐI BỔ SUNG: Đã thu ${bonusCoinsCollected}/5 xu bonus. Tiếp tục nhặt để khoanh vùng chính xác cửa an toàn!`;
         }
     }
 
@@ -824,16 +822,16 @@ LUẬT CHƠI MỚI:
 
         const total = isVaultSolvedSuccessfully ? 2 : 4;
         for(let i=0; i<total; i++) {
-            const btn = document.getElementById(`doorBtn_${i}`);
+            let btn = document.getElementById(`doorBtn_${i}`);
             if(btn) btn.classList.remove('selected');
         }
 
-        const currentBtn = document.getElementById(`doorBtn_${index}`);
+        let currentBtn = document.getElementById(`doorBtn_${index}`);
         if(currentBtn) currentBtn.classList.add('selected');
 
-        const status = document.getElementById('doorChosenStatus');
+        let status = document.getElementById('doorChosenStatus');
         status.style.display = 'block';
-        status.innerText = `✨ ĐANG CHỌN CỬA ${name} (CÓ THỂ ĐỔI CỬA KHÁC TRƯỚC KHI HẾT GIỜ!)`;
+        status.innerText = `✨ ĐANG CHỌN CỬA ${name} (Có thể đổi cửa khác trước khi hết giờ!)`;
     }
 
     function triggerLoss() {
