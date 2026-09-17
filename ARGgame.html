@@ -86,7 +86,6 @@
             text-transform: uppercase;
         }
 
-        /* POPUP VIRUS LỘN XỘN (Z-INDEX THẤP ĐỂ KHÔNG BAO GIỜ CHE A-90) */
         .glitch-win {
             position: absolute; background: rgba(80, 0, 0, 0.95); border: 2px solid #f00;
             color: #fff; z-index: 500; box-shadow: 0 0 15px #f00;
@@ -98,7 +97,6 @@
             opacity: 0 !important;
         }
 
-        /* WIN A-90 ỔN ĐỊNH VÀ LUÔN NẰM TRÊN CÙNG */
         #winA90 {
             top: 50%; left: 50%; transform: translate(-50%, -50%) scale(1);
             width: 85%; max-width: 380px; border: 2px solid #ff0000;
@@ -114,7 +112,6 @@
             filter: drop-shadow(0 0 12px #ff0000);
         }
 
-        /* KHU VỰC NỘP XU ĐƯỢC ƯU TIÊN TUYỆT ĐỐI KHÔNG BỊ POPUP QUẤY RỐI */
         #coinStageArea {
             position: relative; z-index: 100000; background: rgba(0,0,0,0.85); padding: 4px;
             border: 1px dashed #ff0000; margin-top: 5px;
@@ -138,7 +135,12 @@
         }
         .quiz-btn:hover { background: #f00; color: #000; font-weight: bold; }
 
-        /* KHU VỰC CHỌN CÁNH CỬA (2 HOẶC 4 CỬA) */
+        .essay-input {
+            width: 100%; padding: 6px; background: #000; color: #00ff00;
+            border: 1px solid #00ff00; font-family: inherit; font-size: 12px; margin-top: 5px;
+            text-transform: uppercase; text-align: center; outline: none;
+        }
+
         .doors-container {
             display: flex; flex-wrap: wrap; justify-content: center; margin-top: 8px; gap: 8px;
         }
@@ -218,7 +220,9 @@
 - Mảnh 4: Đảo ngược chuỗi: "6V3B"
 - Mảnh 5: Mã bí mật mặc định: "Q8Z5"
 
-CẢNH BÁO: Gõ sai 5 lần hoặc bấm xác nhận sai sẽ kích hoạt Boss Fight 4 cửa (25% Win)!
+LUẬT CHƠI MỚI: 
+- Giai đoạn 1: Thu thập đủ 10 xu.
+- Giai đoạn 2: Đến màn cửa, cần thu thập thêm 5 xu nữa (Tổng 15 xu) với các câu hỏi tự luận hóc búa hơn!
             </textarea>
         </div>
     </div>
@@ -261,28 +265,32 @@ CẢNH BÁO: Gõ sai 5 lần hoặc bấm xác nhận sai sẽ kích hoạt Boss
             <div id="quizChallengeArea">
                 <p id="quizQuestion" style="font-weight:bold; color:#ffff00; font-size:12px; margin-bottom:8px;"></p>
                 <div id="quizOptions"></div>
+                <div id="essayArea" style="display:none;">
+                    <input type="text" id="essayInputBox" class="essay-input" placeholder="Nhập đáp án...">
+                    <button class="quiz-btn" style="margin-top:6px; text-align:center;" onclick="verifyEssayAnswer()">GỬI ĐÁP ÁN TỰ LUẬN</button>
+                </div>
                 <p id="quizErr" style="color:#f00; font-size:11px; margin:6px 0 0 0; font-weight:bold;"></p>
             </div>
             <div id="fileContentArea" style="display:none;"></div>
         </div>
     </div>
 
-    <!-- A-90 MAIN WINDOW (LUÔN Ở LỚP CAO NHẤT 99999) -->
+    <!-- A-90 MAIN WINDOW -->
     <div class="window" id="winA90">
         <div class="titlebar"><span id="a90WaveTitle">⚠️ A-90 RANSOMWARE</span></div>
         <div class="win-body" style="text-align:center;">
             <img src="https://static.wikia.nocookie.net/doors-entities-official/images/d/df/A-90.png/revision/latest?cb=20240926110929" class="a90-face" alt="A-90">
             
-            <!-- VÙNG NỘP XU ĐƯỢC BẢO VỆ KHỎI MỌI POPUP -->
+            <!-- KHU VỰC NỘP XU (GIAI ĐOẠN 1 & GIAI ĐOẠN 2) -->
             <div id="coinStageArea">
-                <p style="margin:2px 0; font-weight:bold; color:#ff0000; font-size:11px;">THU THẬP ĐỦ 10 XU ĐỂ MỞ CỬA CHỌN!</p>
-                <p style="font-size: 11px; margin: 2px 0;">Đồng xu đã thu: <span id="coinCountText" style="color:#ffff00; font-weight:bold;">0</span>/10 🪙</p>
+                <p style="margin:2px 0; font-weight:bold; color:#ff0000; font-size:11px;" id="coinStageInstruction">THU THẬP ĐỦ 10 XU ĐỂ MỞ CỬA CHỌN!</p>
+                <p style="font-size: 11px; margin: 2px 0;">Đồng xu đã thu: <span id="coinCountText" style="color:#ffff00; font-weight:bold;">0</span>/<span id="targetCoinText">10</span> 🪙</p>
                 <div class="a90-zone" id="dropZone" ondragover="allowDrop(event)" ondragleave="leaveDrop(event)" ondrop="handleDrop(event)">
                     <span>KÉO XU HOẶC CLICK VÀO XU ĐỂ NỘP NAY</span>
                 </div>
             </div>
 
-            <!-- CHỌN CÁNH CỬA (HIỆN KHI ĐỦ 10 XU) -->
+            <!-- CHỌN CÁNH CỬA -->
             <div id="doorStageArea" style="display:none;">
                 <p style="margin:4px 0; font-weight:bold; color:#ffff00; font-size:11px;" id="doorStageTitle">⚠️ CHỌN CỬA AN TOÀN ĐỂ THOÁT!</p>
                 <p style="font-size:10px; color:#aaa;" id="doorHintText">Có thể click chọn qua lại giữa các cửa bất cứ lúc nào!</p>
@@ -304,15 +312,17 @@ CẢNH BÁO: Gõ sai 5 lần hoặc bấm xác nhận sai sẽ kích hoạt Boss
     let actx;
     let musicInterval = null;
     let coinsCollected = 0;
+    let targetCoinsNeeded = 10; // Bắt đầu với 10 xu
+    let isSecondStage = false;  // Trạng thái đã qua 10 xu đầu hay chưa
     let winningDoorIndex = 0;
     let selectedDoorIndex = null;
-    let isVaultSolvedSuccessfully = false; // Biến kiểm tra có giải mã lõi đúng hay không
+    let isVaultSolvedSuccessfully = false;
 
     let pendingFileContent = "";
     let pendingIsCoin = false;
     let pendingElement = null;
     let correctQuizIndex = 0;
-    let targetMathAnswer = 0;
+    let correctEssayAnswer = "";
 
     function bootSystem() {
         document.getElementById('bootScreen').style.display = 'none';
@@ -433,6 +443,8 @@ CẢNH BÁO: Gõ sai 5 lần hoặc bấm xác nhận sai sẽ kích hoạt Boss
 
     function openQuizModal(questionText, optionsArr, correctIdx) {
         document.getElementById('quizQuestion').innerText = questionText;
+        document.getElementById('quizOptions').style.display = 'block';
+        document.getElementById('essayArea').style.display = 'none';
         const optsContainer = document.getElementById('quizOptions');
         optsContainer.innerHTML = '';
         correctQuizIndex = correctIdx;
@@ -459,43 +471,74 @@ CẢNH BÁO: Gõ sai 5 lần hoặc bấm xác nhận sai sẽ kích hoạt Boss
         openWin('winTxtViewer');
     }
 
-    function generateMathChallenge(isCoin, element) {
+    function generateChallenge(isCoin, element) {
         if(element && element.classList.contains('locked')) return;
 
         pendingElement = element;
         pendingIsCoin = isCoin;
 
-        let n1 = Math.floor(Math.random() * 9) + 1;
-        let n2 = Math.floor(Math.random() * 9) + 1;
-        let isAdd = Math.random() > 0.5;
-        if(!isAdd && n1 < n2) { let t = n1; n1 = n2; n2 = t; }
-
-        targetMathAnswer = isAdd ? (n1 + n2) : (n1 - n2);
-
         document.getElementById('fileContentArea').style.display = 'none';
         document.getElementById('quizChallengeArea').style.display = 'block';
-        document.getElementById('quizQuestion').innerText = `CÂU HỎI TOÁN HỌC:\n${n1} ${isAdd ? '+' : '-'} ${n2} = ?`;
-        
-        let choices = [targetMathAnswer, targetMathAnswer + 1, Math.max(0, targetMathAnswer - 1), targetMathAnswer + 2];
-        choices = [...new Set(choices)].sort(() => Math.random() - 0.5);
-        correctQuizIndex = choices.indexOf(targetMathAnswer);
-
-        const optsContainer = document.getElementById('quizOptions');
-        optsContainer.innerHTML = '';
-        choices.forEach((optText, i) => {
-            const btn = document.createElement('button');
-            btn.className = 'quiz-btn';
-            btn.innerText = `${String.fromCharCode(65 + i)}. ${optText}`;
-            btn.onclick = () => verifyQuizAnswer(i);
-            optsContainer.appendChild(btn);
-        });
         document.getElementById('quizErr').innerText = '';
+
+        // 30% tỷ lệ ra câu hỏi tự luận ở giai đoạn 2, hoặc ngẫu nhiên
+        let isEssay = isSecondStage && (Math.random() < 0.4);
+
+        if(isEssay) {
+            document.getElementById('quizOptions').style.display = 'none';
+            document.getElementById('essayArea').style.display = 'block';
+            document.getElementById('essayInputBox').value = '';
+
+            const essayPool = [
+                { q: "CÂU HỎI TỰ LUẬN:\nGõ tên thực thể chính trong tựa game DOORS gây ra màn chơi này:", ans: "A-90" },
+                { q: "CÂU HỎI TỰ LUẬN:\nGõ kết quả phép tính: 15 * 4 - 10 =", ans: "50" },
+                { q: "CÂU HỎI TỰ LUẬN:\nGõ mảnh mã hóa cơ bản 'R4P8' ngược lại hoặc nhập đúng mã chuẩn:", ans: "R4P8" }
+            ];
+            let chosen = essayPool[Math.floor(Math.random() * essayPool.length)];
+            document.getElementById('quizQuestion').innerText = chosen.q;
+            correctEssayAnswer = chosen.ans.toUpperCase();
+        } else {
+            document.getElementById('quizOptions').style.display = 'block';
+            document.getElementById('essayArea').style.display = 'none';
+
+            let n1 = Math.floor(Math.random() * 9) + 1;
+            let n2 = Math.floor(Math.random() * 9) + 1;
+            let isAdd = Math.random() > 0.5;
+            if(!isAdd && n1 < n2) { let t = n1; n1 = n2; n2 = t; }
+
+            let targetAns = isAdd ? (n1 + n2) : (n1 - n2);
+            document.getElementById('quizQuestion').innerText = `CÂU HỎI TOÁN HỌC:\n${n1} ${isAdd ? '+' : '-'} ${n2} = ?`;
+            
+            let choices = [targetAns, targetAns + 1, Math.max(0, targetAns - 1), targetAns + 2];
+            choices = [...new Set(choices)].sort(() => Math.random() - 0.5);
+            correctQuizIndex = choices.indexOf(targetAns);
+
+            const optsContainer = document.getElementById('quizOptions');
+            optsContainer.innerHTML = '';
+            choices.forEach((optText, i) => {
+                const btn = document.createElement('button');
+                btn.className = 'quiz-btn';
+                btn.innerText = `${String.fromCharCode(65 + i)}. ${optText}`;
+                btn.onclick = () => verifyQuizAnswer(i);
+                optsContainer.appendChild(btn);
+            });
+        }
         openWin('winTxtViewer');
     }
 
     function verifyQuizAnswer(selectedIdx) {
         if(selectedIdx === correctQuizIndex) showFileSuccess();
         else { playGlitch(); document.getElementById('quizErr').innerText = "SAI RỒI! HÃY CHỌN LẠI."; }
+    }
+
+    function verifyEssayAnswer() {
+        let val = document.getElementById('essayInputBox').value.trim().toUpperCase();
+        if(val === correctEssayAnswer) {
+            showFileSuccess();
+        } else {
+            playGlitch();
+            document.getElementById('quizErr').innerText = "ĐÁP ÁN TỰ LUẬN CHƯA CHÍNH XÁC!";
+        }
     }
 
     function showFileSuccess() {
@@ -547,7 +590,6 @@ CẢNH BÁO: Gõ sai 5 lần hoặc bấm xác nhận sai sẽ kích hoạt Boss
         const bgMusic = document.getElementById('bgMusic');
         if(bgMusic) { bgMusic.currentTime = 0; bgMusic.play().catch(e => console.log(e)); }
 
-        // Xác định số lượng cửa và cánh cửa chiến thắng dựa vào kết quả giải mã lõi
         let totalDoors = isVaultSolvedSuccessfully ? 2 : 4;
         winningDoorIndex = Math.floor(Math.random() * totalDoors);
         selectedDoorIndex = null;
@@ -556,7 +598,14 @@ CẢNH BÁO: Gõ sai 5 lần hoặc bấm xác nhận sai sẽ kích hoạt Boss
 
         openWin('winA90');
         coinsCollected = 0;
-        initFileList(10);
+        targetCoinsNeeded = 10;
+        isSecondStage = false;
+        
+        document.getElementById('targetCoinText').innerText = targetCoinsNeeded;
+        document.getElementById('coinStageInstruction').innerText = "THU THẬP ĐỦ 10 XU ĐỂ MỞ CỬA CHỌN!";
+
+        // Giai đoạn đầu tạo số lượng file vừa phải
+        initFileList(10, 8);
 
         timeElapsed = 0;
         clearInterval(musicInterval);
@@ -582,13 +631,13 @@ CẢNH BÁO: Gõ sai 5 lần hoặc bấm xác nhận sai sẽ kích hoạt Boss
             "⚠️ CHƯA GIẢI MÃ: CHỌN 1 TRONG 4 CỬA (25%)!";
     }
 
-    function initFileList(coinCount) {
+    function initFileList(coinCount, emptyCount) {
         generatedElements.forEach(el => el.remove());
         generatedElements = [];
 
         let filePool = [];
         for(let i=0; i<coinCount; i++) filePool.push({ isCoin: true });
-        for(let i=0; i<8; i++) filePool.push({ isCoin: false });
+        for(let i=0; i<emptyCount; i++) filePool.push({ isCoin: false });
         filePool = filePool.sort(() => Math.random() - 0.5);
 
         const desktop = document.getElementById('desktopView');
@@ -596,18 +645,18 @@ CẢNH BÁO: Gõ sai 5 lần hoặc bấm xác nhận sai sẽ kích hoạt Boss
 
         filePool.forEach((fileObj, index) => {
             const randomName = `data_${Math.floor(Math.random() * 8999 + 1000)}.txt`;
-            if(index < 10) {
+            if(index < Math.ceil(filePool.length / 2)) {
                 const icon = document.createElement('div');
                 icon.className = 'icon a90-gen-file';
                 icon.innerHTML = `<span class="icon-img">📄</span> ${randomName}`;
-                icon.onclick = () => generateMathChallenge(fileObj.isCoin, icon);
+                icon.onclick = () => generateChallenge(fileObj.isCoin, icon);
                 desktop.appendChild(icon);
                 generatedElements.push(icon);
             } else {
                 const item = document.createElement('div');
                 item.className = 'file-item a90-gen-file';
                 item.innerText = `⚠️ ${randomName}`;
-                item.onclick = () => generateMathChallenge(fileObj.isCoin, item);
+                item.onclick = () => generateChallenge(fileObj.isCoin, item);
                 explorer.appendChild(item);
                 generatedElements.push(item);
             }
@@ -625,7 +674,7 @@ CẢNH BÁO: Gõ sai 5 lần hoặc bấm xác nhận sai sẽ kích hoạt Boss
         const winA90 = document.getElementById('winA90');
         const blackout = document.getElementById('blackoutOverlay');
 
-        const TOTAL_TIME = 112; // 1 PHÚT 52 GIÂY
+        const TOTAL_TIME = 112; 
         let remain = Math.max(0, TOTAL_TIME - currentSec);
         let m = Math.floor(remain / 60), s = remain % 60;
         document.getElementById('timerDisplay').innerText = `Thời gian: ${m<10?'0':''}${m}:${s<10?'0':''}${s}`;
@@ -747,30 +796,38 @@ CẢNH BÁO: Gõ sai 5 lần hoặc bấm xác nhận sai sẽ kích hoạt Boss
         lockCurrentFile();
         closeWin('winTxtViewer');
 
-        if(coinsCollected < 10) {
+        if(coinsCollected < targetCoinsNeeded) {
             coinsCollected++;
             document.getElementById('coinCountText').innerText = coinsCollected;
 
-            if(coinsCollected >= 10) {
+            if(coinsCollected === 10 && !isSecondStage) {
+                // KÍCH HOẠT GIAI ĐOẠN 2: THU THÊM 5 XU NỮA, ÍT TỆP HƠN NHƯNG CÓ CÂU TỰ LUẬN
+                isSecondStage = true;
+                targetCoinsNeeded = 15;
+                document.getElementById('targetCoinText').innerText = targetCoinsNeeded;
+                document.getElementById('coinStageInstruction').innerText = "HOÀN TỐT! THU THÊM 5 XU NỮA ĐỂ MỞ KHÓA HOÀN TOÀN CỬA!";
+                
+                // Tạo ít tệp hơn nhưng nâng cấp câu hỏi (có câu tự luận)
+                initFileList(5, 4);
+            } 
+            else if(coinsCollected >= targetCoinsNeeded) {
+                // ĐÃ ĐỦ TỔNG CỘNG 15 XU -> CHUYỂN SANG MÀN CHỌN CỬA
                 document.getElementById('coinStageArea').style.display = 'none';
                 document.getElementById('doorStageArea').style.display = 'block';
             }
         }
     }
 
-    // CHỌN CỬA LINH HOẠT: CÓ THỂ ĐỔI QUA ĐỔI LẠI VÀ LÀM SÁNG OPTION ĐƯỢC CHỌN
     function selectDoor(index, name) {
         playClick();
         selectedDoorIndex = index;
 
-        // Xóa trạng thái sáng của tất cả cửa
         const total = isVaultSolvedSuccessfully ? 2 : 4;
         for(let i=0; i<total; i++) {
             const btn = document.getElementById(`doorBtn_${i}`);
             if(btn) btn.classList.remove('selected');
         }
 
-        // Làm sáng cửa hiện tại được click
         const currentBtn = document.getElementById(`doorBtn_${index}`);
         if(currentBtn) currentBtn.classList.add('selected');
 
