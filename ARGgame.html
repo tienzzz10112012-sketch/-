@@ -2,242 +2,790 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CAUSALITY_MATRIX.EXE - Windows XP</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-select=no">
+    <title>A-90 ARCHIVES - SURVIVAL DOORS EDITION</title>
     <style>
         * { box-sizing: border-box; user-select: none; }
-        body {
-            margin: 0; padding: 0;
-            background-color: #5a7edc; /* Màu nền desktop XP */
-            background-image: radial-gradient(circle, #5a7edc 0%, #294a9c 100%);
-            font-family: 'Tahoma', 'Segoe UI', Geneva, sans-serif;
-            display: flex; justify-content: center; align-items: center;
-            min-height: 100vh; overflow: hidden;
+        body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; background: #000; font-family: 'Courier New', monospace; }
+
+        #bootScreen {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: #000; color: #ff0000; display: flex; flex-direction: column;
+            justify-content: center; align-items: center; z-index: 999999;
+            font-size: 20px; cursor: pointer; text-shadow: 0 0 10px #ff0000;
         }
 
-        /* KHUNG CỬA SỔ WINDOWS XP */
-        .xp-window {
-            width: 95%; max-width: 520px;
-            background-color: #ece9d8;
-            border: 3px solid #0054e3;
-            border-radius: 8px 8px 0 0;
-            box-shadow: 4px 4px 20px rgba(0,0,0,0.5);
-            overflow: hidden;
+        #blackoutOverlay {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: #000; z-index: 90000; opacity: 0; pointer-events: none;
+            transition: opacity 0.1s linear;
         }
 
-        /* THANH TIÊU ĐỀ BLUE LUNA */
-        .xp-titlebar {
-            background: linear-gradient(to bottom, #0058ee 0%, #3593ff 4%, #288eff 6%, #0058ee 8%, #0052de 14%, #0056e5 18%, #0056e5 20%, #0057e7 93%, #0042b7 100%);
-            padding: 4px 8px; color: #ffffff; font-weight: bold; font-size: 12px;
-            text-shadow: 1px 1px 1px #000;
+        #flashTransition {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: #ffffff; z-index: 95000; opacity: 0; pointer-events: none;
+            transition: opacity 0.5s ease-out;
+        }
+
+        .desktop {
+            height: calc(100% - 35px); padding: 15px;
+            background: radial-gradient(circle, #1a0000 0%, #050000 70%, #000000 100%);
+            display: flex; flex-direction: column; flex-wrap: wrap;
+            align-content: flex-start; gap: 10px; position: relative;
+            overflow: hidden; transition: transform 0.05s ease, filter 0.05s;
+        }
+
+        .desktop.redzone-pump {
+            transform: scale(1.03);
+            filter: brightness(1.4) contrast(1.2);
+        }
+
+        .icon {
+            width: 80px; text-align: center; color: #cc3333;
+            font-size: 10px; cursor: pointer; padding: 4px; font-weight: bold;
+            z-index: 3; word-break: break-all;
+        }
+        .icon:hover { color: #ff0000; background: rgba(255,0,0,0.15); border: 1px dashed #ff0000; }
+        .icon-img { font-size: 24px; display: block; margin-bottom: 2px; }
+        .icon.locked { opacity: 0.25; pointer-events: none; filter: grayscale(1); }
+
+        .window {
+            position: absolute; background: rgba(10, 0, 0, 0.95); border: 1px solid #ff0000;
+            box-shadow: 0 0 15px rgba(255,0,0,0.4); display: none; z-index: 10;
+            max-width: 90vw; max-height: 85vh;
+        }
+        .titlebar {
+            background: #330000; padding: 4px 8px; color: #ff6666;
+            font-weight: bold; font-size: 12px; cursor: move;
             display: flex; justify-content: space-between; align-items: center;
-            height: 30px;
+            border-bottom: 1px solid #ff0000;
+        }
+        .btn-close {
+            background: transparent; border: 1px solid #ff3333; color: #ff3333;
+            width: 18px; height: 18px; font-size: 10px; cursor: pointer;
+        }
+        .win-body { padding: 8px; color: #ff4444; font-size: 12px; }
+
+        .explorer-list { border: 1px solid #440000; height: 160px; overflow-y: auto; padding: 4px; background: #050000; }
+        .file-item { padding: 4px; cursor: pointer; border-bottom: 1px dashed #330000; color: #ff6666; }
+        .file-item:hover { background: #330000; color: #fff; }
+        .file-item.locked { opacity: 0.25; pointer-events: none; text-decoration: line-through; }
+
+        .notepad-area {
+            width: 100%; height: 110px; background: #000; color: #ff3333;
+            border: 1px solid #440000; font-family: inherit; font-size: 11px;
+            padding: 6px; outline: none; resize: none;
         }
 
-        .xp-title-text {
-            display: flex; align-items: center; gap: 6px;
+        .cmd-box { background: #000; height: 120px; overflow-y: auto; padding: 4px; border: 1px solid #440000; }
+        .cmd-input { background: transparent; border: none; color: #ff0000; font-family: inherit; width: 80%; outline: none; }
+
+        .pass-input {
+            width: 100%; padding: 8px; font-size: 13px; letter-spacing: 2px;
+            text-align: center; background: #000; color: #ff0000; border: 1px solid #ff0000; margin: 10px 0;
+            text-transform: uppercase;
         }
 
-        .xp-controls {
-            display: flex; gap: 2px;
+        /* POPUP VIRUS LỘN XỘN (Z-INDEX THẤP ĐỂ KHÔNG BAO GIỜ CHE A-90) */
+        .glitch-win {
+            position: absolute; background: rgba(80, 0, 0, 0.95); border: 2px solid #f00;
+            color: #fff; z-index: 500; box-shadow: 0 0 15px #f00;
+            font-size: 10px; padding: 4px; pointer-events: none;
+            transition: transform 0.1s linear, opacity 0.5s ease-out;
+        }
+        .glitch-win.shrinking {
+            transform: scale(0) !important;
+            opacity: 0 !important;
         }
 
-        .xp-btn-close {
-            width: 21px; height: 21px; background: #e04322;
-            border: 1px solid #fff; border-radius: 3px; color: #fff;
-            font-weight: bold; font-size: 11px; cursor: pointer;
-            display: flex; justify-content: center; align-items: center;
-            box-shadow: inset 1px 1px 0px rgba(255,255,255,0.5);
-        }
-        .xp-btn-close:active { background: #c02302; }
-
-        /* NỘI DUNG BÊN TRONG */
-        .xp-body {
-            padding: 12px; font-size: 11px; color: #000;
+        /* WIN A-90 ỔN ĐỊNH VÀ LUÔN NẰM TRÊN CÙNG */
+        #winA90 {
+            top: 50%; left: 50%; transform: translate(-50%, -50%) scale(1);
+            width: 85%; max-width: 380px; border: 2px solid #ff0000;
+            background: #000; box-shadow: 0 0 30px #ff0000; z-index: 99999 !important;
+            transition: transform 0.05s ease-out;
         }
 
-        .xp-groupbox {
-            border: 1px solid #d0d0c0; background-color: #fff;
-            padding: 10px; border-radius: 3px; margin-bottom: 10px;
-            box-shadow: inset 1px 1px 2px rgba(0,0,0,0.1);
+        .a90-redzone-beat { transform: translate(-50%, -50%) scale(1.42) rotate(-2deg) !important; filter: brightness(2.2); }
+        .a90-zoom-crazy { transform: translate(-50%, -50%) scale(1.7) rotate(6deg) !important; filter: brightness(2.8); }
+
+        .a90-face {
+            width: 20vw; max-width: 70px; height: auto; margin: 0 auto; display: block;
+            filter: drop-shadow(0 0 12px #ff0000);
         }
 
-        .xp-info-text {
-            font-size: 11px; color: #333; margin-bottom: 8px; line-height: 1.3;
+        /* KHU VỰC NỘP XU ĐƯỢC ƯU TIÊN TUYỆT ĐỐI KHÔNG BỊ POPUP QUẤY RỐI */
+        #coinStageArea {
+            position: relative; z-index: 100000; background: rgba(0,0,0,0.85); padding: 4px;
+            border: 1px dashed #ff0000; margin-top: 5px;
         }
-
-        /* MA TRẬN BÀN CHƠI */
-        .matrix-grid {
-            display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px;
-            background-color: #ece9d8; padding: 4px; border: 2px inset #fff;
-        }
-
-        .tile {
-            height: 65px; background: linear-gradient(to bottom, #ffffff 0%, #ece9d8 100%);
-            border: 2px outset #ffffff; border-radius: 3px;
+        .a90-zone {
+            height: 7vh; min-height: 45px; border: 2px dashed #ff0000; margin-top: 4px;
             display: flex; flex-direction: column; justify-content: center; align-items: center;
-            cursor: pointer; font-family: 'Tahoma', sans-serif;
+            background: rgba(255, 0, 0, 0.15); color: #ff0000; font-weight: bold; font-size: 10px;
         }
-        .tile:active { border-style: inset; background: #e0e0d0; }
+        .a90-zone.dragover { background: rgba(255, 0, 0, 0.45); border-style: solid; }
 
-        .tile-sym { font-size: 20px; font-weight: bold; color: #000080; }
-        .tile-pos { font-size: 9px; color: #666; margin-top: 2px; }
+        .coin-item {
+            font-size: 40px; text-align: center; cursor: pointer; padding: 2px; 
+            animation: bounce 0.5s infinite alternate; display: inline-block;
+        }
+        @keyframes bounce { from { transform: translateY(0); } to { transform: translateY(-6px); } }
 
-        .tile.ripple-effect {
-            animation: xpFlash 0.3s ease;
+        .quiz-btn {
+            display: block; width: 100%; margin: 4px 0; background: #200; border: 1px solid #f00;
+            color: #fff; padding: 6px; cursor: pointer; text-align: left; font-size: 11px;
+        }
+        .quiz-btn:hover { background: #f00; color: #000; font-weight: bold; }
+
+        /* KHU VỰC CHỌN CÁNH CỬA (2 HOẶC 4 CỬA) */
+        .doors-container {
+            display: flex; flex-wrap: wrap; justify-content: center; margin-top: 8px; gap: 8px;
+        }
+        .door-btn {
+            flex: 1 1 42%; padding: 10px 5px; background: #300; border: 2px solid #f00;
+            color: #fff; font-weight: bold; cursor: pointer; font-size: 12px; text-align: center;
+            transition: all 0.2s;
+        }
+        .door-btn:hover { background: #500; box-shadow: 0 0 10px #f00; }
+        .door-btn.selected { 
+            background: #00aa00 !important; 
+            border-color: #00ff00 !important; 
+            color: #ffffff !important; 
+            box-shadow: 0 0 15px #00ff00;
+            transform: scale(1.05);
         }
 
-        @keyframes xpFlash {
-            0% { background: #316ac5; color: #fff; }
-            100% { background: #ffffff; color: #000080; }
+        .taskbar {
+            height: 35px; background: #1a0000; border-top: 2px solid #ff0000;
+            display: flex; align-items: center; padding: 0 10px;
+            justify-content: space-between; color: #ff0000; font-size: 12px; font-weight: bold; z-index: 99;
         }
 
-        /* KHUNG TERMINAL RETRO LOG */
-        .xp-log {
-            background-color: #000; color: #00ff00;
-            font-family: 'Courier New', monospace; font-size: 11px;
-            padding: 8px; border: 2px inset #777; height: 90px;
-            overflow-y: auto; line-height: 1.3;
+        #bsodScreen {
+            position: fixed; top:0; left:0; width:100vw; height:100vh;
+            background: #0000aa; color: #ffffff; font-family: 'Courier New', monospace;
+            padding: 50px 30px; display: none; z-index: 9999999; box-sizing: border-box;
         }
-
-        .xp-statusbar {
-            background: #ece9d8; border-top: 1px solid #aca899;
-            padding: 3px 8px; font-size: 11px; color: #444;
-            display: flex; justify-content: space-between;
-        }
-
-        .win-banner {
-            display: none; background: #d4edda; border: 1px solid #c3e6cb;
-            color: #155724; padding: 10px; border-radius: 3px; margin-bottom: 10px;
-            font-size: 12px; text-align: center; font-weight: bold;
-        }
+        .bsod-title { background: #aaaaaa; color: #0000aa; display: inline-block; padding: 0 8px; font-weight: bold; }
     </style>
 </head>
 <body>
 
-<div class="xp-window">
-    <div class="xp-titlebar">
-        <div class="xp-title-text">
-            <span>⚙️ CAUSALITY_MATRIX.EXE - [TẦNG 2.5 RESTRICTED]</span>
-        </div>
-        <div class="xp-controls">
-            <button class="xp-btn-close" onclick="window.location.href='baocao.html'">✕</button>
+<audio id="bgMusic" src="A90_theme.mp3" loop preload="auto"></audio>
+<div id="blackoutOverlay"></div>
+<div id="flashTransition"></div>
+
+<div id="bootScreen" onclick="bootSystem()">
+    [ KHỜI ĐỘNG NIGHTMARE OS ]<br>
+    <span style="font-size:12px; margin-top:10px; color:#666;">(Chạm/Click bất kỳ đâu để vào hệ thống)</span>
+</div>
+
+<div id="bsodScreen">
+    <div class="bsod-title">Windows</div>
+    <br><br>
+    <p>A fatal exception 0E has occurred at 0028:C0011E36 in VXD VMM(01) +<br>
+    00010E36. The current application will be terminated.</p>
+    <p>* Press any key to terminate the current application.<br>
+    * Press CTRL+ALT+DEL again to restart your computer.</p>
+    <br>
+    <p style="text-align: center;">Press any key to continue _</p>
+</div>
+
+<div class="desktop" id="desktopView">
+
+    <div class="icon sys-icon" onclick="openWin('winText')">
+        <span class="icon-img">📝</span> nhật_ký.txt
+    </div>
+    <div class="icon sys-icon" onclick="openWin('winExplorer')">
+        <span class="icon-img">📁</span> C:\Hệ_Thống
+    </div>
+    <div class="icon sys-icon" onclick="openWin('winCmd')">
+        <span class="icon-img">💻</span> Terminal
+    </div>
+    <div class="icon sys-icon" onclick="openWin('winVault')">
+        <span class="icon-img">💀</span> LÕI_BÍ_MẬT
+    </div>
+
+    <!-- WINDOWS -->
+    <div class="window" id="winText" style="top:20px; left:20px; width:280px;">
+        <div class="titlebar"><span>nhật_ký.txt</span><button class="btn-close" onclick="closeWin('winText')">X</button></div>
+        <div class="win-body">
+            <textarea class="notepad-area" readonly>Mật mã 20 KÝ TỰ gồm 5 Mảnh:
+- Mảnh 1: Mã Caesar (+3) trong C:\Hệ_Thống.
+- Mảnh 2: Đọc mã HEX trong C:\Hệ_Thống.
+- Mảnh 3: Gõ 'decode' trong Terminal.
+- Mảnh 4: Đảo ngược chuỗi: "6V3B"
+- Mảnh 5: Mã bí mật mặc định: "Q8Z5"
+
+CẢNH BÁO: Gõ sai 5 lần hoặc bấm xác nhận sai sẽ kích hoạt Boss Fight 4 cửa (25% Win)!
+            </textarea>
         </div>
     </div>
 
-    <div class="xp-body">
-        <div id="winBanner" class="win-banner">
-            🎉 CHIẾN THẮNG! Bạn đã giải mã triệt để ma trận Nhân Quả Tầng 2.5!
-        </div>
-
-        <div class="xp-groupbox">
-            <div class="xp-info-text">
-                <b>HỆ THỐNG GIẢI MÃ NHÂN QUẢ (WINDOWS XP EDITION)</b><br>
-                Triệt hạ toàn bộ Entropy bằng cách đưa 16 ô dữ liệu về mã <b>[ Ø ]</b>.
+    <div class="window" id="winExplorer" style="top:30px; left:180px; width:320px;">
+        <div class="titlebar"><span>C:\Hệ_Thống</span><button class="btn-close" onclick="closeWin('winExplorer')">X</button></div>
+        <div class="win-body">
+            <div class="explorer-list" id="explorerFileList">
+                <div class="file-item sys-file" onclick="openQuizModal('Mảnh 1: Mã Caesar (+3) của \'H4X7\' là gì?', ['K7A0', 'K7A2', 'L8B3', 'J6Z1'], 1)">👁️ manh_1_caesar.txt</div>
+                <div class="file-item sys-file" onclick="openQuizModal('Mảnh 2: Chuyển Hex [58 39 4D 31] sang ASCII.', ['X9M1', 'Y8N2', 'Z7O3', 'W0L4'], 0)">🩸 manh_2_hex.txt</div>
             </div>
-            
-            <div class="matrix-grid" id="grid"></div>
-        </div>
-
-        <div class="xp-log" id="log">
-            > Windows XP Kernel Loaded...<br>
-            > Initializing Causality Matrix 4x4...<br>
-            > CẢNH BÁO: Mọi tác động đều tạo ra gợn sóng nhân quả vô hình.
         </div>
     </div>
 
-    <div class="xp-statusbar">
-        <span id="stepCount">Lượt bấm: 0</span>
-        <span>Trạng thái: Đang giải mã...</span>
+    <div class="window" id="winCmd" style="top:180px; left:50px; width:320px;">
+        <div class="titlebar"><span>Terminal</span><button class="btn-close" onclick="closeWin('winCmd')">X</button></div>
+        <div class="win-body">
+            <div class="cmd-box" id="cmdOut">Gõ 'help' để xem lệnh.<br></div>
+            <div style="display:flex; margin-top:4px;">
+                > <input type="text" class="cmd-input" id="cmdInp" onkeydown="execCmd(event)">
+            </div>
+        </div>
+    </div>
+
+    <div class="window" id="winVault" style="top:60px; left:260px; width:280px;">
+        <div class="titlebar"><span>💀 LÕI BÍ MẬT</span><button class="btn-close" onclick="closeWin('winVault')">X</button></div>
+        <div class="win-body">
+            <p style="text-align:center; font-weight:bold; margin:4px 0;">NHẬP MẬT MÃ 20 KÝ TỰ:</p>
+            <input type="text" maxlength="20" id="passInp" class="pass-input" placeholder="--------------------">
+            <button style="width:100%; font-weight:bold; background:#330000; color:#f00; border:1px solid #f00; padding:8px; cursor:pointer;" onclick="checkVault()">XÁC NHẬN MẬT MÃ</button>
+            <p id="vaultRes" style="text-align:center; margin-top:8px; font-weight:bold;"></p>
+            <p id="failCountDisplay" style="text-align:center; color:#ff6666; font-size:11px; font-weight:bold;">Số lần sai: 0/5</p>
+        </div>
+    </div>
+
+    <!-- TXT VIEWER -->
+    <div class="window" id="winTxtViewer" style="top:100px; left:150px; width:290px; z-index: 99990;">
+        <div class="titlebar"><span id="txtViewerTitle">Giải Mã Tệp Bị Mã Hóa</span><button class="btn-close" onclick="closeWin('winTxtViewer')">X</button></div>
+        <div class="win-body" style="text-align:center; min-height:100px;">
+            <div id="quizChallengeArea">
+                <p id="quizQuestion" style="font-weight:bold; color:#ffff00; font-size:12px; margin-bottom:8px;"></p>
+                <div id="quizOptions"></div>
+                <p id="quizErr" style="color:#f00; font-size:11px; margin:6px 0 0 0; font-weight:bold;"></p>
+            </div>
+            <div id="fileContentArea" style="display:none;"></div>
+        </div>
+    </div>
+
+    <!-- A-90 MAIN WINDOW (LUÔN Ở LỚP CAO NHẤT 99999) -->
+    <div class="window" id="winA90">
+        <div class="titlebar"><span id="a90WaveTitle">⚠️ A-90 RANSOMWARE</span></div>
+        <div class="win-body" style="text-align:center;">
+            <img src="https://static.wikia.nocookie.net/doors-entities-official/images/d/df/A-90.png/revision/latest?cb=20240926110929" class="a90-face" alt="A-90">
+            
+            <!-- VÙNG NỘP XU ĐƯỢC BẢO VỆ KHỎI MỌI POPUP -->
+            <div id="coinStageArea">
+                <p style="margin:2px 0; font-weight:bold; color:#ff0000; font-size:11px;">THU THẬP ĐỦ 10 XU ĐỂ MỞ CỬA CHỌN!</p>
+                <p style="font-size: 11px; margin: 2px 0;">Đồng xu đã thu: <span id="coinCountText" style="color:#ffff00; font-weight:bold;">0</span>/10 🪙</p>
+                <div class="a90-zone" id="dropZone" ondragover="allowDrop(event)" ondragleave="leaveDrop(event)" ondrop="handleDrop(event)">
+                    <span>KÉO XU HOẶC CLICK VÀO XU ĐỂ NỘP NAY</span>
+                </div>
+            </div>
+
+            <!-- CHỌN CÁNH CỬA (HIỆN KHI ĐỦ 10 XU) -->
+            <div id="doorStageArea" style="display:none;">
+                <p style="margin:4px 0; font-weight:bold; color:#ffff00; font-size:11px;" id="doorStageTitle">⚠️ CHỌN CỬA AN TOÀN ĐỂ THOÁT!</p>
+                <p style="font-size:10px; color:#aaa;" id="doorHintText">Có thể click chọn qua lại giữa các cửa bất cứ lúc nào!</p>
+                <div class="doors-container" id="doorsContainerBox"></div>
+                <p id="doorChosenStatus" style="color:#00ff00; font-size:10px; font-weight:bold; margin-top:4px; display:none;"></p>
+            </div>
+
+            <div id="timerDisplay" style="color:#f00; font-weight:bold; font-size:13px; margin-top:6px;">Thời gian: 01:52</div>
+        </div>
     </div>
 </div>
 
+<div class="taskbar">
+    <div>NIGHTMARE // A-90 OS</div>
+    <div id="clock">03:33 AM</div>
+</div>
+
 <script>
-    const GRID_SIZE = 4;
-    const SYMBOLS = ['Ø', 'Ι', 'ΙΙ', 'ΙΙΙ', 'ΙV', 'V'];
-    let board = [];
-    let steps = 0;
+    let actx;
+    let musicInterval = null;
+    let coinsCollected = 0;
+    let winningDoorIndex = 0;
+    let selectedDoorIndex = null;
+    let isVaultSolvedSuccessfully = false; // Biến kiểm tra có giải mã lõi đúng hay không
 
-    function initBoard() {
-        board = [];
-        steps = 0;
-        for (let r = 0; r < GRID_SIZE; r++) {
-            board[r] = [];
-            for (let c = 0; c < GRID_SIZE; c++) {
-                board[r][c] = Math.floor(Math.random() * 5) + 1;
+    let pendingFileContent = "";
+    let pendingIsCoin = false;
+    let pendingElement = null;
+    let correctQuizIndex = 0;
+    let targetMathAnswer = 0;
+
+    function bootSystem() {
+        document.getElementById('bootScreen').style.display = 'none';
+        actx = new (window.AudioContext || window.webkitAudioContext)();
+    }
+
+    function requestFullScreenMode() {
+        const elem = document.documentElement;
+        if (elem.requestFullscreen) elem.requestFullscreen().catch(e => console.log(e));
+        else if (elem.webkitRequestFullscreen) elem.webkitRequestFullscreen();
+        else if (elem.msRequestFullscreen) elem.msRequestFullscreen();
+    }
+
+    function playClick() {
+        if(!actx) return;
+        const osc = actx.createOscillator(); const gain = actx.createGain();
+        osc.type = 'triangle'; osc.frequency.setValueAtTime(200, actx.currentTime);
+        gain.gain.setValueAtTime(0.05, actx.currentTime);
+        osc.connect(gain); gain.connect(actx.destination);
+        osc.start(); osc.stop(actx.currentTime + 0.03);
+    }
+
+    function playGlitch() {
+        if(!actx) return;
+        const osc = actx.createOscillator(); const gain = actx.createGain();
+        osc.type = 'sawtooth'; osc.frequency.setValueAtTime(80, actx.currentTime);
+        osc.frequency.linearRampToValueAtTime(800, actx.currentTime + 0.15);
+        gain.gain.setValueAtTime(0.3, actx.currentTime);
+        osc.connect(gain); gain.connect(actx.destination);
+        osc.start(); osc.stop(actx.currentTime + 0.18);
+    }
+
+    function playRedZoneSynthBeat() {
+        if(!actx) return;
+        const osc = actx.createOscillator(); const gain = actx.createGain();
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(160, actx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(40, actx.currentTime + 0.1);
+        gain.gain.setValueAtTime(0.4, actx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, actx.currentTime + 0.1);
+        osc.connect(gain); gain.connect(actx.destination);
+        osc.start(); osc.stop(actx.currentTime + 0.11);
+    }
+
+    function playCoinSound() {
+        if(!actx) return;
+        const osc = actx.createOscillator(); const gain = actx.createGain();
+        osc.type = 'sine'; osc.frequency.setValueAtTime(987, actx.currentTime);
+        osc.frequency.setValueAtTime(1318, actx.currentTime + 0.08);
+        gain.gain.setValueAtTime(0.2, actx.currentTime);
+        osc.connect(gain); gain.connect(actx.destination);
+        osc.start(); osc.stop(actx.currentTime + 0.25);
+    }
+
+    let activeWin = null, offsetX = 0, offsetY = 0, zIndex = 100;
+    document.querySelectorAll('.titlebar').forEach(bar => {
+        bar.addEventListener('mousedown', e => {
+            activeWin = bar.parentElement;
+            if(activeWin.id !== 'winA90') { activeWin.style.zIndex = ++zIndex; }
+            offsetX = e.clientX - activeWin.offsetLeft;
+            offsetY = e.clientY - activeWin.offsetTop;
+            document.addEventListener('mousemove', moveWin);
+            document.addEventListener('mouseup', stopMove);
+            playClick();
+        });
+    });
+
+    function moveWin(e) {
+        if(activeWin) {
+            activeWin.style.left = (e.clientX - offsetX) + 'px';
+            activeWin.style.top = (e.clientY - offsetY) + 'px';
+        }
+    }
+    function stopMove() { activeWin = null; document.removeEventListener('mousemove', moveWin); }
+
+    function openWin(id) { 
+        playClick(); 
+        const w = document.getElementById(id); 
+        w.style.display = 'block'; 
+        if(id !== 'winA90') w.style.zIndex = ++zIndex; 
+    }
+    function closeWin(id) { playClick(); document.getElementById(id).style.display = 'none'; }
+
+    function execCmd(e) {
+        if(e.key === 'Enter') {
+            playClick();
+            const inp = document.getElementById('cmdInp'), out = document.getElementById('cmdOut');
+            const val = inp.value.trim().toLowerCase();
+            out.innerHTML += `<br>> ${val}`;
+            if(val === 'help') out.innerHTML += "<br>Lệnh: help, decode";
+            else if(val === 'decode') out.innerHTML += "<br>[MẢNH 3]: Base64 'UjRQOA==' -> R4P8";
+            else { out.innerHTML += `<br><span style="color:#f00;">Lỗi cú pháp.</span>`; playGlitch(); }
+            inp.value = ''; out.scrollTop = out.scrollHeight;
+        }
+    }
+
+    let failCount = 0;
+    function checkVault() {
+        const p = document.getElementById('passInp').value.trim().toUpperCase();
+        const res = document.getElementById('vaultRes');
+        if(p === "K7A2X9M1R4P8B3V6Q8Z5") {
+            isVaultSolvedSuccessfully = true;
+            res.style.color = "#00ff00"; 
+            res.innerText = "THÀNH CÔNG! ĐÃ GIẢI MÃ LÕI TỐI CAO.";
+            requestFullScreenMode();
+            startA90BossFight();
+        } else {
+            failCount++;
+            document.getElementById('failCountDisplay').innerText = `Số lần sai: ${failCount}/5`;
+            res.style.color = "#ff0000"; res.innerText = "SAI MẬT MÃ!"; playGlitch();
+            if(failCount >= 5) {
+                isVaultSolvedSuccessfully = false;
+                requestFullScreenMode();
+                startA90BossFight();
             }
         }
-        render();
     }
 
-    function render() {
-        const gridElem = document.getElementById('grid');
-        gridElem.innerHTML = '';
+    function openQuizModal(questionText, optionsArr, correctIdx) {
+        document.getElementById('quizQuestion').innerText = questionText;
+        const optsContainer = document.getElementById('quizOptions');
+        optsContainer.innerHTML = '';
+        correctQuizIndex = correctIdx;
 
-        for (let r = 0; r < GRID_SIZE; r++) {
-            for (let c = 0; c < GRID_SIZE; c++) {
-                const val = board[r][c];
-                const tile = document.createElement('div');
-                tile.className = 'tile';
-                tile.id = `tile-${r}-${c}`;
-                tile.innerHTML = `
-                    <div class="tile-sym">${SYMBOLS[val]}</div>
-                    <div class="tile-pos">[${r},${c}]</div>
-                `;
-                tile.onclick = () => handleTileClick(r, c);
-                gridElem.appendChild(tile);
+        optionsArr.forEach((optText, i) => {
+            const btn = document.createElement('button');
+            btn.className = 'quiz-btn';
+            btn.innerText = `${String.fromCharCode(65 + i)}. ${optText}`;
+            btn.onclick = () => {
+                if(i === correctQuizIndex) {
+                    playClick();
+                    document.getElementById('quizChallengeArea').style.display = 'none';
+                    const area = document.getElementById('fileContentArea');
+                    area.style.display = 'block';
+                    area.innerHTML = `<p style="color:#ff0000; font-size:12px; font-weight:bold;">THÔNG TIN TỆP BÌNH THƯỜNG KHÔNG CÓ XU!</p>`;
+                } else { playGlitch(); }
+            };
+            optsContainer.appendChild(btn);
+        });
+
+        document.getElementById('quizErr').innerText = '';
+        document.getElementById('quizChallengeArea').style.display = 'block';
+        document.getElementById('fileContentArea').style.display = 'none';
+        openWin('winTxtViewer');
+    }
+
+    function generateMathChallenge(isCoin, element) {
+        if(element && element.classList.contains('locked')) return;
+
+        pendingElement = element;
+        pendingIsCoin = isCoin;
+
+        let n1 = Math.floor(Math.random() * 9) + 1;
+        let n2 = Math.floor(Math.random() * 9) + 1;
+        let isAdd = Math.random() > 0.5;
+        if(!isAdd && n1 < n2) { let t = n1; n1 = n2; n2 = t; }
+
+        targetMathAnswer = isAdd ? (n1 + n2) : (n1 - n2);
+
+        document.getElementById('fileContentArea').style.display = 'none';
+        document.getElementById('quizChallengeArea').style.display = 'block';
+        document.getElementById('quizQuestion').innerText = `CÂU HỎI TOÁN HỌC:\n${n1} ${isAdd ? '+' : '-'} ${n2} = ?`;
+        
+        let choices = [targetMathAnswer, targetMathAnswer + 1, Math.max(0, targetMathAnswer - 1), targetMathAnswer + 2];
+        choices = [...new Set(choices)].sort(() => Math.random() - 0.5);
+        correctQuizIndex = choices.indexOf(targetMathAnswer);
+
+        const optsContainer = document.getElementById('quizOptions');
+        optsContainer.innerHTML = '';
+        choices.forEach((optText, i) => {
+            const btn = document.createElement('button');
+            btn.className = 'quiz-btn';
+            btn.innerText = `${String.fromCharCode(65 + i)}. ${optText}`;
+            btn.onclick = () => verifyQuizAnswer(i);
+            optsContainer.appendChild(btn);
+        });
+        document.getElementById('quizErr').innerText = '';
+        openWin('winTxtViewer');
+    }
+
+    function verifyQuizAnswer(selectedIdx) {
+        if(selectedIdx === correctQuizIndex) showFileSuccess();
+        else { playGlitch(); document.getElementById('quizErr').innerText = "SAI RỒI! HÃY CHỌN LẠI."; }
+    }
+
+    function showFileSuccess() {
+        playClick();
+        document.getElementById('quizChallengeArea').style.display = 'none';
+        const area = document.getElementById('fileContentArea');
+        area.style.display = 'block';
+
+        if(pendingIsCoin) {
+            area.innerHTML = `
+                <p style="color:#ffff00; font-weight:bold; margin:4px 0;">BẠN ĐÃ TÌM THẤY 1 XU!</p>
+                <div class="coin-item" draggable="true" ondragstart="dragCoin(event)" onclick="submitCoinDirectly()">🪙</div>
+                <p style="font-size:10px; color:#888;">(Click thẳng vào xu hoặc kéo thả để nộp)</p>
+            `;
+        } else {
+            area.innerHTML = `<p style="color:#ff0000; font-size:12px; font-weight:bold;">TỆP KHÔNG CHỨA XU!</p>`;
+        }
+    }
+
+    function lockCurrentFile() {
+        if(!pendingElement) return;
+        pendingElement.classList.add('locked');
+        if(pendingElement.classList.contains('icon')) {
+            pendingElement.querySelector('.icon-img').innerText = "🛑";
+        } else {
+            pendingElement.innerText = "🛑 " + pendingElement.innerText.replace("⚠️", "");
+        }
+        pendingElement = null;
+    }
+
+    let timeElapsed = 0;
+    let generatedElements = [];
+    let glitchWins = [];
+
+    function triggerFlashTransition() {
+        const flash = document.getElementById('flashTransition');
+        flash.style.opacity = '1';
+        setTimeout(() => { flash.style.opacity = '0'; }, 50);
+    }
+
+    function startA90BossFight() {
+        playGlitch();
+
+        const blackout = document.getElementById('blackoutOverlay');
+        blackout.style.opacity = '1'; blackout.style.pointerEvents = 'all';
+
+        document.querySelectorAll('.window').forEach(w => w.style.display = 'none');
+
+        const bgMusic = document.getElementById('bgMusic');
+        if(bgMusic) { bgMusic.currentTime = 0; bgMusic.play().catch(e => console.log(e)); }
+
+        // Xác định số lượng cửa và cánh cửa chiến thắng dựa vào kết quả giải mã lõi
+        let totalDoors = isVaultSolvedSuccessfully ? 2 : 4;
+        winningDoorIndex = Math.floor(Math.random() * totalDoors);
+        selectedDoorIndex = null;
+        
+        setupDoorsUI(totalDoors);
+
+        openWin('winA90');
+        coinsCollected = 0;
+        initFileList(10);
+
+        timeElapsed = 0;
+        clearInterval(musicInterval);
+        musicInterval = setInterval(handleTimelineBeat, 120);
+    }
+
+    function setupDoorsUI(totalDoors) {
+        const box = document.getElementById('doorsContainerBox');
+        box.innerHTML = '';
+        const doorNames = ['A', 'B', 'C', 'D'];
+        
+        for(let i=0; i<totalDoors; i++) {
+            const btn = document.createElement('div');
+            btn.className = 'door-btn';
+            btn.id = `doorBtn_${i}`;
+            btn.innerHTML = `🚪 CỬA ${doorNames[i]}`;
+            btn.onclick = () => selectDoor(i, doorNames[i]);
+            box.appendChild(btn);
+        }
+        
+        document.getElementById('doorStageTitle').innerText = isVaultSolvedSuccessfully ? 
+            "⚠️ GIẢI MÃ THÀNH CÔNG: CHỌN 1 TRONG 2 CỬA (50%)!" : 
+            "⚠️ CHƯA GIẢI MÃ: CHỌN 1 TRONG 4 CỬA (25%)!";
+    }
+
+    function initFileList(coinCount) {
+        generatedElements.forEach(el => el.remove());
+        generatedElements = [];
+
+        let filePool = [];
+        for(let i=0; i<coinCount; i++) filePool.push({ isCoin: true });
+        for(let i=0; i<8; i++) filePool.push({ isCoin: false });
+        filePool = filePool.sort(() => Math.random() - 0.5);
+
+        const desktop = document.getElementById('desktopView');
+        const explorer = document.getElementById('explorerFileList');
+
+        filePool.forEach((fileObj, index) => {
+            const randomName = `data_${Math.floor(Math.random() * 8999 + 1000)}.txt`;
+            if(index < 10) {
+                const icon = document.createElement('div');
+                icon.className = 'icon a90-gen-file';
+                icon.innerHTML = `<span class="icon-img">📄</span> ${randomName}`;
+                icon.onclick = () => generateMathChallenge(fileObj.isCoin, icon);
+                desktop.appendChild(icon);
+                generatedElements.push(icon);
+            } else {
+                const item = document.createElement('div');
+                item.className = 'file-item a90-gen-file';
+                item.innerText = `⚠️ ${randomName}`;
+                item.onclick = () => generateMathChallenge(fileObj.isCoin, item);
+                explorer.appendChild(item);
+                generatedElements.push(item);
+            }
+        });
+    }
+
+    let hasFlashedAtTransition = false;
+
+    function handleTimelineBeat() {
+        timeElapsed += 0.12;
+        const currentSec = Math.floor(timeElapsed);
+        const beatStep = Math.floor(timeElapsed / 0.24) % 4;
+
+        const desktop = document.getElementById('desktopView');
+        const winA90 = document.getElementById('winA90');
+        const blackout = document.getElementById('blackoutOverlay');
+
+        const TOTAL_TIME = 112; // 1 PHÚT 52 GIÂY
+        let remain = Math.max(0, TOTAL_TIME - currentSec);
+        let m = Math.floor(remain / 60), s = remain % 60;
+        document.getElementById('timerDisplay').innerText = `Thời gian: ${m<10?'0':''}${m}:${s<10?'0':''}${s}`;
+
+        if(timeElapsed <= 6) {
+            blackout.style.opacity = Math.max(0, (6 - timeElapsed) / 6).toString();
+            winA90.classList.remove('a90-redzone-beat', 'a90-zoom-crazy');
+            desktop.classList.remove('redzone-pump');
+        } 
+        else if(timeElapsed > 6 && timeElapsed < 42) {
+            blackout.style.opacity = "0"; blackout.style.pointerEvents = "none";
+            applyNormalRedZoneBeat(beatStep);
+            managePopups(4);
+        }
+        else if(timeElapsed >= 42 && timeElapsed <= 44) {
+            winA90.classList.add('a90-zoom-crazy');
+            blackout.style.opacity = ((timeElapsed - 42) / 2).toString();
+        }
+        else if(timeElapsed >= 45 && timeElapsed <= 46) {
+            blackout.style.opacity = "0";
+            winA90.classList.add('a90-zoom-crazy');
+            playRedZoneSynthBeat();
+        }
+        else if(timeElapsed > 46 && timeElapsed < 58) {
+            blackout.style.opacity = "0";
+            winA90.classList.remove('a90-zoom-crazy');
+            applyNormalRedZoneBeat(beatStep);
+            managePopups(6);
+        }
+        else if(timeElapsed >= 58 && timeElapsed < 89) {
+            if(!hasFlashedAtTransition) {
+                triggerFlashTransition();
+                hasFlashedAtTransition = true;
+            }
+            applyNormalRedZoneBeat(beatStep);
+            managePopups(16);
+            movePopupsCrazy();
+        }
+        else if(timeElapsed >= 89 && timeElapsed <= 106) {
+            if(beatStep % 2 === 0) {
+                winA90.classList.add('a90-zoom-crazy');
+                desktop.classList.add('redzone-pump');
+                playRedZoneSynthBeat();
+            } else {
+                winA90.classList.remove('a90-zoom-crazy');
+                desktop.classList.remove('redzone-pump');
+            }
+            managePopups(22);
+            movePopupsCrazy();
+        }
+        else if(timeElapsed > 106 && timeElapsed <= 112) {
+            desktop.classList.remove('redzone-pump');
+            winA90.classList.remove('a90-zoom-crazy', 'a90-redzone-beat');
+            blackout.style.opacity = ((timeElapsed - 106) / 6).toString();
+            glitchWins.forEach(win => win.classList.add('shrinking'));
+        }
+        else if(timeElapsed > 112) {
+            if(selectedDoorIndex === winningDoorIndex) {
+                clearInterval(musicInterval);
+                const bgMusic = document.getElementById('bgMusic');
+                if(bgMusic) bgMusic.pause();
+                playClick();
+                alert(`XUẤT SẮC! CỬA BẠN CHỌN LÀ CỬA AN TOÀN!\nBẠN ĐÃ SINH TỒN THÀNH CÔNG KHỎI A-90!`);
+                location.reload();
+            } else {
+                triggerLoss();
             }
         }
-        document.getElementById('stepCount').innerText = `Lượt bấm: ${steps}`;
     }
 
-    function handleTileClick(targetR, targetC) {
-        steps++;
-        const impactRadius = board[targetR][targetC];
-        addLog(`> Tác động [${targetR},${targetC}] | Bán kính: ${impactRadius}`);
+    function applyNormalRedZoneBeat(beatStep) {
+        const desktop = document.getElementById('desktopView');
+        const winA90 = document.getElementById('winA90');
 
-        for (let r = 0; r < GRID_SIZE; r++) {
-            for (let c = 0; c < GRID_SIZE; c++) {
-                const distance = Math.abs(r - targetR) + Math.abs(c - targetC);
-                if (distance === impactRadius || (r === targetR && c === targetC)) {
-                    board[r][c] = (board[r][c] + r + c + 1) % 6;
-                    
-                    setTimeout(() => {
-                        const el = document.getElementById(`tile-${r}-${c}`);
-                        if (el) el.classList.add('ripple-effect');
-                    }, 50);
-                }
+        if(beatStep === 0 || beatStep === 2) {
+            playRedZoneSynthBeat();
+            winA90.classList.add('a90-redzone-beat');
+            desktop.classList.add('redzone-pump');
+        } else {
+            winA90.classList.remove('a90-redzone-beat');
+            desktop.classList.remove('redzone-pump');
+        }
+    }
+
+    function managePopups(targetAmount) {
+        const desktop = document.getElementById('desktopView');
+        while(glitchWins.length < targetAmount) {
+            const win = document.createElement('div');
+            win.className = 'glitch-win';
+            win.style.top = Math.random() * 75 + "%";
+            win.style.left = Math.random() * 75 + "%";
+            win.style.width = (Math.random() * 70 + 80) + "px";
+            win.innerHTML = `<b>[RED ZONE ERROR]</b><br>0x000A90 VIRUS!`;
+            desktop.appendChild(win);
+            glitchWins.push(win);
+        }
+    }
+
+    function movePopupsCrazy() {
+        glitchWins.forEach(win => {
+            const top = parseFloat(win.style.top) + (Math.random() * 24 - 12);
+            const left = parseFloat(win.style.left) + (Math.random() * 24 - 12);
+            const rot = Math.floor(Math.random() * 50 - 25);
+            win.style.top = Math.max(5, Math.min(80, top)) + "%";
+            win.style.left = Math.max(5, Math.min(80, left)) + "%";
+            win.style.transform = `rotate(${rot}deg) scale(${Math.random()*0.4 + 0.8})`;
+        });
+    }
+
+    function dragCoin(e) { e.dataTransfer.setData("text/plain", "COIN"); }
+    function allowDrop(e) { e.preventDefault(); document.getElementById('dropZone').classList.add('dragover'); }
+    function leaveDrop(e) { document.getElementById('dropZone').classList.remove('dragover'); }
+
+    function submitCoinDirectly() { processCoinSubmission(); }
+    function handleDrop(e) { e.preventDefault(); document.getElementById('dropZone').classList.remove('dragover'); processCoinSubmission(); }
+
+    function processCoinSubmission() {
+        playCoinSound();
+        lockCurrentFile();
+        closeWin('winTxtViewer');
+
+        if(coinsCollected < 10) {
+            coinsCollected++;
+            document.getElementById('coinCountText').innerText = coinsCollected;
+
+            if(coinsCollected >= 10) {
+                document.getElementById('coinStageArea').style.display = 'none';
+                document.getElementById('doorStageArea').style.display = 'block';
             }
         }
-
-        render();
-        checkVictory();
     }
 
-    function addLog(msg) {
-        const logBox = document.getElementById('log');
-        logBox.innerHTML += `<br>${msg}`;
-        logBox.scrollTop = logBox.scrollHeight;
-    }
+    // CHỌN CỬA LINH HOẠT: CÓ THỂ ĐỔI QUA ĐỔI LẠI VÀ LÀM SÁNG OPTION ĐƯỢC CHỌN
+    function selectDoor(index, name) {
+        playClick();
+        selectedDoorIndex = index;
 
-    function checkVictory() {
-        let isWin = true;
-        for (let r = 0; r < GRID_SIZE; r++) {
-            for (let c = 0; c < GRID_SIZE; c++) {
-                if (board[r][c] !== 0) {
-                    isWin = false;
-                    break;
-                }
-            }
+        // Xóa trạng thái sáng của tất cả cửa
+        const total = isVaultSolvedSuccessfully ? 2 : 4;
+        for(let i=0; i<total; i++) {
+            const btn = document.getElementById(`doorBtn_${i}`);
+            if(btn) btn.classList.remove('selected');
         }
 
-        if (isWin) {
-            document.getElementById('winBanner').style.display = 'block';
-            addLog('> MA TRẬN ĐÃ GIẢI MÃ HOÀN TOÀN!');
-        }
+        // Làm sáng cửa hiện tại được click
+        const currentBtn = document.getElementById(`doorBtn_${index}`);
+        if(currentBtn) currentBtn.classList.add('selected');
+
+        const status = document.getElementById('doorChosenStatus');
+        status.style.display = 'block';
+        status.innerText = `✨ ĐANG CHỌN CỬA ${name} (CÓ THỂ ĐỔI CỬA KHÁC TRƯỚC KHI HẾT GIỜ!)`;
     }
 
-    initBoard();
+    function triggerLoss() {
+        clearInterval(musicInterval);
+        const bgMusic = document.getElementById('bgMusic');
+        if(bgMusic) bgMusic.pause();
+        playGlitch();
+        document.getElementById('bsodScreen').style.display = 'block';
+    }
 </script>
 </body>
 </html>
