@@ -1,4 +1,4 @@
-html_content = """<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
@@ -233,7 +233,7 @@ html_content = """<!DOCTYPE html>
 
     <div class="archive-search-box">
         <label style="font-weight: bold;">🔍 Tra cứu Mã Hồ sơ Lưu trữ:</label><br><br>
-        <input type="text" id="searchInput" class="search-input" placeholder="Nhập mật mã ..." autocomplete="off"; required oninput="this.value = this.value.replace(/\s+/g, '')">
+        <input type="text" id="searchInput" class="search-input" placeholder="Nhập mật mã ..." autocomplete="off" required oninput="this.value = this.value.replace(/\s+/g, '')">
         <button onclick="executeSearch()" class="search-btn">Truy vấn Wikipedia</button>
         <div id="statusArea" class="status-msg"></div>
     </div>
@@ -253,7 +253,7 @@ html_content = """<!DOCTYPE html>
 
     // Lệnh giải mã & kiểm tra từ khóa
     function executeSearch() {
-        const query = document.getElementById('searchInput').value.trim().toUpperCase().replace(/\\s+/g, '');
+        const query = document.getElementById('searchInput').value.trim().toUpperCase().replace(/\s+/g, '');
         const statusArea = document.getElementById('statusArea');
 
         if (!query) {
@@ -270,20 +270,20 @@ html_content = """<!DOCTYPE html>
                 setTimeout(function() {
                     window.location.href = "hoso_t25.html";
                 }, 1000);
+            } else if (query === "LOG_9A3_TRANNHA") {
+                statusArea.innerHTML = "<span style='color: #0055ff;'>[✓] PHÁT HIỆN HỒ SƠ TẦNG 2.5 RESTRICTED. Đang mở module ARGgame.html...</span>";
+                
+                setTimeout(function() {
+                    window.location.href = "ARGgame.html";
+                }, 1000);
             } else if (query === "DUOITRANNHA") {
                 statusArea.innerHTML = "<span style='color: red;'>⚠️ Đây là MẬT MÃ NHÂN VIÊN BẢO TRÌ, không thuộc WIKIPEDIA</span>";
             } else {
                 statusArea.innerHTML = "<span style='color: red;'>⚠️ Mật mã không đúng hoặc hồ sơ đã bị xóa khỏi lưu trữ.</span>";
             }
-        }, 2000);
+        }, 1500);
     }
 </script>
 
 </body>
 </html>
-"""
-
-with open("wiki_code.html", "w", encoding="utf-8") as f:
-    f.write(html_content)
-
-print("Đã tạo file wiki_code.html thành công!")
